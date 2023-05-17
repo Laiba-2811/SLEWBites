@@ -1,0 +1,30 @@
+#mainNavBar{
+    background-color: #36D993;
+}
+#navItem{
+    color: white;
+    font-weight: bold;
+}
+#homeHeader,h3{
+    /* color:#434343; */
+    color:#192A56;
+    /* color: #3693D9; */
+    /* color: #9336D9; */
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+}
+.category-icon{
+    color: white;
+}
+#italic{
+    color:  #36D993;
+}
+.categoryBtn{
+    background-color: #36D993;
+    border-radius: 20%;
+    padding: 20px;
+    margin-left: 20px;
+    border: transparent;
+    color: white;
+    font-weight: bold;
+}
