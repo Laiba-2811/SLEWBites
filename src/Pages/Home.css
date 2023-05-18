@@ -1,5 +1,10 @@
 #mainNavBar{
     background-color: #36D993;
+    /* position: fixed; */
+    /* overflow: scroll; */
+}
+#footerDiv{
+    width: 100% !important;
 }
 /* #carousel{
     height: 300px !important;

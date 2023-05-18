@@ -3,7 +3,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import './Home.css'
 import { useState } from "react";
 import logow1 from './logow1.png';
-import { FaLeaf, FaBreadSlice, FaUtensils, FaUserCircle, FaSearch , FaShoppingCart} from 'react-icons/fa';
+import { FaLeaf, FaBreadSlice, FaUtensils, FaUserCircle, FaSearch , FaShoppingCart,FaGoogle, FaFacebook,FaInstagram,FaTwitter} from 'react-icons/fa';
 import cabbage_Vegetables from '../PicResources/cabbage_Vegetables.jpg';
 import carrot_Vegetables from '../PicResources/carrot_Vegetables.jpg';
 import cauliflower_vegetables from '../PicResources/cauliflower_vegetables.jpg';
@@ -28,47 +28,6 @@ export function Home(){
     return(
         <>
         
-        
-  <nav class="navbar navbar-expand-sm py-0" id="mainNavBar">
-    <div class="navbar-collapse collapse w-100 order-1 order-sm-0 dual-collapse2">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">
-            <img src={logow1} alt="Logo" class="d-inline-block align-text-top" />
-          </a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ms-auto order-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" id="navItem">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">Menu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">About us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">Contact Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">
-            <FaSearch style={{fontSize: '30px'}} class="Fa-lg" />
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">
-            <FaShoppingCart style={{fontSize: '30px'}} class="Fa-lg" />
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">
-            <FaUserCircle style={{fontSize: '30px'}} class="Fa-lg" />
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
   <div id='carouselDiv' class="m-2">
         <Carousel id="carousel" >
       <Carousel.Item className="cId">
@@ -109,7 +68,7 @@ export function Home(){
       </Carousel.Item>
     </Carousel>
 </div>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-sm">
         <h1 id='homeHeader'>Welcome to <i id="italic">SlewBites</i>, your one-stop destination for delightful Food experiences!</h1>
@@ -121,7 +80,7 @@ export function Home(){
         <div class="d-flex flex-row">
           <div class="col-sm">
             <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top" src={cabbage_Vegetables} alt="Card image cap"></img>
+              <img class="card-img-top img-fluid" src={cabbage_Vegetables} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Cabbage-1 pc</h5>
                 <p class="card-text">Price:$12</p>
@@ -131,7 +90,7 @@ export function Home(){
           </div>
           <div class="col-sm">
             <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top" src={carrot_Vegetables} alt="Card image cap"></img>
+              <img class="card-img-top " src={carrot_Vegetables} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Carrot- Half kg </h5>
                 <p class="card-text">Price:$15</p>
@@ -144,21 +103,21 @@ export function Home(){
     </div>
   </div>
   {/* Categories */}
-  <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-1">
+  <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-3">
   <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} onClick={() => handleCategoryClick('fresh')}>
-    <button class="btn btn-success" className="btn btn-success categoryBtn">
+    <button class="btn btn-success " className="btn btn-success categoryBtn">
       <FaLeaf className="category-icon" />
       Fresh Food
     </button>
   </div>
   <div className={`${selectedCategory === 'baked' ? 'active' : ''}`} onClick={() => handleCategoryClick('baked')}>
-    <button class="btn btn-success" className="btn btn-success categoryBtn">
+    <button class="btn btn-success " className="btn btn-success categoryBtn">
       <FaBreadSlice className="category-icon" />
       Baked Food
     </button>
   </div>
   <div className={` ${selectedCategory === 'pantry' ? 'active' : ''}`} onClick={() => handleCategoryClick('pantry')}>
-    <button class="btn btn-success"  className="btn btn-success categoryBtn">
+    <button class="btn btn-success "  className="btn btn-success categoryBtn">
       <FaUtensils className="category-icon" />
       Pantry Staples
     </button>
@@ -167,9 +126,9 @@ export function Home(){
 
 {/* Cards After Categories */}
 <div class="d-flex flex-row justify-content-center align-items-center md-auto">
-<div class="col-sm">
-            <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top" src={cauliflower_vegetables} alt="Card image cap"></img>
+<div class="col-sm ">
+            <div class="card mb-3" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={cauliflower_vegetables} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Carrot- Half kg </h5>
                 <p class="card-text">Price:$10</p>
@@ -178,8 +137,8 @@ export function Home(){
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top" src={Onions} alt="Card image cap"></img>
+            <div class="card mb-3" style={{width: '15rem'}}>
+              <img class="card-img-top justify-content-center align-items-center" style={{width: '10rem', height:'10rem'}} src={Onions} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Onions 5 kg </h5>
                 <p class="card-text">Price:$25</p>
@@ -188,8 +147,8 @@ export function Home(){
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top" src={Guava} alt="Card image cap"></img>
+            <div class="card mb-3" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Guava} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Guava- Half kg </h5>
                 <p class="card-text">Price:$5</p>
@@ -198,8 +157,8 @@ export function Home(){
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top" src={muskMelon_fruits} alt="Card image cap"></img>
+            <div class="card mb-3" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={muskMelon_fruits} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Musk Melon- 1 kg </h5>
                 <p class="card-text">Price:$14</p>
@@ -209,8 +168,49 @@ export function Home(){
           </div>
 </div>
 
-
-  
+{/* {2nd Row of Items} */}
+<div class="d-flex flex-row justify-content-center align-items-center md-auto">
+<div class="col-sm">
+            <div class="card mb-5" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={cauliflower_vegetables} alt="Card image cap"></img>
+              <div class="card-body">
+                <h5 class="card-title">Carrot- Half kg </h5>
+                <p class="card-text">Price:$10</p>
+                <a href="#" class="btn btn-success">Order</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="card mb-5" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Onions} alt="Card image cap"></img>
+              <div class="card-body">
+                <h5 class="card-title">Onions 5 kg </h5>
+                <p class="card-text">Price:$25</p>
+                <a href="#" class="btn btn-success">Order</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="card mb-5" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Guava} alt="Card image cap"></img>
+              <div class="card-body">
+                <h5 class="card-title">Guava- Half kg </h5>
+                <p class="card-text">Price:$5</p>
+                <a href="#" class="btn btn-success">Order</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="card mb-5" style={{width: '15rem'}}>
+              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={muskMelon_fruits} alt="Card image cap"></img>
+              <div class="card-body">
+                <h5 class="card-title">Musk Melon- 1 kg </h5>
+                <p class="card-text">Price:$14</p>
+                <a href="#" class="btn btn-success">Order</a>
+              </div>
+            </div>
+          </div>
+</div>
 </>
 
     );
