@@ -1,13 +1,22 @@
 import React from "react";
+import Carousel from 'react-bootstrap/Carousel';
 import './Home.css'
 import { useState } from "react";
-import logo from './logo.png';
-import logow from './logow.png';
 import logow1 from './logow1.png';
 import { FaLeaf, FaBreadSlice, FaUtensils, FaUserCircle, FaSearch , FaShoppingCart} from 'react-icons/fa';
 import cabbage_Vegetables from '../PicResources/cabbage_Vegetables.jpg';
 import carrot_Vegetables from '../PicResources/carrot_Vegetables.jpg';
 import cauliflower_vegetables from '../PicResources/cauliflower_vegetables.jpg';
+import Guava from '../PicResources/Guava.jpg';
+import Onions from '../PicResources/Onions.jpg';
+import Pizza from '../PicResources/Pizza.png';
+import item1 from '../PicResources/item1.jpg';
+import item2 from '../PicResources/item2.jpg';
+import item3 from '../PicResources/item3.jpg';
+import Sandwich1 from '../PicResources/Sandwich1.png';
+import bakeryItems from'../PicResources/bakeryItems.jpg';
+import muskMelon_fruits from '../PicResources/muskMelon_fruits.jpg';
+
 import 'bootstrap/dist/css/bootstrap.css';
 export function Home(){
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -18,6 +27,8 @@ export function Home(){
 
     return(
         <>
+        
+        
   <nav class="navbar navbar-expand-sm py-0" id="mainNavBar">
     <div class="navbar-collapse collapse w-100 order-1 order-sm-0 dual-collapse2">
       <ul class="navbar-nav mr-auto">
@@ -58,6 +69,46 @@ export function Home(){
       </ul>
     </div>
   </nav>
+  <div id='carouselDiv' class="m-2">
+        <Carousel id="carousel" >
+      <Carousel.Item className="cId">
+        <img id="img1"
+          className="d-block w-100 "
+          src={item2}
+          alt="First slide"
+        />
+        <Carousel.Caption>
+          <h3>Fresh Items</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item className="cId">
+        <img id="img2"
+          className="d-block w-100"
+          src={item1}
+          alt="Second slide"
+        />
+
+        <Carousel.Caption>
+          <h3>Pantry Staples</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item className="cId" >
+        <img id="img3"
+          className="d-block w-100"
+          src={item3}
+          alt="Third slide"
+        />
+        <Carousel.Caption>
+          <h3>Third slide label</h3>
+          <p>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+          </p>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
+</div>
   <div class="container">
     <div class="row">
       <div class="col-sm">
@@ -69,21 +120,21 @@ export function Home(){
       <div class="col-sm">
         <div class="d-flex flex-row">
           <div class="col-sm">
-            <div class="card" style={{width: '15rem', height:'15rem'}}>
+            <div class="card" style={{width: '15rem'}}>
               <img class="card-img-top" src={cabbage_Vegetables} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Cabbage-1 pc</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Price:$12</p>
                 <a href="#" class="btn btn-success">Order</a>
               </div>
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem', height:'15rem'}}>
+            <div class="card" style={{width: '15rem'}}>
               <img class="card-img-top" src={carrot_Vegetables} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">Price:$15</p>
                 <a href="#" class="btn btn-success">Order</a>
               </div>
             </div>
@@ -93,7 +144,7 @@ export function Home(){
     </div>
   </div>
   {/* Categories */}
-  <div className="categories d-flex flex-row justify-content-center align-items-center md-auto">
+  <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-1">
   <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} onClick={() => handleCategoryClick('fresh')}>
     <button class="btn btn-success" className="btn btn-success categoryBtn">
       <FaLeaf className="category-icon" />
@@ -115,9 +166,9 @@ export function Home(){
 </div>
 
 {/* Cards After Categories */}
-<div class="d-flex flex-row">
+<div class="d-flex flex-row justify-content-center align-items-center md-auto">
 <div class="col-sm">
-            <div class="card" style={{width: '15rem', height:'15rem'}}>
+            <div class="card" style={{width: '15rem'}}>
               <img class="card-img-top" src={cauliflower_vegetables} alt="Card image cap"></img>
               <div class="card-body">
                 <h5 class="card-title">Carrot- Half kg </h5>
@@ -127,36 +178,35 @@ export function Home(){
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem', height:'15rem'}}>
-              <img class="card-img-top" src={carrot_Vegetables} alt="Card image cap"></img>
+            <div class="card" style={{width: '15rem'}}>
+              <img class="card-img-top" src={Onions} alt="Card image cap"></img>
               <div class="card-body">
-                <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h5 class="card-title">Onions 5 kg </h5>
+                <p class="card-text">Price:$25</p>
                 <a href="#" class="btn btn-success">Order</a>
               </div>
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem', height:'15rem'}}>
-              <img class="card-img-top" src={carrot_Vegetables} alt="Card image cap"></img>
+            <div class="card" style={{width: '15rem'}}>
+              <img class="card-img-top" src={Guava} alt="Card image cap"></img>
               <div class="card-body">
-                <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h5 class="card-title">Guava- Half kg </h5>
+                <p class="card-text">Price:$5</p>
                 <a href="#" class="btn btn-success">Order</a>
               </div>
             </div>
           </div>
           <div class="col-sm">
-            <div class="card" style={{width: '15rem', height:'15rem'}}>
-              <img class="card-img-top" src={carrot_Vegetables} alt="Card image cap"></img>
+            <div class="card" style={{width: '15rem'}}>
+              <img class="card-img-top" src={muskMelon_fruits} alt="Card image cap"></img>
               <div class="card-body">
-                <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h5 class="card-title">Musk Melon- 1 kg </h5>
+                <p class="card-text">Price:$14</p>
                 <a href="#" class="btn btn-success">Order</a>
               </div>
             </div>
           </div>
-
 </div>
 
 
