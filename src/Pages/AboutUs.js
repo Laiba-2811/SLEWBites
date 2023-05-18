@@ -13,29 +13,23 @@ function AboutUs() {
                 <Card.Body>
                 <Card.Title>About Us</Card.Title>
                 <Card.Text>
-                    Welcome to SLEWBites, your ultimate destination for delicious and
-                    quality food items. We are passionate about providing the best
-                    culinary experience to our customers.
-                </Card.Text>
-                <Card.Text>
-                    At SLEWBites, we carefully source fresh and high-quality ingredients
-                    to create mouth-watering dishes. Our team of talented chefs brings
-                    together flavors from around the world to delight your taste buds.
-                </Card.Text>
-                <Card.Text>
-                    Whether you're craving a hearty meal, a light snack, or a decadent
-                    dessert, we have a wide range of options to satisfy your cravings.
-                    Explore our menu and discover your new favorite dish.
-                </Card.Text>
-                <Card.Text>
-                    We value your satisfaction and strive to provide exceptional
-                    customer service. Your feedback is important to us, and we are
-                    continuously working to improve and exceed your expectations.
-                </Card.Text>
-                <Card.Text>
-                    Thank you for choosing SLEWBites. We look forward to serving you
-                    and creating memorable dining experiences.
-                </Card.Text>
+                Welcome to SLEWBites, your ultimate destination for fresh, delicious, and high-quality food items. We take pride in offering a wide range of products across three main categories: fresh items, baked items, and pantry staples.
+              </Card.Text>
+              <Card.Text>
+                In our fresh items category, you'll find a delightful selection of seasonal fruits, crisp vegetables, and farm-to-table produce. We partner with local farmers to ensure the freshness and nutritional value of our offerings.
+              </Card.Text>
+              <Card.Text>
+                Our baked items collection features a variety of artisanal bread, pastries, cakes, and mouthwatering desserts. Each item is crafted with care using premium ingredients and traditional baking techniques, ensuring a delectable experience for every bite.
+              </Card.Text>
+              <Card.Text>
+                For your pantry needs, we offer a wide range of staples that are essential for every kitchen. From quality spices and condiments to grains, oils, and canned goods, our pantry staples selection is curated to meet your everyday cooking requirements.
+              </Card.Text>
+              <Card.Text>
+                At SLEWBites, we are committed to delivering exceptional quality and taste. We carefully source our ingredients, prioritize food safety and hygiene, and strive to exceed your expectations with our products and service.
+              </Card.Text>
+              <Card.Text>
+                Thank you for choosing SLEWBites as your trusted online food store. We look forward to serving you and providing a delightful culinary experience. Happy shopping!
+              </Card.Text>
                 </Card.Body>
             </Card>
        {/* </Col> */}
