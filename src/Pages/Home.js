@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import './Home.css'
 import { useState } from "react";
-import logow1 from './logow1.png';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FaLeaf, FaBreadSlice, FaUtensils, FaUserCircle, FaSearch , FaShoppingCart,FaGoogle, FaFacebook,FaInstagram,FaTwitter} from 'react-icons/fa';
 import cabbage_Vegetables from '../PicResources/cabbage_Vegetables.jpg';
 import carrot_Vegetables from '../PicResources/carrot_Vegetables.jpg';
@@ -38,7 +38,6 @@ export function Home(){
         />
         <Carousel.Caption>
           <h3>Fresh Items</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item className="cId">
@@ -47,10 +46,8 @@ export function Home(){
           src={item1}
           alt="Second slide"
         />
-
         <Carousel.Caption>
           <h3>Pantry Staples</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item className="cId" >
@@ -61,47 +58,54 @@ export function Home(){
         />
         <Carousel.Caption>
           <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
 </div>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm">
-        <h1 id='homeHeader'>Welcome to <i id="italic">SlewBites</i>, your one-stop destination for delightful Food experiences!</h1>
-        <p>Indulge in a gastronomic adventure with SlewBites, where we bring you the finest selection of gourmet delights right to your doorstep. Our online food store is designed to cater to the diverse tastes and preferences of food enthusiasts, ensuring that every bite is a moment of pure pleasure.</p>
-        <h3>Convenience at Your Fingertips:</h3>
-        <p>With our user-friendly online platform, ordering your favorite meals has never been easier. Simply browse our menu, select your desired items, and proceed to checkout. Our streamlined ordering process ensures that you can enjoy a hassle-free experience from start to finish. And with our swift delivery service, your food will be at your doorstep in no time, ready to satisfy your cravings</p>
-      </div>
-      <div class="col-sm">
-        <div class="d-flex flex-row">
-          <div class="col-sm">
-            <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top img-fluid" src={cabbage_Vegetables} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Cabbage-1 pc</h5>
-                <p class="card-text">Price:$12</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card" style={{width: '15rem'}}>
-              <img class="card-img-top " src={carrot_Vegetables} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Price:$15</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <h1 id='homeHeader'>Welcome to <i id="italic">SlewBites</i>,<br></br> your one-stop destination<br></br> for delightful Food experiences!</h1>
+  <Row>
+        <Col md={4}>
+          <Card>
+            <Card.Img variant="top" src={item1} />
+            <Card.Body>
+              <Card.Title>Fresh Items</Card.Title>
+              <Card.Text>At SlewBites, we pride ourselves on providing the freshest and highest quality fresh food options. From farm-fresh fruits and vegetables to handpicked seafood and meats, we ensure that every bite is packed with nutrition, flavor, and goodness for a truly refreshing and wholesome dining experience.</Card.Text>
+              <button class="btn btn-success " className="btn btn-success categoryBtn">
+                  <FaLeaf className="category-icon" />
+                  Fresh Food
+              </button>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <Card>
+            <Card.Img variant="top" src={item2} />
+            <Card.Body>
+              <Card.Title>Baked Items</Card.Title>
+              <Card.Text>SlewBites offers a delectable range of baked food that is sure to tantalize your taste buds. From freshly baked bread to mouthwatering pastries and cakes, our baked food selection is crafted with love and expertise</Card.Text>
+              <button class="btn btn-success " className="btn btn-success categoryBtn">
+                <FaBreadSlice className="category-icon" />
+              Baked Food
+              </button>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <Card>
+            <Card.Img variant="top" src={item3} />
+            <Card.Body>
+              <Card.Title>Pantry Staples</Card.Title>
+              <Card.Text>Discover a wide array of pantry staples at SlewBites, where we offer essential ingredients that elevate your culinary creations. From premium spices and seasonings to gourmet oils and condiments, our pantry staples are carefully sourced to enhance the flavors and elevate your cooking to new heights.</Card.Text>
+              <button class="btn btn-success "  className="btn btn-success categoryBtn">
+                <FaUtensils className="category-icon" />
+                Pantry Staples
+              </button>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </div>
-  </div>
   {/* Categories */}
   <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-3">
   <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} onClick={() => handleCategoryClick('fresh')}>
@@ -126,7 +130,7 @@ export function Home(){
 
 {/* Cards After Categories */}
 <div class="d-flex flex-row justify-content-center align-items-center md-auto">
-<div class="col-sm ">
+<div class="col-sm d-flex justify-content-center">
             <div class="card mb-3" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={cauliflower_vegetables} alt="Card image cap"></img>
               <div class="card-body">
@@ -136,7 +140,7 @@ export function Home(){
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div class="col-sm d-flex justify-content-center">
             <div class="card mb-3" style={{width: '15rem'}}>
               <img class="card-img-top justify-content-center align-items-center" style={{width: '10rem', height:'10rem'}} src={Onions} alt="Card image cap"></img>
               <div class="card-body">
@@ -146,7 +150,7 @@ export function Home(){
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div class="col-sm d-flex justify-content-center">
             <div class="card mb-3" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Guava} alt="Card image cap"></img>
               <div class="card-body">
@@ -156,7 +160,7 @@ export function Home(){
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div class="col-sm d-flex justify-content-center">
             <div class="card mb-3" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={muskMelon_fruits} alt="Card image cap"></img>
               <div class="card-body">
@@ -170,7 +174,7 @@ export function Home(){
 
 {/* {2nd Row of Items} */}
 <div class="d-flex flex-row justify-content-center align-items-center md-auto">
-<div class="col-sm">
+<div class="col-sm d-flex justify-content-center">
             <div class="card mb-5" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={cauliflower_vegetables} alt="Card image cap"></img>
               <div class="card-body">
@@ -180,7 +184,7 @@ export function Home(){
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div class="col-sm d-flex justify-content-center">
             <div class="card mb-5" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Onions} alt="Card image cap"></img>
               <div class="card-body">
@@ -190,7 +194,7 @@ export function Home(){
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div class="col-sm d-flex justify-content-center">
             <div class="card mb-5" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Guava} alt="Card image cap"></img>
               <div class="card-body">
@@ -200,7 +204,7 @@ export function Home(){
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div class="col-sm d-flex justify-content-center">
             <div class="card mb-5" style={{width: '15rem'}}>
               <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={muskMelon_fruits} alt="Card image cap"></img>
               <div class="card-body">

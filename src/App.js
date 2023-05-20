@@ -1,8 +1,13 @@
 import './App.css';
 import {Home} from './Pages/Home';
+import About from './Pages/About';
+import Contact from './Pages/Contact';
+import SignUp from './Pages/Signup.js';
 import React, { useState } from 'react';
-import ShoppingCart from './Pages/ProductCatalog';
+import { Modal } from "react-bootstrap";
+import {ShoppingCart} from './Pages/ProductCatalog';
 import logow1 from './Pages/logow1.png';
+import cart from './PicResources/cart.png';
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import {FaUserCircle, FaSearch , FaShoppingCart,FaGoogle, FaFacebook,FaInstagram,FaTwitter} from 'react-icons/fa';
 function App() {
@@ -10,6 +15,24 @@ function App() {
   function toggleSearch() {
     setShowSearch(!showSearch);
   }
+
+  // {Carttttttt}
+  const [showCart, setShowCart] = useState(false);
+
+  const handleCartClick = () => {
+    setShowCart(true);
+  };
+
+  const handleCloseCart = () => {
+    setShowCart(false);
+  };
+
+  // Get user details (replace with your own logic)
+  const user = {
+    name: "John Doe",
+    email: "johndoe@example.com",
+    // Add other user details
+  };
   return (
     <div className="App">
       <Router>
@@ -24,19 +47,19 @@ function App() {
       </ul>
       <ul class="navbar-nav ms-auto order-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" id="navItem">Home</a>
+        <Link className="nav-link" to="/" id="navItem">Home</Link>
         </li>
         <li class="nav-item">
         <Link className="nav-link" to="/product-catalog" id="navItem">Product Catalog</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">About us</a>
+        <Link className="nav-link" to="/about-us" id="navItem">About Us</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">Contact Us</a>
+        <Link className="nav-link" to="/contact-us" id="navItem">Contact Us</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">Login/SignUp</a>
+        <Link className="nav-link" to="/signup" id="navItem">Login/SignUp</Link>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" id="navItem" onClick={toggleSearch}>
@@ -53,25 +76,45 @@ function App() {
       )}
         
         <li class="nav-item">
-          <a class="nav-link" href="#" id="navItem">
-            <FaShoppingCart style={{fontSize: '30px'}} class="Fa-lg" />
-          </a>
-        </li>
+        <a class="nav-link" href="#" id="navItem" onClick={handleCartClick}>
+          <FaShoppingCart style={{ fontSize: "30px" }} class="Fa-lg" />
+        </a>
+      </li>
         <li class="nav-item">
           <a class="nav-link" href="#" id="navItem">
             <FaUserCircle style={{fontSize: '30px'}} class="Fa-lg" />
           </a>
         </li>
       </ul>
+      <Modal show={showCart} onHide={handleCloseCart} 
+      style={{ height: '500px',
+      width: '500px',
+      position: 'fixed',
+      right: '10px',
+      transform: 'translate(100%, 0)',
+      zIndex: 9999,}}>
+      <Modal.Header closeButton>
+          <Modal.Title>Shopping Cart</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={cart} alt="Cart" style={{height:'100px', width:'100px'}}/>
+          <h5>User Details:</h5>
+          <p>Name: {user.name}</p>
+          <p>Email: {user.email}</p>
+          {/* Add other user details */}
+        </Modal.Body>
+      </Modal>
     </div>
   </nav>
   <Routes>
-  <Route exact path="/" component={Home} />
-  <Route path="/product-catalog" component={ShoppingCart} />
+  <Route exact path='/' element={< Home />}></Route>
+  <Route exact path='//product-catalog' element={< ShoppingCart />}></Route>
+  <Route exact path='/about-us' element={< About />}></Route>
+  <Route exact path='/contact-us' element={< Contact />}></Route>
+  <Route exact path='/signup' element={< SignUp />}></Route>
   </Routes>
-  
   </Router>
-    <Home></Home>
+    {/* <Home></Home> */}
     {/* {Footerrrrrr} */}
 
 
@@ -87,16 +130,16 @@ function App() {
           {/* Right */}
           <div>
             <a href="" className="text-white me-4">
-              <i>{FaFacebook}</i>
+              <i><FaFacebook/></i>
             </a>
             <a href="" className="text-white me-4">
-              <i>{FaTwitter}</i>
+              <i><FaTwitter/></i>
             </a>
             <a href="" className="text-white me-4">
-              <i>{FaGoogle}</i>
+              <i><FaGoogle/></i>
             </a>
             <a href="" className="text-white me-4">
-              <i>{FaInstagram}</i>
+              <i><FaInstagram/></i>
             </a>
           </div>
         </section>
@@ -171,7 +214,8 @@ function App() {
           </div>
         </section>
         <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-          © 2020 SlewBites.com
+          <div class="row">© 2020 SlewBites.com</div>
+          
         </div>
       </footer>
     </div>
@@ -179,7 +223,6 @@ function App() {
     
     </div>
   );
- 
   
 }
 
