@@ -1,41 +1,56 @@
-/* 
-h1{
 
-  color:#192A56;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-style: italic;
-  text-align: center;
-  margin-top:150px;
-  margin-bottom:20px;
+.container{
+ display: flex;
+ margin: 0;
+ padding: 0;
 }
-p{
-  color: rgb(13, 219, 150);
-
+main{
+  width:100%;
+  padding:20px;
 }
-#background{
-  background-image: url('bgImage.jpg');
-  background-repeat: no-repeat;
-  background-size: 1000px 1000px;
-
-} */
-.card-title {
-  color: #192A56;
-  text-align: center;
-  font-style: italic;
-  font-size: 28pt;
-}
-.card-title:hover{
-  background-color:rgb(13, 219, 150);
-}
-.card-text {
-  color: #192A56;
-  font-family:  sans-serif;
-}
-
+.sidebar{
+  background: #000;
+  color: #fff;
+  height: 100vh;
+  width: 200px;
+  /* position: fixed; */
+  top: 0;
+  left: 0;
   
-#card{
-  background-color: rgb(23, 255, 178);
-  width: 50%;
-  margin-top: 130px;
-  margin-left:25%;
+
+}
+.top-selection{
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+
+}
+.logo{
+  font-size: 30px;
+}
+.bars{
+  font-size:25px;
+  display: flex;
+  margin-left: 30px;
+}
+.link{
+  display:flex;color:#fff;
+  padding: 5px 15px;
+  gap:1;
+  transition: all 0.5s;
+  
+}
+.link:hover{
+  background: lightskyblue;
+  color:#000;
+  transition: all 0.5s;
+}
+.active{
+  background: lightskyblue;
+  color:#000;
+}
+
+.icon, .link_text{
+    font-size: 20px;
+    margin: 5px;
 }
