@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { Container, Form, FormGroup, InputGroup, Col, Label } from "react-bootstrap"
 import './Signup.css'
-
+import {FaUserCircle, FaSearch , FaShoppingCart,FaGoogle, FaFacebook,FaInstagram,FaTwitter} from 'react-icons/fa';
 // Form validation fumctions
 export const emailValidator = email => {
     if (!email) {
@@ -198,5 +198,6 @@ export default function SignUp (props) {
                 </FormGroup>
             </Form>
         </Container>
+        
     )
 }

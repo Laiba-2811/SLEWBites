@@ -69,3 +69,11 @@
     color: white;
     font-weight: bold;
 }
+#aboutUsContainer,#margDiv{
+    background-color: #dde0e6;
+    color: black;
+
+}
+#margDiv{
+    background-color: #dde0e6;
+}
