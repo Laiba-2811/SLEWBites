@@ -29,9 +29,10 @@ main{
   font-size: 30px;
 }
 .bars{
-  font-size:25px;
+  font-size: 25px;
   display: flex;
-  margin-left: 30px;
+  align-items: center;
+  margin-left: 10px;
 }
 .link{
   display:flex;color:#fff;
@@ -53,4 +54,30 @@ main{
 .icon, .link_text{
     font-size: 20px;
     margin: 5px;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f8f9fa;
 }

@@ -1,46 +1,4 @@
-// import React from 'react';
-// import { CDBSidebar, CDBSidebarContent, CDBSidebarMenu, CDBSidebarMenuItem } from 'cdbreact';
 
-// const Sidebar = ({ activeTab, changeTab }) => {
-//   return (
-//     <CDBSidebar textColor="#192A56" backgroundColor="rgb(23, 255, 178)">
-//       <CDBSidebarContent className="sidebar-content">
-//         <CDBSidebarMenu>
-//           <CDBSidebarMenuItem
-//             active={activeTab === 'Order-List'}
-//             onClick={() => changeTab('Order-List')}
-//             className="sidebar-menu-item"
-//           >
-//             Order-List
-//           </CDBSidebarMenuItem>
-//           <CDBSidebarMenuItem
-//             active={activeTab === 'UserList'}
-//             onClick={() => changeTab('UserList')}
-//             className="sidebar-menu-item"
-//           >
-//             UserList
-//           </CDBSidebarMenuItem>
-//           <CDBSidebarMenuItem
-//             active={activeTab === 'ProductList'}
-//             onClick={() => changeTab('ProductList')}
-//             className="sidebar-menu-item"
-//           >
-//             Product List
-//           </CDBSidebarMenuItem>
-//           <CDBSidebarMenuItem
-//             active={activeTab === 'Category'}
-//             onClick={() => changeTab('Category')}
-//             className="sidebar-menu-item"
-//           >
-//             Category
-//           </CDBSidebarMenuItem>
-//         </CDBSidebarMenu>
-//       </CDBSidebarContent>
-//     </CDBSidebar>
-//   );
-// };
-
-// export default Sidebar;
 import React, {useState} from "react";
 import { FaTh, FaBars , FaUserAlt, FaShoppingBag , FaClipboardList} from "react-icons/fa";
 import { AiOutlineAppstore } from "react-icons/ai"
@@ -89,7 +47,7 @@ const Sidebar = ({children}) => {
         <div style={{width: isOpen ? "200px" : "43px" }}className="sidebar">
            <div className="top_section">
              <h1 style={{display: isOpen ? "block" : "none" }} className="logo">Admin</h1>
-             <div style={{marginLeft: isOpen? "50px" : "0px" }} className="bars">
+             <div style={{marginLeft: isOpen? "10px" : "0px" }} className="bars">
                 <FaBars onClick={toggel}/>
              </div>
 
