@@ -18,12 +18,60 @@ import bakeryItems from'../PicResources/bakeryItems.jpg';
 import muskMelon_fruits from '../PicResources/muskMelon_fruits.jpg';
 import 'bootstrap/dist/css/bootstrap.css';
 import Footer from "./Footer";
+import Category from "./HpageCategory";
 export function Home(){
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [products, setProducts] = useState([
+      {id:"1", 
+      name:"onion",
+      img:"baked1.png",
+      price:"$10",
+      quantity:"10",
+      inStock:true,
+      Category:{id:"1", name:"baked",img:"", description:"" }
+      },
+      {id:"2", 
+      name:"Apple",
+      img:"baked2.png",
+      price:"$10",
+      quantity:"8",
+      inStock:true,
+      Category:{id:"1", name:"baked",img:"", description:"" }
+      },
+      {id:"3", 
+      name:"onion",
+      img:"baked3.png",
+      price:"$11",
+      quantity:"7",
+      inStock:true,
+      Category:{id:"1", name:"pantry",img:"", description:"" }
+      },
+      {id:"4", 
+      name:"Vegetable",
+      img:"baked4.png",
+      price:"$10",
+      quantity:"7",
+      inStock:true,
+      Category:{id:"1", name:"fresh",img:"", description:"" }
+      }
+    ]);
     const handleCategoryClick = (category) => {
-        setSelectedCategory(category);
+      setSelectedCategory(category);
+      if(category=='fresh'){
+        
+
+      }
+      else if(category=='baked'){
+
+      }
+      else if(category=='pantry'){
+
+      }
+      setSelectedCategory(category);
+       
       };
       
+     
 
     return(
         <>
@@ -108,112 +156,62 @@ export function Home(){
     </div>
   {/* Categories */}
   <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-3">
-  <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} onClick={() => handleCategoryClick('fresh')}>
-    <button class="btn btn-success " className="btn btn-success categoryBtn">
+  <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} onClick={handleCategoryClick}>
+    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={() => {
+    const id=document.getElementById('cardDivs');
+    id.innerHTML='';
+    <Category category='fresh'></Category>
+  }}>
       <FaLeaf className="category-icon" />
       Fresh Food
     </button>
   </div>
-  <div className={`${selectedCategory === 'baked' ? 'active' : ''}`} onClick={() => handleCategoryClick('baked')}>
-    <button class="btn btn-success " className="btn btn-success categoryBtn">
+  <div className={`${selectedCategory === 'baked' ? 'active' : ''}`} onClick={() => {
+    
+  }}>
+    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={() => {
+    const id=document.getElementById('cardDivs');
+    id.innerHTML='';
+    <Category category='fresh'></Category>
+  }}>
       <FaBreadSlice className="category-icon" />
       Baked Food
     </button>
   </div>
-  <div className={` ${selectedCategory === 'pantry' ? 'active' : ''}`} onClick={() => handleCategoryClick('pantry')}>
-    <button class="btn btn-success "  className="btn btn-success categoryBtn">
+  <div className={` ${selectedCategory === 'pantry' ? 'active' : ''}`} onClick={() => {
+    
+  }}>
+    <button class="btn btn-success "  className="btn btn-success categoryBtn" onClick={() => {
+    
+  }}>
       <FaUtensils className="category-icon" />
       Pantry Staples
     </button>
   </div>
 </div>
-
-{/* Cards After Categories */}
-<div class="d-flex flex-row justify-content-center align-items-center md-auto">
-<div class="col-sm d-flex justify-content-center">
-            <div class="card mb-3" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={cauliflower_vegetables} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Price:$10</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
+<div class="container-fluid justify-content-center mt-5">
+    <br></br>
+    </div>
+    <div className="row">
+  {Object.entries(products).map(([key, product]) => {
+    // Display only 4 cards in a row
+      return (
+        <div className="col-sm d-flex justify-content-center" key={key}>
+          <div className="card mb-3" style={{ width: '15rem' }}>
+            <img className="card-img-top" style={{ width: '10rem', height: '10rem' }} src={'./images/'+product.img} alt="Card image cap" />
+            <div className="card-body">
+              <h5 className="card-title">Name:{product.name}</h5>
+              <p className="card-text">Price:{product.price}</p>
+              <p className="card-text">Quantity:{product.quantity}</p>
+              <p className="card-text">Category:{product.Category.name}</p>
+              <Button variant="success">
+                Add to Cart
+              </Button>
             </div>
           </div>
-          <div class="col-sm d-flex justify-content-center">
-            <div class="card mb-3" style={{width: '15rem'}}>
-              <img class="card-img-top justify-content-center align-items-center" style={{width: '10rem', height:'10rem'}} src={Onions} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Onions 5 kg </h5>
-                <p class="card-text">Price:$25</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm d-flex justify-content-center">
-            <div class="card mb-3" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Guava} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Guava- Half kg </h5>
-                <p class="card-text">Price:$5</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm d-flex justify-content-center">
-            <div class="card mb-3" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={muskMelon_fruits} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Musk Melon- 1 kg </h5>
-                <p class="card-text">Price:$14</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-</div>
-
-{/* {2nd Row of Items} */}
-<div class="d-flex flex-row justify-content-center align-items-center md-auto">
-<div class="col-sm d-flex justify-content-center">
-            <div class="card mb-5" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={cauliflower_vegetables} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Carrot- Half kg </h5>
-                <p class="card-text">Price:$10</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm d-flex justify-content-center">
-            <div class="card mb-5" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Onions} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Onions 5 kg </h5>
-                <p class="card-text">Price:$25</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm d-flex justify-content-center">
-            <div class="card mb-5" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={Guava} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Guava- Half kg </h5>
-                <p class="card-text">Price:$5</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm d-flex justify-content-center">
-            <div class="card mb-5" style={{width: '15rem'}}>
-              <img class="card-img-top" style={{width: '10rem', height:'10rem'}} src={muskMelon_fruits} alt="Card image cap"></img>
-              <div class="card-body">
-                <h5 class="card-title">Musk Melon- 1 kg </h5>
-                <p class="card-text">Price:$14</p>
-                <a href="#" class="btn btn-success">Order</a>
-              </div>
-            </div>
-          </div>
+        </div>
+      );
+  })}
 </div>
 
 

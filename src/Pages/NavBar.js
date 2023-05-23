@@ -29,16 +29,15 @@ const Navigation = () => {
 
   return (
     <Navbar expand="lg" fixed="top" className="mb-5 py-0" id="mainNavBar">
+       <Navbar.Brand href="#"><img
+              alt=""
+              src={logow1}
+              className="d-inline-block align-top"
+            /></Navbar.Brand>
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Item>
-              <Link to="/" className="nav-link">
-                <img src={logow1} alt="Logo" className="d-inline-block align-text-top" />
-              </Link>
-            </Nav.Item>
-          </Nav>
+          
           <Nav className="ms-auto">
             <Nav.Item>
               <Link to="/" className="nav-link" id="navItem">

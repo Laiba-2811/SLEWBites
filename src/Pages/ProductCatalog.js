@@ -31,9 +31,43 @@ import vegitableOil from '../PicResources/pantry staples/vegitableOil.jpg';
 import dryfruits from '../PicResources/pantry staples/dryfruits.jpg';
 import redChilly from '../PicResources/pantry staples/redChilly.jpg';
 import './Home.css';
-export const ShoppingCart = () => {
+export const ShoppingCart = (category) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [products, setProducts] = useState([
+    {id:"1", 
+    name:"onion",
+    img:"baked1",
+    price:"$10",
+    quantity:"10",
+    inStock:true,
+    Category:{id:"1", name:"baked",img:"", description:"" }
+    },
+    {id:"2", 
+    name:"Apple",
+    img:"baked2",
+    price:"$10",
+    quantity:"8",
+    inStock:true,
+    Category:{id:"1", name:"baked",img:"", description:"" }
+    },
+    {id:"3", 
+    name:"onion",
+    img:"rice",
+    price:"$11",
+    quantity:"7",
+    inStock:true,
+    Category:{id:"1", name:"pantry",img:"", description:"" }
+    },
+    {id:"4", 
+    name:"Vegetable",
+    img:"freshvegi2",
+    price:"$10",
+    quantity:"7",
+    inStock:true,
+    Category:{id:"1", name:"fresh",img:"", description:"" }
+    }
+  ]);
   const baked = {
     img1: { src: baked1 },
     img2: { src: baked2 },
@@ -67,7 +101,10 @@ export const ShoppingCart = () => {
     img7: { src: rice },
     img8: { src: wheatflour },
     img9: { src: Nuts1 },
+  
   };
+  
+  
   const addToCart = (item) => {
     setCartItems([...cartItems, item]);
     setTotalPrice(totalPrice + item.price);

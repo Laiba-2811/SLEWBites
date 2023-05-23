@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card,Button } from "react-bootstrap";
 import {Row, Col} from "react-bootstrap"; 
+import { useState } from "react";
+import Offcanvas from 'react-bootstrap/Offcanvas'
 export default function Cards({item}){
+    const [quantity, setQuantity]=useState(1)
     return(
     <>
     <Card style={{ width: '18rem' }}>
@@ -11,13 +14,13 @@ export default function Cards({item}){
         <Card.Text>
             <Row>
                 <Col >{item.Category}</Col>
-                <Col>{item.price}</Col>
+                <Col >{item.price * quantity}</Col>
             </Row>
             <Row>
                 <Col><h6>Quantity</h6>
-                <select>
+                <select onChange={e=>setQuantity(e.target.value)}>
                     {[...Array(10).keys].map((i,v)=>{
-                        <option value={i+1}>{i+1}</option>
+                        <option value={i+1} >{i+1}</option>
                     })}
                 </select>
                 
