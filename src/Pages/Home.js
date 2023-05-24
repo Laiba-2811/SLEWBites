@@ -57,14 +57,17 @@ export function Home(){
     ]);
     const handleCategoryClick = (category) => {
       setSelectedCategory(category);
-      if(category=='fresh'){
+      if(selectedCategory=='fresh'){
+        <Category category={'fresh'}></Category>
         
 
       }
-      else if(category=='baked'){
+      else if(selectedCategory=='baked'){
+        <Category category={'baked'}></Category>
 
       }
-      else if(category=='pantry'){
+      else if(selectedCategory=='pantry'){
+        <Category category={'pantry'}></Category>
 
       }
       setSelectedCategory(category);
@@ -156,34 +159,20 @@ export function Home(){
     </div>
   {/* Categories */}
   <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-3">
-  <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} onClick={handleCategoryClick}>
-    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={() => {
-    const id=document.getElementById('cardDivs');
-    id.innerHTML='';
-    <Category category='fresh'></Category>
-  }}>
+  <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} >
+    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={handleCategoryClick}>
       <FaLeaf className="category-icon" />
       Fresh Food
     </button>
   </div>
-  <div className={`${selectedCategory === 'baked' ? 'active' : ''}`} onClick={() => {
-    
-  }}>
-    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={() => {
-    const id=document.getElementById('cardDivs');
-    id.innerHTML='';
-    <Category category='fresh'></Category>
-  }}>
+  <div className={`${selectedCategory === 'baked' ? 'active' : ''}`} >
+    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={handleCategoryClick}>
       <FaBreadSlice className="category-icon" />
       Baked Food
     </button>
   </div>
-  <div className={` ${selectedCategory === 'pantry' ? 'active' : ''}`} onClick={() => {
-    
-  }}>
-    <button class="btn btn-success "  className="btn btn-success categoryBtn" onClick={() => {
-    
-  }}>
+  <div className={` ${selectedCategory === 'pantry' ? 'active' : ''}`}>
+    <button class="btn btn-success "  className="btn btn-success categoryBtn" onClick={handleCategoryClick}>
       <FaUtensils className="category-icon" />
       Pantry Staples
     </button>

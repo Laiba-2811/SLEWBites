@@ -1,4 +1,5 @@
 import { Navbar, Nav, Container, Modal } from 'react-bootstrap';
+import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
@@ -112,7 +113,6 @@ const Navigation = () => {
           <h5>User Details:</h5>
           <p>Name: {user.name}</p>
           <p>Email: {user.email}</p>
-          {/* Add other user details */}
         </Modal.Body>
       </Modal>
     </Navbar>
