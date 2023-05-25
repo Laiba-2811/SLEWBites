@@ -23,7 +23,7 @@ const CategoryTable = () => {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [newCategory, setNewCategory] = useState({ id: '', name: '' });
+  const [newCategory, setNewCategory] = useState({  name: '' });
   const [editCategory, setEditCategory] = useState({ id: '', name: '' });
 
   const handleAddModal = () => {
@@ -70,12 +70,35 @@ const CategoryTable = () => {
   const handleAddCategory = (e) => {
     e.preventDefault();
     setCategories([...categories, newCategory]);
-    setNewCategory({ id: '', name: '' });
+   
     setShowAddModal(false);
+
+    const url = 'http://localhost:3000/api/categories/';
+    const fetchApiData= async (url)=>{
+      try{
+        const res= await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+         newCategory
+        
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+        // const data = await res.json();
+       //  console.log(baseurl, "base");
+      //  const updatedCategories = categories.filter((category) => category._id !== id);
+      //  setCategories(updatedCategories);
+      } catch(error){
+        console.log(error);
+      }
+       }
+       fetchApiData(url);
 
     
   };
-
+//handle edit category
   const handleEditCategory = (e) => {
     e.preventDefault();
     const updatedCategories = categories.map((category) => {
@@ -127,16 +150,7 @@ const CategoryTable = () => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleAddCategory}>
-            <Form.Group controlId="formId">
-              <Form.Label>ID</Form.Label>
-              <Form.Control
-                type="text"
-                name="id"
-                value={newCategory.id}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
+  
             <Form.Group controlId="formName">
               <Form.Label>Name</Form.Label>
               <Form.Control

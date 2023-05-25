@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import '../App.css';
+import '../App.css'; // Import custom CSS file for styling
+// import Piechart from './PieChart';
 
 const Dashboard = () => {
   const userOrders = [
@@ -18,6 +19,7 @@ const Dashboard = () => {
   ];
 
   return (
+<>
     <Container>
       <Row>
         <Col>
@@ -33,14 +35,21 @@ const Dashboard = () => {
         </Col>
         <Col>
           <h2>Product Categories</h2>
-          {productCategories.map((category, index) => (
-            <p key={index} className="category">
-              {category.name}: {category.count}
-            </p>
-          ))}
+          <div className="category-list">
+            {productCategories.map((category, index) => (
+              <div key={index} className="category">
+                <p className="category-name">{category.name}</p>
+                <p className="category-count">{category.count}</p>
+              </div>
+            ))}
+          </div>
         </Col>
+        {/* <Col>
+          <Piechart/>
+        </Col> */}
       </Row>
     </Container>
+</>
   );
 };
 

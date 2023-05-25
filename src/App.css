@@ -35,7 +35,8 @@ main{
   margin-left: 10px;
 }
 .link{
-  display:flex;color:#fff;
+  display:flex;
+  color:#fff;
   padding: 5px 15px;
   gap:1;
   transition: all 0.5s;
@@ -82,16 +83,55 @@ main{
   background-color: #f8f9fa;
 }
 .order-card {
-  background-color: #f8f9fa;
+  background-color: #76fdba;
   border: none;
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.order-card:hover {
+ background-color:  rgba(8, 18, 165, 0.2);
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .category {
+  background-color: #76fdba;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.3s ease-in-out;
+}
+
+.category:hover {
+  transform: scale(1.05);
+  background-color:  rgba(8, 18, 165, 0.2);
+ 
+}
+
+.category-name {
   font-size: 16px;
   color: #333;
-  margin-bottom: 5px;
 }
+
+.category-count {
+  font-size: 14px;
+  color: #777;
+}
+
+h2 {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold; /* Added font-weight */
+  margin-bottom: 20px; /* Added margin-bottom */
+}
+

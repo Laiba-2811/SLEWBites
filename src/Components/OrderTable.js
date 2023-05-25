@@ -61,7 +61,7 @@ const OrderTable = () => {
                <td>{order._id}</td>
             
               <td>{order.User.email}</td>
-              {/* <td>{order.User.password}</td> */}
+
               <td>{order.User.number}</td>
               <td>{order.address}</td>
               <td>{order.date}</td>
