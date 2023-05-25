@@ -55,7 +55,7 @@ const CategoryTable = () => {
        }
        fetchApiData(url);
   };
-
+//handle input change for add category
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewCategory({ ...newCategory, [name]: value });
@@ -96,21 +96,40 @@ const CategoryTable = () => {
 
     
   // };
-  const handleAddCategory = async (e) => {
+  //handle add category using axious
+//   const handleAddCategory = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     const { name, description } = newCategory;
+//     const requestBody = { name, description };
+//     const url = 'http://localhost:3000/api/categories/';
+
+//     const response = await axios.post(url, requestBody);
+
+//     setCategories([...categories, response.data]);
+//     setShowAddModal(false);
+//   } catch (error) {
+//     console.log('Error adding category:', error);
+//   }
+// };
+
+
+const handleAddCategory = (e) => {
   e.preventDefault();
+  
+  const { name, description, img } = newCategory;
+  const requestBody = { name, description, img };
 
-  try {
-    const { name, description } = newCategory;
-    const requestBody = { name, description };
-    const url = 'http://localhost:3000/api/categories/';
-
-    const response = await axios.post(url, requestBody);
-
-    setCategories([...categories, response.data]);
-    setShowAddModal(false);
-  } catch (error) {
-    console.log('Error adding category:', error);
-  }
+  axios.post('http://localhost:3000/api/categories', requestBody)
+    .then(response => {
+      console.log('Category added successfully:', response.data);
+      setCategories([...categories, response.data]);
+      setShowAddModal(false);
+    })
+    .catch(error => {
+      console.error('Error adding category:', error);
+    });
 };
 
 //handle edit category
