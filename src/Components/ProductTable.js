@@ -1,119 +1,78 @@
-import React, { useState } from 'react';
-import { Table, Pagination } from 'react-bootstrap';
-import '../App.css';
+import React, { useState, useEffect} from 'react';
+import { Table, Button, Modal, Form, Pagination } from 'react-bootstrap';
 
 const ProductTable = () => {
-  const products = [
-   {
-  id: 1,
-  name: 'Product 1',
-  category: 'Category 1',
-  price: 10.99,
-  availability: 'In Stock',
-  quantity:'200',
-  image: 'product1.jpg',
-},
-{
-  id: 2,
-  name: 'Product 2',
-  category: 'Category 2',
-  price: 19.99,
-  availability: 'Out of Stock',
-  quantity:'200',
-  image: 'product2.jpg',
-},
-{
-    id: 1,
-    name: 'Product 1',
-    category: 'Category 1',
-    price: 10.99,
-    availability: 'In Stock',
-    quantity:'200',
-    image: 'product1.jpg',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    category: 'Category 2',
-    price: 19.99,
-    availability: 'Out of Stock',
-    quantity:'200',
-    image: 'product2.jpg',
-  },{
-    id: 1,
-    name: 'Product 1',
-    category: 'Category 1',
-    price: 10.99,
-    availability: 'In Stock',
-    quantity:'200',
-    image: 'product1.jpg',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    category: 'Category 2',
-    price: 19.99,
-    availability: 'Out of Stock',
-    quantity:'200',
-    image: 'product2.jpg',
-  },{
-    id: 1,
-    name: 'Product 1',
-    category: 'Category 1',
-    price: 10.99,
-    availability: 'In Stock',
-    quantity:'200',
-    image: 'product1.jpg',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    category: 'Category 2',
-    price: 19.99,
-    availability: 'Out of Stock',
-    quantity:'200',
-    image: 'product2.jpg',
-  },{
-    id: 1,
-    name: 'Product 1',
-    category: 'Category 1',
-    price: 10.99,
-    availability: 'In Stock',
-    quantity:'200',
-    image: 'product1.jpg',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    category: 'Category 2',
-    price: 19.99,
-    availability: 'Out of Stock',
-    quantity:'200',
-    image: 'product2.jpg',
-  },
-  ];
+  const [products, setProducts] = useState([]);
+  const url = 'http://localhost:3000/api/products';
+  const fetchApiData= async (url)=>{
+    try{
+      const res= await fetch(url);
+      const data = await res.json();
+     //  console.log(baseurl, "base");
+     setProducts(data)
+    } catch(error){
+      console.log(error);
+    }
+     }
+    
+      useEffect(() => {
+       fetchApiData(url);
+      
+        
+      }, [])
+   
 
-  const itemsPerPage = 5; // Number of items to display per page
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    id: '',
+    name: '',
+    price: '',
+    quantity: '',
+    inStock: true,
+    category: { id: '', name: '' }
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 5;
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
-  // Calculate the total number of pages based on the number of products and items per page
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  // Pagination Logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  // Get the index range of products to display on the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Slice the products based on the current page
-  const slicedProducts = products.slice(startIndex, endIndex);
+  const handleDelete = (id) => {
+    const updatedProducts = products.filter((product) => product.id !== id);
+    setProducts(updatedProducts);
+  };
 
-  // Function to handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct({ ...newProduct, [name]: value });
+  };
+
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    setProducts([...products, newProduct]);
+    setNewProduct({
+      _id: '',
+      name: '',
+      price: '',
+      quantity: '',
+      inStock: true,
+      category: { id: '', name: '' }
+    });
+    setShowAddModal(false);
   };
 
   return (
-    <div className="table-responsive">
+    <div>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -121,49 +80,131 @@ const ProductTable = () => {
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
+            <th>In Stock</th>
+            <th>Category</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {slicedProducts.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
+          {products.map((product) => (
+            <tr key={product._id}>
+              <td>{product._id}</td>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.quantity}</td>
+              <td>{product.inStock ? 'Yes' : 'No'}</td>
+              <td>{product.Category.name}</td>
+              <td>
+                <Button variant="danger" onClick={() => handleDelete(product._id)}>
+                  Delete
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
 
-      {totalPages > 1 && (
-        <Pagination>
-          {/* Previous Page button */}
-          <Pagination.Prev
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
-          />
+      <Pagination>
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <Pagination.Item
+            key={index}
+            active={index + 1 === currentPage}
+            onClick={() => paginate(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
 
-          {/* Page numbers */}
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
+      <Button variant="primary" onClick={handleAddModal}>
+        Add Product
+      </Button>
 
-          {/* Next Page button */}
-          <Pagination.Next
-            disabled={currentPage === totalPages}
-            onClick={() => handlePageChange(currentPage + 1)}
-          />
-        </Pagination>
-      )}
+      <Modal show={showAddModal} onHide={handleAddModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleAddProduct}>
+            <Form.Group controlId="formId">
+              <Form.Label>ID</Form.Label>
+              <Form.Control
+                type="text"
+                name="id"
+                value={newProduct.id}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={newProduct.name}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formPrice">
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type="text"
+                name="price"
+                value={newProduct.price}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formQuantity">
+              <Form.Label>Quantity</Form.Label>
+              <Form.Control
+                type="text"
+                name="quantity"
+                value={newProduct.quantity}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formInStock">
+              <Form.Check
+                type="checkbox"
+                label="In Stock"
+                name="inStock"
+                checked={newProduct.inStock}
+                onChange={() =>
+                  setNewProduct({ ...newProduct, inStock: !newProduct.inStock })
+                }
+              />
+            </Form.Group>
+            <Form.Group controlId="formCategoryId">
+              <Form.Label>Category ID</Form.Label>
+              <Form.Control
+                type="text"
+                name="category.id"
+                value={newProduct.category.id}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formCategoryName">
+              <Form.Label>Category Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="category.name"
+                value={newProduct.category.name}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Add
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
 
 export default ProductTable;
-

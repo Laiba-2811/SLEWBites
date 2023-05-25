@@ -1,92 +1,79 @@
-import React, { useState } from 'react';
-import { Table, Pagination } from 'react-bootstrap';
-import '../App.css';
+import React, { useState , useEffect } from 'react';
+import { Table } from 'react-bootstrap';
 
 const UserTable = () => {
-  const users = [
-    { id: 1, name: 'John Doe', email: 'johndoe@example.com', phone: '123-456-7890', address: '123 Street, City' },
-    { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', phone: '987-654-3210', address: '456 Avenue, Town' },
-    { id: 3, name: 'Bob Johnson', email: 'bobjohnson@example.com', phone: '555-555-5555', address: '789 Road, Village' },
-    { id: 4, name: 'Alice Brown', email: 'alicebrown@example.com', phone: '111-222-3333', address: '321 Lane, Suburb' },
-    { id: 5, name: 'Sam Wilson', email: 'samwilson@example.com', phone: '444-555-6666', address: '555 Boulevard, County' },
-    { id: 6, name: 'Emily Davis', email: 'emilydavis@example.com', phone: '777-888-9999', address: '999 Court, Province' },
-    { id: 7, name: 'Michael Lee', email: 'michaellee@example.com', phone: '222-333-4444', address: '444 Terrace, State' },
-    { id: 8, name: 'Olivia Clark', email: 'oliviaclark@example.com', phone: '666-777-8888', address: '888 Place, Country' },
-    { id: 9, name: 'David Turner', email: 'davidturner@example.com', phone: '999-000-1111', address: '111 Road, Continent' },
-    { id: 10, name: 'Sophia Hall', email: 'sophiahall@example.com', phone: '333-444-5555', address: '555 Street, Planet' },
-  ];
-
-  const itemsPerPage = 5; // Number of items to display per page
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(5);
 
-  // Calculate the total number of pages based on the number of users and items per page
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const [users, setUsers] = useState([]);
+  const url = 'http://localhost:3000/api/users';
+  const fetchApiData= async (url)=>{
+    try{
+      const res= await fetch(url);
+      const data = await res.json();
+     //  console.log(baseurl, "base");
+     setUsers(data)
+    } catch(error){
+      console.log(error);
+    }
+     }
+    
+       useEffect(() => {
+       fetchApiData(url);
+      
+        
+      }, [])
 
-  // Get the index range of users to display on the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  // Calculate pagination indexes
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
-  // Slice the users based on the current page
-  const slicedUsers = users.slice(startIndex, endIndex);
-
-  // Function to handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="table-responsive">
+    <div>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Password</th>
+            <th>Number</th>
           </tr>
         </thead>
         <tbody>
-          {slicedUsers.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.name}</td>
+          {users.map((user) => (
+            <tr key={user._id}>
+              <td>{user._id}</td>
+              <td>{user.fullname}</td>
               <td>{user.email}</td>
-              <td>{user.role}</td>
+              <td>{user.password}</td>
+              <td>{user.number}</td>
             </tr>
           ))}
         </tbody>
       </Table>
 
-      {totalPages > 1 && (
-        <Pagination>
-          {/* Previous Page button */}
-          <Pagination.Prev
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
-          />
-
-          {/* Page numbers */}
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
+      {/* Pagination */}
+      <nav>
+        <ul className="pagination">
+          {users.map((user, index) => (
+            <li key={index} className="page-item">
+              <button
+                className="page-link"
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </button>
+            </li>
           ))}
-
-          {/* Next Page button */}
-          <Pagination.Next
-            disabled={currentPage === totalPages}
-            onClick={() => handlePageChange(currentPage + 1)}
-          />
-        </Pagination>
-      )}
+        </ul>
+      </nav>
     </div>
   );
 };
 
 export default UserTable;
-

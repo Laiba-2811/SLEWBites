@@ -1,179 +1,98 @@
-import React, { useState } from 'react';
-import { Table, Pagination } from 'react-bootstrap';
-import '../App.css';
+import React, { useState, useEffect } from 'react';
+import { Table } from 'react-bootstrap';
 
-const Order = () => {
-  const data = [
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    {
-      id: 1,
-      orderId: 'ORD001',
-      customerName: 'John Doe',
-      orderDate: '2023-05-17',
-      totalAmount: 50.99,
-      quantity: 2,
-      status: 'Delivered',
-    },
-    
-  ];
-
-  const itemsPerPage = 5; // Number of items to display per page
-
+const OrderTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(5);
 
-  // Calculate the total number of pages based on the number of records and items per page
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const [orders, setOrders] = useState([]);
+  const url = 'http://localhost:3000/api/orders';
+  const fetchApiData= async (url)=>{
+    try{
+      const res= await fetch(url);
+      const data = await res.json();
+     //  console.log(baseurl, "base");
+     setOrders(data)
+    } catch(error){
+      console.log(error);
+    }
+     }
+    
+      useEffect(() => {
+       fetchApiData(url);
+      
+        
+      }, [])
+   
+  // Calculate pagination indexes
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
-  // Get the index range of records to display on the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  // Slice the data based on the current page
-  const slicedData = data.slice(startIndex, endIndex);
-
-  // Function to handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="table-responsive">
+    <div>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>Customer Name</th>
-            <th>Order Date</th>
+            <th>ID</th>
+      
+            <th>Email</th>
+            {/* <th>Password</th> */}
+            <th>Number</th>
+            <th>Address</th>
+            <th>Date</th>
             <th>Total Amount</th>
             <th>Quantity</th>
-            <th>Status</th>
+      
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Product Quantity</th>
+            <th>In Stock</th>
+
+            <th>Category Name</th>
           </tr>
         </thead>
         <tbody>
-          {slicedData.map((item) => (
-            <tr key={item.id}>
-              <td>{item.orderId}</td>
-              <td>{item.customerName}</td>
-              <td>{item.orderDate}</td>
-              <td>{item.totalAmount}</td>
-              <td>{item.quantity}</td>
-              <td>{item.status}</td>
+          {orders.map((order) => (
+            <tr key={order._id}>
+               <td>{order._id}</td>
+            
+              <td>{order.User.email}</td>
+              {/* <td>{order.User.password}</td> */}
+              <td>{order.User.number}</td>
+              <td>{order.address}</td>
+              <td>{order.date}</td>
+              <td>{order.totalAmount}</td>
+              <td>{order.quantity}</td>
+
+              <td>{order.Product.name}</td>
+              <td>{order.Product.price}</td>
+              <td>{order.Product.quantity}</td>
+              <td>{order.Product.inStock.toString()}</td>
+          
+               <td>{order.Product.Category.name}</td> 
             </tr>
           ))}
         </tbody>
       </Table>
 
-      {totalPages > 1 && (
-        <Pagination>
-          {/* Previous Page button */}
-          <Pagination.Prev
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
-          />
-
-          {/* Page numbers */}
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
+      {/* Pagination */}
+      <nav>
+        <ul className="pagination">
+          {orders.map((order, index) => (
+            <li key={index} className="page-item">
+              <button className="page-link" onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
           ))}
-
-          {/* Next Page button */}
-          <Pagination.Next
-            disabled={currentPage === totalPages}
-            onClick={() => handlePageChange(currentPage + 1)}
-          />
-        </Pagination>
-      )}
+        </ul>
+      </nav>
     </div>
   );
 };
 
-export default Order;
-
-
-
+export default OrderTable;

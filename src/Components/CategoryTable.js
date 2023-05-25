@@ -1,134 +1,191 @@
-
-import React, { useState } from 'react';
-import { Table, Pagination } from 'react-bootstrap';
-import '../App.css';
+import React, { useState , useEffect } from 'react';
+import { Table, Button, Modal, Form } from 'react-bootstrap';
 
 const CategoryTable = () => {
-  const categories = [
-    { id: 1, name: 'Fresh Items' },
-    { id: 2, name: 'Baked Items' },
-    { id: 3, name: 'Pantry Staples' },
-  ];
+  const [categories, setCategories] = useState([]);
+  const url = 'http://localhost:3000/api/categories';
+  const fetchApiData= async (url)=>{
+    try{
+      const res= await fetch(url);
+      const data = await res.json();
+     //  console.log(baseurl, "base");
+     setCategories(data)
+    } catch(error){
+      console.log(error);
+    }
+     }
+    
+      useEffect(() => {
+       fetchApiData(url);
+      
+        
+      }, [])
 
-  const categoryRecords = [
-    { id: 1, categoryId: 1, name: 'Apple', price: 1.99, quantity: 50 },
-    { id: 2, categoryId: 1, name: 'Banana', price: 0.99, quantity: 100 },
-    { id: 3, categoryId: 1, name: 'Orange', price: 1.49, quantity: 75 },
-    { id: 1, categoryId: 1, name: 'Apple', price: 1.99, quantity: 50 },
-    { id: 2, categoryId: 1, name: 'Banana', price: 0.99, quantity: 100 },
-    { id: 3, categoryId: 1, name: 'Orange', price: 1.49, quantity: 75 },
-    { id: 1, categoryId: 1, name: 'Apple', price: 1.99, quantity: 50 },
-    { id: 2, categoryId: 1, name: 'Banana', price: 0.99, quantity: 100 },
-    { id: 3, categoryId: 1, name: 'Orange', price: 1.49, quantity: 75 },
-    // Add more records for Fresh Items category
-    { id: 4, categoryId: 2, name: 'Bread', price: 2.99, quantity: 30 },
-    { id: 5, categoryId: 2, name: 'Cake', price: 12.99, quantity: 10 },
-    { id: 6, categoryId: 2, name: 'Cookie', price: 0.99, quantity: 50 },
-    { id: 4, categoryId: 2, name: 'Bread', price: 2.99, quantity: 30 },
-    { id: 5, categoryId: 2, name: 'Cake', price: 12.99, quantity: 10 },
-    { id: 6, categoryId: 2, name: 'Cookie', price: 0.99, quantity: 50 },
-    { id: 4, categoryId: 2, name: 'Bread', price: 2.99, quantity: 30 },
-    { id: 5, categoryId: 2, name: 'Cake', price: 12.99, quantity: 10 },
-    { id: 6, categoryId: 2, name: 'Cookie', price: 0.99, quantity: 50 },
-    // Add more records for Baked Items category
-    { id: 7, categoryId: 3, name: 'Rice', price: 4.99, quantity: 100 },
-    { id: 8, categoryId: 3, name: 'Pasta', price: 2.49, quantity: 80 },
-    { id: 9, categoryId: 3, name: 'Canned Beans', price: 1.99, quantity: 60 },
-    { id: 7, categoryId: 3, name: 'Rice', price: 4.99, quantity: 100 },
-    { id: 8, categoryId: 3, name: 'Pasta', price: 2.49, quantity: 80 },
-    { id: 9, categoryId: 3, name: 'Canned Beans', price: 1.99, quantity: 60 },
-    // Add more records for Pantry Staples category
-    // ...
-  ];
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [newCategory, setNewCategory] = useState({ id: '', name: '' });
+  const [editCategory, setEditCategory] = useState({ id: '', name: '' });
 
-  const itemsPerPage = 5; // Number of items to display per page
+  const handleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const handleEditModal = (category) => {
+    setEditCategory(category);
+    setShowEditModal(true);
+  };
 
-  // Calculate the total number of pages based on the number of records and items per page
-  const totalPages = Math.ceil(categoryRecords.length / itemsPerPage);
+  const handleDelete = (id) => {
+   
+    const url = `http://localhost:3000/api/categories/${id}`;
+    const fetchApiData= async (url)=>{
+      try{
+        const res= await fetch(url, {method: 'DELETE'});
+        // const data = await res.json();
+       //  console.log(baseurl, "base");
+       const updatedCategories = categories.filter((category) => category._id !== id);
+       setCategories(updatedCategories);
+      } catch(error){
+        console.log(error);
+      }
+       }
+       fetchApiData(url);
+        
+          
+    
 
-  // Get the index range of records to display on the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
 
-  // Slice the category records based on the current page
-  const slicedRecords = categoryRecords.slice(startIndex, endIndex);
+  };
 
-  // Function to handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCategory({ ...newCategory, [name]: value });
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditCategory({ ...editCategory, [name]: value });
+  };
+
+  const handleAddCategory = (e) => {
+    e.preventDefault();
+    setCategories([...categories, newCategory]);
+    setNewCategory({ id: '', name: '' });
+    setShowAddModal(false);
+
+    
+  };
+
+  const handleEditCategory = (e) => {
+    e.preventDefault();
+    const updatedCategories = categories.map((category) => {
+      if (category.id === editCategory.id) {
+        return editCategory;
+      }
+      return category;
+    });
+    setCategories(updatedCategories);
+    setEditCategory({ id: '', name: '' });
+    setShowEditModal(false);
   };
 
   return (
-    <div className= "table-responsive">
+    <div>
       <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Category ID</th>
-          <th>Category Name</th>
-          <th>Product ID</th>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        {categories.map((category) => {
-          const categoryRecordsFiltered = categoryRecords.filter(
-            (record) => record.categoryId === category.id
-          );
-
-          return (
-            <React.Fragment key={category.id}>
-              <tr>
-                <td rowSpan={categoryRecordsFiltered.length}>{category.id}</td>
-                <td rowSpan={categoryRecordsFiltered.length}>{category.name}</td>
-                <td>{categoryRecordsFiltered[0].id}</td>
-                <td>{categoryRecordsFiltered[0].name}</td>
-                <td>{categoryRecordsFiltered[0].price}</td>
-                <td>{categoryRecordsFiltered[0].quantity}</td>
-              </tr>
-              {categoryRecordsFiltered.slice(1).map((record) => (
-                <tr key={record.id}>
-                  <td>{record.id}</td>
-                  <td>{record.name}</td>
-                  <td>{record.price}</td>
-                  <td>{record.quantity}</td>
-                </tr>
-              ))}
-            </React.Fragment>
-          );
-        })}
-      </tbody>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category) => (
+            <tr key={category._id}>
+              <td>{category._id}</td>
+              <td>{category.name}</td>
+              <td>
+                <Button variant="info" onClick={() => handleEditModal(category)}>
+                  Edit
+                </Button>{' '}
+                <Button variant="danger" onClick={() => handleDelete(category._id)}>
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </Table>
 
-      {totalPages > 1 && (
-        <Pagination>
-          {/* Previous Page button */}
-          <Pagination.Prev
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
-          />
+      <Button variant="primary" onClick={handleAddModal}>
+        Add Category
+      </Button>
 
-          {/* Page numbers */}
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
+      <Modal show={showAddModal} onHide={handleAddModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleAddCategory}>
+            <Form.Group controlId="formId">
+              <Form.Label>ID</Form.Label>
+              <Form.Control
+                type="text"
+                name="id"
+                value={newCategory.id}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={newCategory.name}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Add
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
 
-          {/* Next Page button */}
-          <Pagination.Next
-            disabled={currentPage === totalPages}
-            onClick={() => handlePageChange(currentPage + 1)}
-          />
-        </Pagination>
-      )}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleEditCategory}>
+            <Form.Group controlId="formEditId">
+              <Form.Label>ID</Form.Label>
+              <Form.Control
+                type="text"
+                name="id"
+                value={editCategory.id}
+                onChange={handleEditInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formEditName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={editCategory.name}
+                onChange={handleEditInputChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Save
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

@@ -81,3 +81,17 @@ main{
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f8f9fa;
 }
+.order-card {
+  background-color: #f8f9fa;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.category {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
