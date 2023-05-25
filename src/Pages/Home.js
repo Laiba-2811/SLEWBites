@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Footer from "./Footer";
 import Category from "./HpageCategory";
 export function Home(){
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('fresh');
     const [products, setProducts] = useState([
       {id:"1", 
       name:"onion",
@@ -57,24 +57,23 @@ export function Home(){
     ]);
     const handleCategoryClick = (category) => {
       setSelectedCategory(category);
-      if(selectedCategory=='fresh'){
-        <Category category={'fresh'}></Category>
+
+      // if(selectedCategory=='fresh'){
+      //   <Category category='fresh'></Category>
         
 
-      }
-      else if(selectedCategory=='baked'){
-        <Category category={'baked'}></Category>
+      // }
+      // else if(selectedCategory=='baked'){
+      //   return(<Category category='baked'></Category>)
 
-      }
-      else if(selectedCategory=='pantry'){
-        <Category category={'pantry'}></Category>
+      // }
+      // else if(selectedCategory=='pantry'){
+      //   return(<Category category='pantry'></Category>)
 
-      }
-      setSelectedCategory(category);
-       
+      // }
+      setSelectedCategory(category); 
       };
       
-     
 
     return(
         <>
@@ -160,19 +159,25 @@ export function Home(){
   {/* Categories */}
   <div className="categories d-flex flex-row justify-content-center align-items-center md-auto mb-3">
   <div className={`${selectedCategory === 'fresh' ? 'active' : ''}`} >
-    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={handleCategoryClick}>
+    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={()=>{
+      handleCategoryClick('fresh')
+    }}>
       <FaLeaf className="category-icon" />
       Fresh Food
     </button>
   </div>
   <div className={`${selectedCategory === 'baked' ? 'active' : ''}`} >
-    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={handleCategoryClick}>
+    <button class="btn btn-success " className="btn btn-success categoryBtn" onClick={()=>{
+      handleCategoryClick('baked')
+    }}>
       <FaBreadSlice className="category-icon" />
       Baked Food
     </button>
   </div>
   <div className={` ${selectedCategory === 'pantry' ? 'active' : ''}`}>
-    <button class="btn btn-success "  className="btn btn-success categoryBtn" onClick={handleCategoryClick}>
+    <button class="btn btn-success "  className="btn btn-success categoryBtn" onClick={()=>{
+      handleCategoryClick('pantry')
+    }}>
       <FaUtensils className="category-icon" />
       Pantry Staples
     </button>
@@ -181,6 +186,7 @@ export function Home(){
 <div class="container-fluid justify-content-center mt-5">
     <br></br>
     </div>
+    <Category category={selectedCategory}></Category>
     <div className="row">
   {Object.entries(products).map(([key, product]) => {
     // Display only 4 cards in a row
