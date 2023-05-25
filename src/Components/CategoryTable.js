@@ -1,8 +1,11 @@
 import React, { useState , useEffect } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
+import axios from 'axios';
+
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
+  //fetch dta from API
   const url = 'http://localhost:3000/api/categories';
   const fetchApiData= async (url)=>{
     try{
@@ -23,7 +26,7 @@ const CategoryTable = () => {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [newCategory, setNewCategory] = useState({  name: '' });
+  const [newCategory, setNewCategory] = useState({  name: '', description:'' ,img:''});
   const [editCategory, setEditCategory] = useState({ id: '', name: '' });
 
   const handleAddModal = () => {
@@ -35,6 +38,7 @@ const CategoryTable = () => {
     setShowEditModal(true);
   };
 
+   //delete data
   const handleDelete = (id) => {
    
     const url = `http://localhost:3000/api/categories/${id}`;
@@ -50,11 +54,6 @@ const CategoryTable = () => {
       }
        }
        fetchApiData(url);
-        
-          
-    
-
-
   };
 
   const handleInputChange = (e) => {
@@ -66,38 +65,54 @@ const CategoryTable = () => {
     const { name, value } = e.target;
     setEditCategory({ ...editCategory, [name]: value });
   };
-
-  const handleAddCategory = (e) => {
-    e.preventDefault();
-    setCategories([...categories, newCategory]);
+//handle add category 
+  // const handleAddCategory = (e) => {
+  //   e.preventDefault();
+  //   setCategories([...categories, newCategory]);
    
-    setShowAddModal(false);
-
-    const url = 'http://localhost:3000/api/categories/';
-    const fetchApiData= async (url)=>{
-      try{
-        const res= await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-         newCategory
+  //   setShowAddModal(false);
+  //   const { name,description,img } = newCategory;
+  // const requestBody = { name,description,img };
+  //   const url = 'http://localhost:3000/api/categories/';
+  //   const fetchApiData= async (url)=>{
+  //     try{
+  //       const res= await fetch(url, {
+  //       method: "POST",
+  //       body: JSON.stringify(
+  //        requestBody
         
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-        // const data = await res.json();
-       //  console.log(baseurl, "base");
-      //  const updatedCategories = categories.filter((category) => category._id !== id);
-      //  setCategories(updatedCategories);
-      } catch(error){
-        console.log(error);
-      }
-       }
-       fetchApiData(url);
+  //       )
+      
+  //     });
+  //       // const data = await res.json();
+  //      //  console.log(baseurl, "base");
+  //     //  const updatedCategories = categories.filter((category) => category._id !== id);
+  //     //  setCategories(updatedCategories);
+  //     } catch(error){
+  //       console.log(error);
+  //     }
+  //      }
+  //      fetchApiData(url);
 
     
-  };
+  // };
+  const handleAddCategory = async (e) => {
+  e.preventDefault();
+
+  try {
+    const { name, description } = newCategory;
+    const requestBody = { name, description };
+    const url = 'http://localhost:3000/api/categories/';
+
+    const response = await axios.post(url, requestBody);
+
+    setCategories([...categories, response.data]);
+    setShowAddModal(false);
+  } catch (error) {
+    console.log('Error adding category:', error);
+  }
+};
+
 //handle edit category
   const handleEditCategory = (e) => {
     e.preventDefault();
