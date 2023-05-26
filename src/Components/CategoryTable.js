@@ -1,4 +1,4 @@
-// import React, { useState , useEffect } from 'react';
+// import React, { useState , useEffect } from 'react'; 
 // import { Table, Button, Modal, Form } from 'react-bootstrap';
 
 
@@ -68,6 +68,7 @@
 // // handle add category 
 //   const handleAddCategory = (e) => {
 //     e.preventDefault();
+//     // console.log("here",newCategory)
    
    
 //     setShowAddModal(false);
@@ -76,7 +77,7 @@
 //     const url = 'http://localhost:3000/api/categories/';
 //     const postApiData= async (url)=>{
 //       try{
-//         console.log("here",JSON.stringify(newCategory))
+    
 //         const res= await fetch(url, {
 //         method: "post",
 //         body: JSON.stringify(
@@ -101,25 +102,10 @@
 //      postApiData(url);
 //       fetchApiData(url);
 
-//       // setCategories([...categories, response.data]);
+    
     
 //   };
-// //   const handleAddCategory = async (e) => {
-// //   e.preventDefault();
 
-// //   try {
-// //     const { name, description } = newCategory;
-// //     const requestBody = { name, description };
-// //     const url = 'http://localhost:3000/api/categories/';
-
-// //     const response = await axios.post(url, requestBody);
-
-// //     setCategories([...categories, response.data]);
-// //     setShowAddModal(false);
-// //   } catch (error) {
-// //     console.log('Error adding category:', error);
-// //   }
-// // };
 
 // //handle edit category
 //   const handleEditCategory = (e) => {
@@ -128,6 +114,7 @@
 
     
 //     const url = `http://localhost:3000/api/categories/${editCategory._id}`;
+//     // console.log(editCategory)
 //     const editApiData= async (url)=>{
 //       try{
 //         console.log("here",JSON.stringify(newCategory))
@@ -160,7 +147,7 @@
 //       return category;
 //     });
 //     setCategories(updatedCategories);
-//     setEditCategory({ id: '', name: '' });
+//     setEditCategory({ id: '', name: '', description:'', img:'' });
 //     setShowEditModal(false);
 //   };
 
@@ -171,6 +158,8 @@
 //           <tr>
 //             <th>ID</th>
 //             <th>Name</th>
+//             <th>Description</th>
+//             <th>Image</th>
 //             <th>Action</th>
 //           </tr>
 //         </thead>
@@ -179,6 +168,8 @@
 //             <tr key={category._id}>
 //               <td>{category._id}</td>
 //               <td>{category.name}</td>
+//               <td>{category.description}</td>
+//               <td>{category.img}</td>
 //               <td>
 //                 <Button variant="info" onClick={() => handleEditModal(category)}>
 //                   Edit
@@ -213,6 +204,29 @@
 //                 required
 //               />
 //             </Form.Group>
+
+//             <Form.Group controlId="formDescription">
+//               <Form.Label>Description</Form.Label>
+//               <Form.Control
+//                 type="text"
+//                 name="description"
+//                 value={newCategory.description}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </Form.Group>
+
+//             <Form.Group controlId="formImg">
+//               <Form.Label>Image</Form.Label>
+//               <Form.Control
+//                 type="file"
+//                 name="img"
+//                 value={newCategory.img}
+//                 onChange={handleInputChange}
+//                 // required
+//               />
+//             </Form.Group>
+            
 //             <Button variant="primary" type="submit">
 //               Add
 //             </Button>
@@ -247,6 +261,29 @@
 //                 required
 //               />
 //             </Form.Group>
+
+//             <Form.Group controlId="formEditdescription">
+//               <Form.Label>Description</Form.Label>
+//               <Form.Control
+//                 type="text"
+//                 name="description"
+//                 value={editCategory.description}
+//                 onChange={handleEditInputChange}
+//                 required
+//               />
+//             </Form.Group>
+
+//             <Form.Group controlId="formEditimg">
+//               <Form.Label>Image</Form.Label>
+//               <Form.Control
+//                 type="file"
+//                 name="img"
+//                 value={editCategory.img}
+//                 onChange={handleEditInputChange}
+//                 // required
+//               />
+//             </Form.Group>
+            
 //             <Button variant="primary" type="submit">
 //               Update
 //             </Button>
@@ -259,36 +296,38 @@
 
 // export default CategoryTable;
 
-import React, { useState , useEffect } from 'react'; 
-import { Table, Button, Modal, Form } from 'react-bootstrap';
-
-
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Modal, Form, Pagination } from 'react-bootstrap';
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
-  //fetch dta from API
+  const [currentPage, setCurrentPage] = useState(1);
+  const [categoriesPerPage] = useState(5);
+
+  const indexOfLastCategory = currentPage * categoriesPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+    // fetch data from API
   const url = 'http://localhost:3000/api/categories';
-  const fetchApiData= async (url)=>{
-    try{
-      const res= await fetch(url);
+
+  const fetchApiData = async (url) => {
+    try {
+      const res = await fetch(url);
       const data = await res.json();
-     //  console.log(baseurl, "base");
-     setCategories(data)
-    } catch(error){
+      setCategories(data);
+    } catch (error) {
       console.log(error);
     }
-     }
-    
-      useEffect(() => {
-       fetchApiData(url);
-      
-        
-      }, [])
+  };
+
+  useEffect(() => {
+    fetchApiData(url);
+  }, []);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [newCategory, setNewCategory] = useState({  name: '', description:'' ,img:''});
-  const [editCategory, setEditCategory] = useState({ _id: '', name: '' });
+  const [newCategory, setNewCategory] = useState({ name: '', description: '', img: '' });
+  const [editCategory, setEditCategory] = useState({ _id: '', name: '', description: '', img: '' });
 
   const handleAddModal = () => {
     setShowAddModal(!showAddModal);
@@ -299,22 +338,18 @@ const CategoryTable = () => {
     setShowEditModal(true);
   };
 
-   //delete data
   const handleDelete = (id) => {
-   
     const url = `http://localhost:3000/api/categories/${id}`;
-    const deleteApiData= async (url)=>{
-      try{
-        const res= await fetch(url, {method: 'DELETE'});
-        // const data = await res.json();
-       //  console.log(baseurl, "base");
-       const updatedCategories = categories.filter((category) => category._id !== id);
-       setCategories(updatedCategories);
-      } catch(error){
+    const deleteApiData = async (url) => {
+      try {
+        await fetch(url, { method: 'DELETE' });
+        const updatedCategories = categories.filter((category) => category._id !== id);
+        setCategories(updatedCategories);
+      } catch (error) {
         console.log(error);
       }
-       }
-       deleteApiData(url);
+    };
+    deleteApiData(url);
   };
 
   const handleInputChange = (e) => {
@@ -326,81 +361,46 @@ const CategoryTable = () => {
     const { name, value } = e.target;
     setEditCategory({ ...editCategory, [name]: value });
   };
-// handle add category 
+
   const handleAddCategory = (e) => {
     e.preventDefault();
-    // console.log("here",newCategory)
-   
-   
     setShowAddModal(false);
-    const { name,description,img } = newCategory;
-  const requestBody = { name,description,img };
-    const url = 'http://localhost:3000/api/categories/';
-    const postApiData= async (url)=>{
-      try{
-    
-        const res= await fetch(url, {
-        method: "post",
-        body: JSON.stringify(
-         requestBody
-        
-        ),
-        headers: {
-          "Content-Type": "application/json",
-
-      }
-      
-      });
-      // const resp= await res;  
-    //  console.log(res.data,"res")
-      // setCategories([...categories, response.data]);
-
-      } catch(error){
+    const { name, description, img } = newCategory;
+    const requestBody = { name, description, img };
+    const postApiData = async (url) => {
+      try {
+        await fetch(url, {
+          method: 'post',
+          body: JSON.stringify(requestBody),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      } catch (error) {
         console.log(error);
       }
-       }
-
-     postApiData(url);
-      fetchApiData(url);
-
-    
-    
+    };
+    postApiData(url);
+    fetchApiData(url);
   };
 
-
-//handle edit category
   const handleEditCategory = (e) => {
     e.preventDefault();
-   
-
-    
     const url = `http://localhost:3000/api/categories/${editCategory._id}`;
-    // console.log(editCategory)
-    const editApiData= async (url)=>{
-      try{
-        console.log("here",JSON.stringify(newCategory))
-        const res= await fetch(url, {
-        method: "put",
-        body: JSON.stringify(
-          editCategory
-        
-        ),
-        headers: {
-          "Content-Type": "application/json",
-
-      }
-      
-      });
- 
-
-      } catch(error){
+    const editApiData = async (url) => {
+      try {
+        await fetch(url, {
+          method: 'put',
+          body: JSON.stringify(editCategory),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      } catch (error) {
         console.log(error);
       }
-       }
-
-     editApiData(url);
-
-
+    };
+    editApiData(url);
     const updatedCategories = categories.map((category) => {
       if (category._id === editCategory._id) {
         return editCategory;
@@ -408,8 +408,12 @@ const CategoryTable = () => {
       return category;
     });
     setCategories(updatedCategories);
-    setEditCategory({ id: '', name: '', description:'', img:'' });
+    setEditCategory({ id: '', name: '', description: '', img: '' });
     setShowEditModal(false);
+  };
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -425,7 +429,7 @@ const CategoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
+          {currentCategories.map((category) => (
             <tr key={category._id}>
               <td>{category._id}</td>
               <td>{category.name}</td>
@@ -454,7 +458,6 @@ const CategoryTable = () => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleAddCategory}>
-  
             <Form.Group controlId="formName">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -484,10 +487,9 @@ const CategoryTable = () => {
                 name="img"
                 value={newCategory.img}
                 onChange={handleInputChange}
-                // required
               />
             </Form.Group>
-            
+
             <Button variant="primary" type="submit">
               Add
             </Button>
@@ -523,7 +525,7 @@ const CategoryTable = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formEditdescription">
+            <Form.Group controlId="formEditDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
@@ -534,23 +536,30 @@ const CategoryTable = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formEditimg">
+            <Form.Group controlId="formEditImg">
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="file"
                 name="img"
                 value={editCategory.img}
                 onChange={handleEditInputChange}
-                // required
               />
             </Form.Group>
-            
+
             <Button variant="primary" type="submit">
               Update
             </Button>
           </Form>
         </Modal.Body>
       </Modal>
+
+      <Pagination>
+        {Array.from({ length: Math.ceil(categories.length / categoriesPerPage) }).map((_, index) => (
+          <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
     </div>
   );
 };

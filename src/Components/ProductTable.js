@@ -431,7 +431,7 @@ const ProductTable = () => {
                 name="img"
                 value={newProduct.img}
                 onChange={handleInputChange}
-                required
+                
               />
             </Form.Group>
             <Form.Group controlId="formPrice">
@@ -512,9 +512,8 @@ const ProductTable = () => {
               <Form.Control
                 type="file"
                 name="img"
-                // value={editProduct.img}
                 onChange={handleEditInputChange}
-                required
+                
               />
             </Form.Group>
             <Form.Group controlId="formEditPrice">
