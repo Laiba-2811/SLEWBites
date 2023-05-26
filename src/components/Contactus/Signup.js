@@ -1,10 +1,14 @@
 
 import React, { useState } from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Container, Row, Col, Form, FormGroup, Button, Input, InputGroup } from "reactstrap"
-// import './Signup.css'
+// import { Formik } from 'formik';
+// import * as Yup from 'yup';
 export default function (props) {
   let [authMode, setAuthMode] = useState("signin")
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
+
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin")
@@ -12,12 +16,14 @@ export default function (props) {
 
   if (authMode === "signin") {
     return (
-      <div className="container-lg  d-flex justify-content-center w-auto h-auto align-items-center">
-        <form className="w-auto   align-items-start  h-auto shadow-lg  mb-5 bg-light rounded">
-          <nav class="navbar  bg-success align-items-center rounded rounded-bottom rounded-top rounded-end rounded-start w-auto">
-            <div class="container-fluid">
-              <span class="navbar-brand mb-0 h1 color-white">Sign In</span>
-            </div>
+      <div className="container-lg  d-flex justify-content-center w-100 h-100 align-items-center">
+
+
+        <form className="align-items-start   shadow-lg  mb-5 bg-light rounded">
+          <nav class="navbar text-white  bg-success w-auto">
+
+            <h1 class="navbar-brand mb-0 mx-2 text-center">Sign In</h1>
+
           </nav>
           <div className="">
 
@@ -28,18 +34,18 @@ export default function (props) {
               </span>
             </div>
             <div className="form-group mt-2 px-3 p-3">
-              <label className="align-items-start ms-4 ">Email address:</label>
+              <label className="align-items-start">Email address:</label>
               <input
                 type="email"
-                className="form-control mt-1 rounded-pill"
+                className="form-control"
                 placeholder="Enter email"
               />
             </div>
             <div className="form-group mt-2 px-3 p-3">
-              <label className="align-items-start ms-4">Password:</label>
+              <label className="align-items-start">Password:</label>
               <input
                 type="password"
-                className="form-control mt-1 rounded-pill"
+                className="form-control"
                 placeholder="Enter password"
               />
             </div>
@@ -53,17 +59,26 @@ export default function (props) {
             </p>
           </div>
         </form>
-      </div>
+
+        
+
+
+
+        
+
+
+
+      </div >
     )
   }
 
   return (
-    <div className="container-lg  d-flex justify-content-center w-auto h-auto align-items-center">
-      <form className="w-auto   align-items-start  h-auto shadow-lg  mb-5 bg-light rounded">
-        <nav class="navbar  bg-success text-center  rounded rounded-start rounded-bottom rounded-top rounded-end w-auto">
-          <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1 color-white">Sign Up</span>
-          </div>
+    <div className="container-lg  d-flex justify-content-center w-100 h-100 align-items-center">
+      <form className="   align-items-start  shadow-lg  mb-5 bg-grey rounded">
+        <nav class="navbar  bg-success text-center  rounded  w-auto">
+
+          <h1 class="navbar-brand mb-0 h1 mx-2 text-white text-center">Sign Up</h1>
+
         </nav>
         <div className="">
           <div className="text-center mt-4">
@@ -74,39 +89,47 @@ export default function (props) {
             </span>
           </div>
           <div className="form-group mt-2 px-3 p-3">
-            <label className="align-items-start ms-4">Full Name</label>
+            <label className="align-items-start">Enter Name</label>
             <input
               type="Name"
-              className="form-control mt-1 rounded-pill"
-              placeholder="e.g Jane Doe"
+              className="form-control "
+              placeholder="Please Enter your Name"
             />
           </div>
           <div className="form-group mt-2 px-3 p-3">
-            <label for="exampleNumber" className="align-items-start ms-4">
-              Number:
+            <label for="exampleNumber" className="align-items-start">
+              Enter Number:
             </label>
             <input
-             className="form-control mt-1 rounded-pill"
+              className="form-control"
               id="exampleNumber"
               name="number"
-              placeholder="number placeholder"
+              placeholder="Please Enter your Number"
               type="number"
             />
           </div>
           <div className="form-group mt-2 px-3 p-3">
-            <label className="align-items-start ms-4">Email address</label>
+            <label className="align-items-start">Email address:</label>
             <input
               type="email"
-              className="form-control mt-1 rounded-pill"
-              placeholder="Email Address"
+              className="form-control"
+              placeholder=" Please Enter Your Email Address"
             />
           </div>
           <div className="form-group mt-2 px-3 p-3">
-            <label className="align-items-start ms-4">Password</label>
+            <label className="align-items-start">Enter Password:</label>
             <input
               type="password"
-              className="form-control mt-1 rounded-pill"
-              placeholder="Password"
+              className="form-control"
+              placeholder="Enter Password Here"
+            />
+          </div>
+          <div className="form-group mt-2 px-3 p-3">
+            <label className="align-items-start">Confirm Password:</label>
+            <input
+              type="confirmpassword"
+              className="form-control"
+              placeholder="Please Confirm your password"
             />
           </div>
           <div className="d-grid gap-2 mt-3 px-3 ms-5 me-5">
