@@ -1,86 +1,118 @@
-import React from 'react'
+import React from 'react';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
-const Contact = () => {
-  return (
-    <div class="container-lg  h-auto w-auto bg-light rounded p-3 ">
+const ContactUs = () => {
+    const initialValues = {
+        name: '',
+        email: '',
+        message: '',
+    };
 
-      <div class="row">
-        <div className='col-md-6 bg-success '>
-          <img src="./contact.jpeg" alt="image" className=' img-fluid h-100% w-100% ' />
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Name is required'),
+        email: Yup.string().email('Invalid email').required('Email is required'),
+        message: Yup.string().required('Message is required'),
+    });
+
+    const handleSubmit = (values) => {
+        // Handle form submission here (e.g., send the form data to your server)
+        console.log(values); // You can access the form data here
+    };
+
+    return (
+        <div className="contact-us-container">
+            <Container>
+                <Row className="justify-content-center mt-5">
+                    <Col md={8}>
+                        <Row className="align-items-center bg-light">
+                            <Col md={2}>
+                                <img src='./contact.jpeg' alt="SLEWBITES Logo" className="img-fluid" style={{ maxWidth: '100%' }} />
+                            </Col>
+                            <Col md={10}>
+                                <h3>SlewBites</h3>
+                                <h6 className='m-0'>Reach out to us from our contact form and we will get back to you shortly.</h6>
+                            </Col>
+                        </Row>
+                        <h2 className="mt-3">Contact Us</h2>
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ handleSubmit }) => (
+                                <Form onSubmit={handleSubmit}>
+                                    <Form.Group controlId="formName">
+                                        <Form.Label>Name</Form.Label>
+                                        <Field
+                                            type="text"
+                                            name="name"
+                                            className="form-control"
+                                        />
+                                        <ErrorMessage
+                                            name="name"
+                                            component="div"
+                                            className="text-danger"
+                                        />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Email address</Form.Label>
+                                        <Field
+                                            type="email"
+                                            name="email"
+                                            className="form-control"
+                                        />
+                                        <ErrorMessage
+                                            name="email"
+                                            component="div"
+                                            className="text-danger"
+                                        />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formMessage">
+                                        <Form.Label>Message</Form.Label>
+                                        <Field
+                                            as="textarea"
+                                            name="message"
+                                            rows={4}
+                                            className="form-control"
+                                        />
+                                        <ErrorMessage
+                                            name="message"
+                                            component="div"
+                                            className="text-danger"
+                                        />
+                                    </Form.Group>
+
+                                    <Button variant="success" type="submit" className='mt-3 rounded p-2'>
+                                        Please Submit your Query
+                                    </Button>
+
+                                    <div className="mt-3 d-flex justify-content-center bg-light p-4">
+                                        <a href="https://www.facebook.com">
+                                            <FontAwesomeIcon icon={faFacebook} size="lg" className="text-primary" />
+                                        </a>
+                                        <span className="mx-3"></span> {/* Add white space using margin */}
+                                        <a href="https://www.twitter.com">
+                                            <FontAwesomeIcon icon={faTwitter} size="lg" className="text-info" />
+                                        </a>
+                                        <span className="mx-3"></span>
+                                        <a href="https://www.instagram.com">
+                                            <FontAwesomeIcon icon={faInstagram} size="lg" className="text-danger" />
+                                        </a>
+                                    </div>
+                                </Form>
+                            )}
+                        </Formik>
+                    </Col>
+                </Row>
+            </Container>
         </div>
-        <div class=" col-md-3 bg-success text-white">
-          <div class=" row mt-5 ">
-            {/* <img src="./contact.jpeg" alt="image"/> */}
-            <div className='col'><h4>We love your feedback</h4></div>
-            {/* <span className='text-center'><strong>We would love to hear from you !</strong></span> */}
-          </div>
-          <div className='col'>
-            <p class="text-md-center  mx-auto mt-4 mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
-              a matter of hours to help you.</p>
-          </div>
-          <div className='col'>
-            <ul class="list-unstyled  text-center">
-              <li><i class="bi bi-geo-alt bi-2x"></i>
+    );
+};
 
-                <p>Address: Askari Tower, Lahore, Pakistan</p>
-              </li>
-
-              <li>
-                <i class="bi bi-telephone-inbound-fill mt-4 bi-2x"></i>
-
-                <p> Phone: + 01 234 567 89</p>
-              </li>
-
-              <li>
-
-                <i class="bi bi-envelope-at-fill mt-4 ba-2x">
-                  <p>Email Address: SlewBites1234@GMAIL.COM</p>
-                </i>
-
-
-              </li>
-            </ul>
-          </div>
-
-        </div>
-        <div class="col-md-3  align-items-center">
-          <div class="">
-            <div class="form-group">
-              <h1>Drop us a line</h1>
-              <p>Reach out to us from our contact form and we will get back to you shortly.</p>
-              <label class="control-label mt-4 " for="fname">First Name:</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label " for="lname">Last Name:</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label" for="email">Email:</label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label " for="comment">Comment:</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" rows="5" id="comment"></textarea>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-2 mt-3  ms-4">
-                <button type="submit" class="btn btn-success">Send Message</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default Contact
+export default ContactUs;
