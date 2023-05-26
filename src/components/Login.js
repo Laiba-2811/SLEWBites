@@ -1,217 +1,201 @@
-// import React from 'react'
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
-// function Login() {
-//     return (
-//         <section className='items-align-center justify-content-center'>
-//         <div class="row g-3 align-items-center">
-//             <div class="col-auto">
-//                 <label for="inputPassword6" class="col-form-label">Password</label>
-//             </div>
-//             <div class="col-auto">
-//                 <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" />
-//             </div>
-//             <div class="col-auto">
-//                 <span id="passwordHelpInline" class="form-text">
-//                     Must be 8-20 characters long.
-//                 </span>
-//             </div>
-//         </div>
-//         <div class="row g-3 align-items-center">
-//             <div class="col-auto">
-//                 <label for="inputPassword6" class="col-form-label">Password</label>
-//             </div>
-//             <div class="col-auto">
-//                 <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" />
-//             </div>
-//             <div class="col-auto">
-//                 <span id="passwordHelpInline" class="form-text">
-//                     Must be 8-20 characters long.
-//                 </span>
-//             </div>
-//         </div>
-//         <div class="row g-3 align-items-center">
-//             <div class="col-auto">
-//                 <label for="inputPassword6" class="col-form-label">Password</label>
-//             </div>
-//             <div class="col-auto">
-//                 <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" />
-//             </div>
-//             <div class="col-auto">
-//                 <span id="passwordHelpInline" class="form-text">
-//                     Must be 8-20 characters long.
-//                 </span>
-//             </div>
-//         </div>
-//         <div class="row g-3 align-items-center">
-//             <div class="col-auto">
-//                 <label for="inputPassword6" class="col-form-label">Password</label>
-//             </div>
-//             <div class="col-auto">
-//                 <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" />
-//             </div>
-//             <div class="col-auto">
-//                 <span id="passwordHelpInline" class="form-text">
-//                     Must be 8-20 characters long.
-//                 </span>
-//             </div>
-//         </div>
-//         <div class="row g-3 align-items-center">
-//             <div class="col-auto">
-//                 <label for="inputPassword6" class="col-form-label">Password</label>
-//             </div>
-//             <div class="col-auto">
-//                 <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" />
-//             </div>
-//             <div class="col-auto">
-//                 <span id="passwordHelpInline" class="form-text">
-//                     Must be 8-20 characters long.
-//                 </span>
-//             </div>
-//             <div class="mb-3 form-check">
-//     <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-//     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-//   </div>
-//   <button type="submit" class="btn btn-primary">Submit</button>
-//             <div className='row'>
+const SignupForm = () => {
+    const [hasAccount, setHasAccount] = useState(false);
 
+    const formikSignup = useFormik({
+        initialValues: {
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            phone: ''
+        },
+        validationSchema: Yup.object({
+            username: Yup.string().required('Username is required'),
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+            password: Yup.string().required('Password is required'),
+            confirmPassword: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                .required('Confirm password is required'),
+            phone: Yup.string().required('Phone is required')
+        }),
+        onSubmit: (values) => {
+            console.log('Signup Submitted:', values);
+            formikSignup.resetForm();
+        }
+    });
 
-//             </div>
+    const formikLogin = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+            password: Yup.string().required('Password is required')
+        }),
+        onSubmit: (values) => {
+            console.log('Login Submitted:', values);
+            formikLogin.resetForm();
+        }
+    });
 
-//         </div>
-//         </section>
+    const toggleForm = () => {
+        setHasAccount(!hasAccount);
+        formikSignup.resetForm();
+        formikLogin.resetForm();
+    };
 
-//     )
-// }
+    const getErrorStyles = (touched, error) => {
+        if (touched && error) {
+            return {
+                borderColor: 'red',
+                color: 'red'
+            };
+        }
+        return {};
+    };
 
-// export default Login
-// import React from "react";
-// // import {changeAuthMode} from "./Contactus/Signup";
-// import { Formik, Form, useField, ErrorMessage } from "formik";
-// import { object, string, ref } from "yup";
+    return (
+        <div className="d-flex justify-content-center">
+            <div className="col-lg-6 shadow p-4 rounded">
+                {hasAccount ? (
+                    <>
+                        <h2>Log In Here</h2>
+                        <form onSubmit={formikLogin.handleSubmit}>
+                            <div className="mb-3">
+                                <label htmlFor="login-email" className="form-label">Email:</label>
+                                <input
+                                    type="email"
+                                    id="login-email"
+                                    className={`form-control ${formikLogin.touched.email && formikLogin.errors.email ? 'is-invalid' : ''}`}
+                                    {...formikLogin.getFieldProps('email')}
+                                    style={getErrorStyles(formikLogin.touched.email, formikLogin.errors.email)}
+                                />
+                                {formikLogin.touched.email && formikLogin.errors.email && (
+                                    <div className="invalid-feedback">{formikLogin.errors.email}</div>
+                                )}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="login-password" className="form-label">Password:</label>
+                                <input
+                                    type="password"
+                                    id="login-password"
+                                    className={`form-control ${formikLogin.touched.password && formikLogin.errors.password ? 'is-invalid' : ''}`}
+                                    {...formikLogin.getFieldProps('password')}
+                                    style={getErrorStyles(formikLogin.touched.password, formikLogin.errors.password)}
+                                />
+                                {formikLogin.touched.password && formikLogin.errors.password && (
+                                    <div className="invalid-feedback">{formikLogin.errors.password}</div>
+                                )}
+                            </div>
+                            <div className="mb-3">
+                                <button type="submit" className="btn btn-success">Log In</button>
+                            </div>
+                        </form>
+                        <p>
+                            Don't have an account?{' '}
+                            <span className="text-primary" onClick={toggleForm}>
+                                Sign Up
+                            </span>
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <h2>Sign Up Here</h2>
+                        <form onSubmit={formikSignup.handleSubmit}>
+                            <div className="mb-3">
+                                <label htmlFor="signup-username" className="form-label">Username:</label>
+                                <input
+                                    type="text"
+                                    id="signup-username"
+                                    className={`form-control ${formikSignup.touched.username && formikSignup.errors.username ? 'is-invalid' : ''}`}
+                                    {...formikSignup.getFieldProps('username')}
+                                    style={getErrorStyles(formikSignup.touched.username, formikSignup.errors.username)}
+                                />
+                                {formikSignup.touched.username && formikSignup.errors.username && (
+                                    <div className="invalid-feedback">{formikSignup.errors.username}</div>
+                                )}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="signup-email" className="form-label">Email:</label>
+                                <input
+                                    type="email"
+                                    id="signup-email"
+                                    className={`form-control ${formikSignup.touched.email && formikSignup.errors.email ? 'is-invalid' : ''}`}
+                                    {...formikSignup.getFieldProps('email')}
+                                    style={getErrorStyles(formikSignup.touched.email, formikSignup.errors.email)}
+                                />
+                                {formikSignup.touched.email && formikSignup.errors.email && (
+                                    <div className="invalid-feedback">{formikSignup.errors.email}</div>
+                                )}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="signup-password" className="form-label">Password:</label>
+                                <input
+                                    type="password"
+                                    id="signup-password"
+                                    className={`form-control ${formikSignup.touched.password && formikSignup.errors.password ? 'is-invalid' : ''}`}
+                                    {...formikSignup.getFieldProps('password')}
+                                    style={getErrorStyles(formikSignup.touched.password, formikSignup.errors.password)}
+                                />
+                                {formikSignup.touched.password && formikSignup.errors.password && (
+                                    <div className="invalid-feedback">{formikSignup.errors.password}</div>
+                                )}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="signup-confirm-password" className="form-label">Confirm Password:</label>
+                                <input
+                                    type="password"
+                                    id="signup-confirm-password"
+                                    className={`form-control ${formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword ? 'is-invalid' : ''}`}
+                                    {...formikSignup.getFieldProps('confirmPassword')}
+                                    style={getErrorStyles(formikSignup.touched.confirmPassword, formikSignup.errors.confirmPassword)}
+                                />
+                                {formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword && (
+                                    <div className="invalid-feedback">{formikSignup.errors.confirmPassword}</div>
+                                )}
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="signup-phone" className="form-label">Phone:</label>
+                                <PhoneInput
+                                    id="signup-phone"
+                                    country={'pk'}
+                                    value={formikSignup.values.phone}
+                                    onChange={(phone) => formikSignup.setFieldValue('phone', phone)}
+                                    inputStyle={{
+                                        width: '100%',
+                                        borderColor: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : '',
+                                        color: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : ''
+                                    }}
+                                />
+                                {formikSignup.touched.phone && formikSignup.errors.phone && (
+                                    <div className="invalid-feedback">{formikSignup.errors.phone}</div>
+                                )}
+                            </div>
+                            {/* ... */}
+                            <div className="mb-3">
+                                <button type="submit" className="btn btn-success">Sign Up</button>
+                            </div>
 
-// const RegisterValidation = object().shape({
-//     // name: string().required(" Fullname is Required"),
-//     email: string()
-//         .required("Valid email required")
-//         .email("Valid email required"),
-//     // number:string() 
-//     //       .required("valid number is required")
-//     //       .email("valid number is required"),
-//     password: string().min(8, "Required").required("Required"),
-//     // confirmPassword: string()
-//     //     .required("Please confirm your password")
-//     //     .oneOf([ref("password")], "Passwords do not match"),
-// });
+                        </form>
+                        <p>
+                            Already have an account?{' '}
+                            <span className="text-primary" onClick={toggleForm}>
+                                Log In
+                            </span>
+                        </p>
+                    </>
+                )}
+            </div>
+        </div >
+    );
+};
 
-// const Input = ({ name, label, ...props }) => {
-//     const [field, meta] = useField(name);
-//     return (
-//         <div className="mb-4">
-//             <label className="block text-gray-700 text-sm font-bold" for={field.name}>
-//                 {label}
-//             </label>
-//             <input
-//                 className={`${meta.error && meta.touched ? "border-red-500" : ""
-//                     } shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-//                 {...field}
-//                 {...props}
-//             />
-//             <ErrorMessage
-//                 name={field.name}
-//                 component="div"
-//                 className="text-red-500 text-xs"
-//             />
-//         </div>
-//     );
-// };
+export default SignupForm;
 
-// function App() {
-//     const handleSubmit = (values) => {
-//         console.log(values);
-//     };
-
-//     return (
-     
-//         <div className="h-screen offset-md-6 w-25 ">
-//             {/* <Formik
-//                 initialValues={{
-//                     // name: "",
-//                     email: "",
-//                     // number: "",
-//                     password: "",
-//                     // confirmPassword: "",
-
-//                 }}
-//                 onSubmit={handleSubmit}
-//                 validationSchema={RegisterValidation}
-//             >
-//                 {() => {
-//                     return (
-                        
-//                         // <Form className="  w-6/12 shadow-md rounded  pt-2 " style={{backgroundColor:"#e3dfdf"}}>
-//                         //     <Input name="name" label="Name:" />
-//                         //     <Input name="email" label="Email:" />
-//                         //     <Input name="number" label="Number:" />
-//                         //     <Input name="password" label="Password:" type="password" />
-//                         //     <Input
-//                         //         name="confirmPassword"
-//                         //         label="Confirm Password:"
-//                         //         type="password"
-//                         //     />
-//                         //     <div className="">
-//                         //         <button
-//                         //             className=" btn btn-success bg-blue-500 hover:bg-success text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-//                         //             type="submit"
-//                         //         >
-//                         //             Register
-//                         //         </button>
-//                         //     </div>
-//                         // </Form>
-//                         <Form className="align-items-start   shadow-lg  mb-5 bg-light rounded">
-//                         <nav class="navbar text-white  bg-success w-auto">
-            
-//                           <h1 class="navbar-brand mb-0 mx-2 text-center">Sign In</h1>
-            
-//                         </nav>
-//                         <div className="">
-            
-//                           <div className="text-center mt-4">
-//                             Not registered yet?{" "}
-//                             <span className="link-primary" onClick={changeAuthMode}>
-//                               Sign Up Here
-//                             </span>
-//                           </div>
-//                           <div className="form-group mt-2 px-3 p-3">
-//                             <label className="align-items-start">Email address:</label>
-//                             <Input
-//                               type="email"
-//                               className="form-control"
-//                               placeholder="Enter email"
-//                             />
-//                           </div>
-//                           <div className="form-group mt-2 px-3 p-3">
-//                             <label className="align-items-start">Password:</label>
-//                             <Input
-//                               type="password"
-//                               className="form-control"
-//                               placeholder="Enter password"
-//                             />
-//                           </div>
-//                           <div className="d-grid gap-2 mt-3 px-3 ms-5 me-5">
-//                             <button type="submit" className="btn btn-success ms-5 me-5 rounded-pill">
-//                               Login
-//                             </button>
-//                           </div>
-//                           <p className="text-center mt-2">
-//                             Forgot <a href="#">password?</a>
-//                           </p>
-//                         </div>
-//                       </Form>
-//                     );
-//                 }}
-//             </Formik> */}
-//         </div>
-   
-//     );
-// }
-// export default App;
