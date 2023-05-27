@@ -11,6 +11,12 @@ const Category = ({ category }) => {
   const handleCartClick = (product) => {
     setSelectedProduct(product);
     setShowCart(true);
+    const currentData=JSON.parse(localStorage.getItem('productData'))||[];
+    var obj={ name:selectedProduct.name,
+      img:selectedProduct.img,price:selectedProduct.price, quantity:quantity}
+    currentData.push(obj);
+    localStorage.setItem('productData', JSON.stringify(currentData));
+    console.log('data submitted successfully for the 1st time!')
   };
 
   const handleCloseCart = () => {
@@ -45,7 +51,7 @@ const fetchApiData= async (url)=>{
     <>
       <div className="container-fluid justify-content-center mt-5">
         <br />
-        <h1>{category} Items</h1>
+        <h1>{category} Products</h1>
       </div>
       <div className="row">
         {products.map((product) => {

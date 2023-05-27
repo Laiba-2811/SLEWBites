@@ -79,40 +79,6 @@ export function Home(){
       
         
       }, [])
-    // const [products, setProducts] = useState([
-    //   {id:"1", 
-    //   name:"onion",
-    //   img:"baked1.png",
-    //   price:"$10",
-    //   quantity:"10",
-    //   inStock:true,
-    //   Category:{id:"1", name:"baked",img:"", description:"" }
-    //   },
-    //   {id:"2", 
-    //   name:"Apple",
-    //   img:"baked2.png",
-    //   price:"$10",
-    //   quantity:"8",
-    //   inStock:true,
-    //   Category:{id:"1", name:"baked",img:"", description:"" }
-    //   },
-    //   {id:"3", 
-    //   name:"onion",
-    //   img:"baked3.png",
-    //   price:"$11",
-    //   quantity:"7",
-    //   inStock:true,
-    //   Category:{id:"1", name:"pantry",img:"", description:"" }
-    //   },
-    //   {id:"4", 
-    //   name:"Vegetable",
-    //   img:"baked4.png",
-    //   price:"$10",
-    //   quantity:"7",
-    //   inStock:true,
-    //   Category:{id:"1", name:"fresh",img:"", description:"" }
-    //   }
-    // ]);
     const handleCategoryClick = (category) => {
       setSelectedCategory(category);
       };
@@ -196,31 +162,6 @@ export function Home(){
     <br></br>
     </div>
     <Category category={selectedCategory}></Category>
-    {/* <div className="row">
-  {Object.entries(products).map(([key, product]) => {
-    // Display only 4 cards in a row
-      return (
-        <div className="col-sm d-flex justify-content-center" key={key}>
-          <div className="card mb-3" style={{ width: '15rem' }}>
-            <img className="card-img-top" style={{ width: '10rem', height: '10rem' }} src={'./images/'+product.img} alt="Card image cap" />
-            <div className="card-body">
-              <h5 className="card-title">Name:{product.name}</h5>
-              <p className="card-text">Price:{product.price}</p>
-              <p className="card-text">Quantity:{product.quantity}</p>
-              <p className="card-text">Category:{product.Category.name}</p>
-              <Button variant="success" onClick={()=>{
-                {handleCartClick(product)}
-              }}>
-                Add to Cart
-              </Button>
-            </div>
-          </div>
-        </div>
-      );
-  })}
-</div> */}
-
-
 <Footer/>
 </>
 
