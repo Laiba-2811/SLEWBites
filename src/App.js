@@ -6,7 +6,8 @@ import Register from './Pages/Signup.js';
 import React, { useState } from 'react';
 import {ShoppingCart} from './Pages/ProductCatalog';
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
-import Navigation from './Pages/NavBar'
+import Navigation from './Pages/NavBar';
+import QuantityEdit from './Pages/Cart.js';
 function App() {
   
   return (
@@ -19,6 +20,7 @@ function App() {
   <Route exact path='/about-us' element={< About />}></Route>
   <Route exact path='/contact-us' element={< Contact />}></Route>
   <Route exact path='/signup' element={< Register />}></Route>
+  <Route exact path='/cart' element={< QuantityEdit />}></Route>
   </Routes>
   </Router>
     {/* {Footerrrrrr} */}

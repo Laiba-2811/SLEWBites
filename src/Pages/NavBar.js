@@ -2,7 +2,7 @@ import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import './Home.css'
 import cart from '../PicResources/cart.png';
@@ -15,11 +15,13 @@ const Navigation = () => {
   const [cartCount, setCartCount] = useState(0);
   const handleCartClick = () => {
     setShowCart(true);
+    
     var obj=[];
     const currentData=JSON.parse(localStorage.getItem('productData'))||[];
+    setCartCount(currentData.length);
      currentData.map((c)=>{
-      setCartCount(cartCount + 1);
       obj.push(c);
+      //setCartCount(cartCount + 1);
      })
      setProduct(obj);
     
@@ -34,6 +36,24 @@ const Navigation = () => {
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
+//     const [products, setProducts] = useState([])
+//   //fetch dta from API
+// const url = 'http://localhost:3000/api/products';
+// const fetchApiData= async (url)=>{
+//  try{
+//    const res= await fetch(url);
+//    const data = await res.json();
+//   setProducts(data)
+//  } catch(error){
+//    console.log(error);
+//  }
+//   }
+ 
+//    useEffect(() => {
+//     fetchApiData(url);
+   
+     
+//    }, [])
   };
 
   const handleCloseCart = () => {
@@ -94,10 +114,13 @@ const Navigation = () => {
             )}
             <Nav.Item>
             <Nav.Item>
-              <a href="#" className="nav-link" id="navItem" onClick={handleCartClick} >
+            <Link to="/cart" className="nav-link" id="navItem">
+            <FaShoppingCart style={{ fontSize: '30px' }} className="Fa-lg" />
+              </Link>
+              {/* <a href="#" className="nav-link" id="navItem" onClick={handleCartClick} >
                 <FaShoppingCart style={{ fontSize: '30px' }} className="Fa-lg" />
-                {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-              </a>
+                { <span className="cart-badge" onChange={handleCartClick}>{cartCount}</span>}
+              </a> */}
               </Nav.Item>
             </Nav.Item>
             <Nav.Item>
@@ -131,7 +154,7 @@ const Navigation = () => {
               <p>Product Name:{p.name}</p>
               <p>Price: {p.price}</p>
               <p>Quantity:{p.quantity}</p>
-              <Button class="btn btn-success">Order Now</Button>
+              <Button variant='success' >Order Now</Button>
               <hr></hr>
               </>)
              

@@ -7,16 +7,26 @@ const Category = ({ category }) => {
   const [showCart, setShowCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
+ // const [price,setPrice]=useState(1);
   const handleCartClick = (product) => {
     setSelectedProduct(product);
+    var p=selectedProduct.price *quantity;
+    //setPrice(p);
     setShowCart(true);
-    const currentData=JSON.parse(localStorage.getItem('productData'))||[];
-    var obj={ name:selectedProduct.name,
-      img:selectedProduct.img,price:selectedProduct.price, quantity:quantity}
-    currentData.push(obj);
-    localStorage.setItem('productData', JSON.stringify(currentData));
-    console.log('data submitted successfully for the 1st time!')
+      const currentData=JSON.parse(localStorage.getItem('productData'))||[];
+      var obj={id:product._id,
+      name:product.name,
+      img:product.img,
+      price:p, 
+      quantity:quantity}
+      currentData.push(obj);
+      localStorage.setItem('productData', JSON.stringify(currentData));
+      console.log('data submitted successfully')
+    if(selectedProduct){
+      
+
+    }
+    
   };
 
   const handleCloseCart = () => {
@@ -55,10 +65,9 @@ const fetchApiData= async (url)=>{
       </div>
       <div className="row">
         {products.map((product) => {
-         
           if (category=="" || category === product.Category.name) {
             return (
-              <div className="col-sm d-flex justify-content-center" key={product.id}>
+              <div className="col-sm d-flex justify-content-center" key={product._id}>
                 <div className="card mb-3" style={{ width: '15rem' }}>
                   <img
                     className="card-img-top"
@@ -69,15 +78,27 @@ const fetchApiData= async (url)=>{
                   <div className="card-body">
                     <h5 className="card-title">{product.name}</h5>
                     <div className="row">
-                      <div className="col-sm d-flex justify-content-center">
-                        <p className="card-text">Price: {product.price}</p>
+                    <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text">1 item Price: {product.price}Rs</p>
                       </div>
                       <div className="col-sm d-flex justify-content-center">
-                        <p className="card-text">Quantity: {product.quantity}</p>
+                        <p className="card-text"><h6>Quantity:</h6>
+                  <select onChange={(e) => setQuantity(e.target.value)}>
+                    {[...Array(10).keys()].map((i) => (
+                      <option value={i + 1} key={i + 1}>
+                        {i + 1}
+                      </option>
+                    ))}</select></p>
+                      </div>
+                      <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text">Price of {quantity} items: {product.price*quantity}Rs</p>
                       </div>
                     </div>
                     <p className="card-text">Category: {product.Category.name}</p>
-                    <Button variant="success" onClick={() => handleCartClick(product)}>
+                    <Button variant="success" onClick={() =>{
+                       handleCartClick(product)
+                      }}
+                      >
                       Add to Cart
                     </Button>
                   </div>
@@ -105,26 +126,26 @@ const fetchApiData= async (url)=>{
         <Modal.Body>
           {selectedProduct && (
             <>
-              {/* <Cards item={selectedProduct}></Cards> */}
               <img src={'./images/'+selectedProduct.img} alt="Cart" style={{ height: '100px', width: '100px' }} />
               <h5>Your product:</h5>
               <Row>
                 <Col>
                   <p>Product: {selectedProduct.name}</p>
                 </Col>
+                <Row><p >Price of {quantity} items: {selectedProduct.price*quantity}</p></Row>
                 <Col>
-                  <h6>Quantity:</h6>
-                  <select onChange={(e) => setQuantity(e.target.value)}>
+                  <h6>Quantity:{quantity}</h6>
+                  {/* <select onChange={(e) => setQuantity(e.target.value)}>
                     {[...Array(10).keys()].map((i) => (
                       <option value={i + 1} key={i + 1}>
                         {i + 1}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
                 </Col>
               </Row>
-              <p>Price: {(selectedProduct.price) * quantity+'./Rs'}</p>
-              <Button className='btn-btn-success'>Add to your product list</Button>
+              <Row></Row>
+              <Button variant='success' onClick={handleCloseCart}>Add to your product list</Button>
             </>
           )}
         </Modal.Body>

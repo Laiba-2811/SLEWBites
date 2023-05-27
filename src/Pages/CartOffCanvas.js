@@ -1,21 +1,36 @@
 import React from "react";
-import { Offcanvas } from "react-bootstrap";
-export default function CartSideBar(){
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useState } from 'react';
+export default function CartSideBar({ show, onClose, user }){
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [show, setShow] = useState(false);
 
     const currentData=JSON.parse(localStorage.getItem('productData'))||[];
     return(<>
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+      {/* <Button variant="primary" className="d-lg-none" onClick={handleShow}>
+        Launch
+      </Button> */}
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-        ...
-        </div>
-        </div>
-    </>)
+      <Alert variant="info" className="d-none d-lg-block">
+        Resize your browser to show the responsive offcanvas toggle.
+      </Alert>
 
-
+      <Offcanvas show={show} onHide={handleClose} responsive="lg">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <p className="mb-0">
+            This is content within an <code>.offcanvas-lg</code>.
+          </p>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  );
 }
+
+
+
