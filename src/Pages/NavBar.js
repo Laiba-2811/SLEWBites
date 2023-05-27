@@ -11,6 +11,13 @@ import logow1 from '../Pages/logow1.png';
 const Navigation = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const handleCartClick = () => {
+    setShowCart(true);
+    setCartCount(cartCount + 1);
+  };
+  
+
   const [user, setUser] = useState({
     name: 'John Doe',
     email: 'johndoe@example.com',
@@ -18,10 +25,6 @@ const Navigation = () => {
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
-  };
-
-  const handleCartClick = () => {
-    setShowCart(true);
   };
 
   const handleCloseCart = () => {
@@ -81,9 +84,12 @@ const Navigation = () => {
               </Nav.Item>
             )}
             <Nav.Item>
+            <Nav.Item>
               <a href="#" className="nav-link" id="navItem" onClick={handleCartClick}>
                 <FaShoppingCart style={{ fontSize: '30px' }} className="Fa-lg" />
+                {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
               </a>
+              </Nav.Item>
             </Nav.Item>
             <Nav.Item>
               <a href="#" className="nav-link" id="navItem">

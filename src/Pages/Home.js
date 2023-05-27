@@ -1,13 +1,13 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import './Home.css'
-import { useState } from "react";
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { useState,useEffect } from "react";
+import { Container, Row, Col, Card, Button,Modal } from 'react-bootstrap';
 import { FaLeaf, FaBreadSlice, FaUtensils, FaUserCircle, FaSearch , FaShoppingCart,FaGoogle, FaFacebook,FaInstagram,FaTwitter} from 'react-icons/fa';
 import cabbage_Vegetables from '../PicResources/cabbage_Vegetables.jpg';
 import carrot_Vegetables from '../PicResources/carrot_Vegetables.jpg';
 import cauliflower_vegetables from '../PicResources/cauliflower_vegetables.jpg';
-import Guava from '../PicResources/Guava.jpg';
+import cart from '../PicResources/cart.png';
 import Onions from '../PicResources/Onions.jpg';
 import Pizza from '../PicResources/Pizza.png';
 import item1 from '../PicResources/item1.jpg';
@@ -20,58 +20,100 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Footer from "./Footer";
 import Category from "./HpageCategory";
 export function Home(){
-    const [selectedCategory, setSelectedCategory] = useState('fresh');
-    const [products, setProducts] = useState([
-      {id:"1", 
-      name:"onion",
-      img:"baked1.png",
-      price:"$10",
-      quantity:"10",
-      inStock:true,
-      Category:{id:"1", name:"baked",img:"", description:"" }
-      },
-      {id:"2", 
-      name:"Apple",
-      img:"baked2.png",
-      price:"$10",
-      quantity:"8",
-      inStock:true,
-      Category:{id:"1", name:"baked",img:"", description:"" }
-      },
-      {id:"3", 
-      name:"onion",
-      img:"baked3.png",
-      price:"$11",
-      quantity:"7",
-      inStock:true,
-      Category:{id:"1", name:"pantry",img:"", description:"" }
-      },
-      {id:"4", 
-      name:"Vegetable",
-      img:"baked4.png",
-      price:"$10",
-      quantity:"7",
-      inStock:true,
-      Category:{id:"1", name:"fresh",img:"", description:"" }
-      }
-    ]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [showCart, setShowCart] = useState(false);
+    const [quantity, setQuantity]=useState(1)
+     function handleCartClick({value}){
+      setShowCart(true);
+      return(<>
+      <Modal
+          show={showCart}
+          onHide={handleCloseCart}
+          style={{
+            height: '500px',
+            width: '500px',
+            position: 'fixed',
+            right: '10px',
+            transform: 'translate(100%, 0)',
+            zIndex: 9999,
+          }}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Shopping Cart</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <img src={cart} alt="Cart" style={{ height: '100px', width: '100px' }} />
+            <h5>Your cart:</h5>
+            <p>Product:{value.name}</p>
+            <p>Quantity:<select onChange={e=>setQuantity(e.target.value)}>
+                      {[...Array(10).keys].map((i,v)=>{
+                          <option value={i+1} >{i+1}</option>
+                      })}
+                  </select></p>
+            <p>Price:{value.price * quantity}</p>
+          </Modal.Body>
+        </Modal>
+      </>)
+    };
+  
+    const handleCloseCart = () => {
+      setShowCart(false);
+    };
+    const [products, setProducts] = useState([])
+     //fetch dta from API
+  const url = 'http://localhost:3000/api/products';
+  const fetchApiData= async (url)=>{
+    try{
+      const res= await fetch(url);
+      const data = await res.json();
+     //  console.log(baseurl, "base");
+     setProducts(data)
+    } catch(error){
+      console.log(error);
+    }
+     }
+    
+      useEffect(() => {
+       fetchApiData(url);
+      
+        
+      }, [])
+    // const [products, setProducts] = useState([
+    //   {id:"1", 
+    //   name:"onion",
+    //   img:"baked1.png",
+    //   price:"$10",
+    //   quantity:"10",
+    //   inStock:true,
+    //   Category:{id:"1", name:"baked",img:"", description:"" }
+    //   },
+    //   {id:"2", 
+    //   name:"Apple",
+    //   img:"baked2.png",
+    //   price:"$10",
+    //   quantity:"8",
+    //   inStock:true,
+    //   Category:{id:"1", name:"baked",img:"", description:"" }
+    //   },
+    //   {id:"3", 
+    //   name:"onion",
+    //   img:"baked3.png",
+    //   price:"$11",
+    //   quantity:"7",
+    //   inStock:true,
+    //   Category:{id:"1", name:"pantry",img:"", description:"" }
+    //   },
+    //   {id:"4", 
+    //   name:"Vegetable",
+    //   img:"baked4.png",
+    //   price:"$10",
+    //   quantity:"7",
+    //   inStock:true,
+    //   Category:{id:"1", name:"fresh",img:"", description:"" }
+    //   }
+    // ]);
     const handleCategoryClick = (category) => {
       setSelectedCategory(category);
-
-      // if(selectedCategory=='fresh'){
-      //   <Category category='fresh'></Category>
-        
-
-      // }
-      // else if(selectedCategory=='baked'){
-      //   return(<Category category='baked'></Category>)
-
-      // }
-      // else if(selectedCategory=='pantry'){
-      //   return(<Category category='pantry'></Category>)
-
-      // }
-      setSelectedCategory(category); 
       };
       
 
@@ -187,7 +229,7 @@ export function Home(){
     <br></br>
     </div>
     <Category category={selectedCategory}></Category>
-    <div className="row">
+    {/* <div className="row">
   {Object.entries(products).map(([key, product]) => {
     // Display only 4 cards in a row
       return (
@@ -199,7 +241,9 @@ export function Home(){
               <p className="card-text">Price:{product.price}</p>
               <p className="card-text">Quantity:{product.quantity}</p>
               <p className="card-text">Category:{product.Category.name}</p>
-              <Button variant="success">
+              <Button variant="success" onClick={()=>{
+                {handleCartClick(product)}
+              }}>
                 Add to Cart
               </Button>
             </div>
@@ -207,7 +251,7 @@ export function Home(){
         </div>
       );
   })}
-</div>
+</div> */}
 
 
 <Footer/>

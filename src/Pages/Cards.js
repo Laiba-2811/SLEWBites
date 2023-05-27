@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Card,Button } from "react-bootstrap";
 import {Row, Col} from "react-bootstrap"; 
-import { useState } from "react";
 import Offcanvas from 'react-bootstrap/Offcanvas'
 export default function Cards({item}){
     const [quantity, setQuantity]=useState(1)
@@ -13,8 +12,8 @@ export default function Cards({item}){
         <Card.Title>{item.name}</Card.Title>
         <Card.Text>
             <Row>
-                <Col >{item.Category}</Col>
-                <Col >{item.price * quantity}</Col>
+                <Col >{item.Category.name}</Col>
+                <Col >{(item.price)}</Col>
             </Row>
             <Row>
                 <Col><h6>Quantity</h6>

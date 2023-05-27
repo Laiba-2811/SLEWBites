@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import item1 from '../PicResources/item1.jpg';
 import item2 from '../PicResources/item2.jpg';
@@ -69,7 +69,25 @@ export const ShoppingCart = (category) => {
     img9: { src: Nuts1 },
   
   };
-  
+  const [products, setProducts] = useState([])
+     //fetch dta from API
+  const url = 'http://localhost:3000/api/products';
+  const fetchApiData= async (url)=>{
+    try{
+      const res= await fetch(url);
+      const data = await res.json();
+     //  console.log(baseurl, "base");
+     setProducts(data)
+    } catch(error){
+      console.log(error);
+    }
+     }
+    
+      useEffect(() => {
+       fetchApiData(url);
+      
+        
+      }, [])
   
   const addToCart = (item) => {
     setCartItems([...cartItems, item]);
