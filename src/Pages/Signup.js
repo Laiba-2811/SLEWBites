@@ -57,7 +57,8 @@ export default function Register(props) {
   }
 
   return (
-    <div className="container-lg  d-flex justify-content-center w-auto h-auto align-items-center mt-5">
+    <div class="mt-5">
+      <div className="container-lg  d-flex justify-content-center w-auto h-auto align-items-center mt-5">
       <form className="w-auto   align-items-start  h-auto shadow-lg  mb-5 bg-light rounded">
         <nav class="navbar  bg-success text-center  rounded rounded-start rounded-bottom rounded-top rounded-end w-auto">
           <div class="container-fluid">
@@ -119,5 +120,7 @@ export default function Register(props) {
         </div>
       </form>
     </div>
+    </div>
+    
   )
 }

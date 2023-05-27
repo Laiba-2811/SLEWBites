@@ -124,7 +124,7 @@ const fetchApiData= async (url)=>{
                 </Col>
               </Row>
               <p>Price: {(selectedProduct.price) * quantity+'./Rs'}</p>
-              <Button className='btn-btn-success'>Order</Button>
+              <Button className='btn-btn-success'>Add to your product list</Button>
             </>
           )}
         </Modal.Body>

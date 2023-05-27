@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, Modal } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaUserCircle } from 'react-icons/fa';
@@ -10,14 +10,23 @@ import logow1 from '../Pages/logow1.png';
 
 const Navigation = () => {
   const [showSearch, setShowSearch] = useState(false);
+  const [product,setProduct]=useState([])
   const [showCart, setShowCart] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const handleCartClick = () => {
     setShowCart(true);
-    setCartCount(cartCount + 1);
+    var obj=[];
+    const currentData=JSON.parse(localStorage.getItem('productData'))||[];
+     currentData.map((c)=>{
+      setCartCount(cartCount + 1);
+      obj.push(c);
+     })
+     setProduct(obj);
+    
+    
   };
   
-
+  
   const [user, setUser] = useState({
     name: 'John Doe',
     email: 'johndoe@example.com',
@@ -85,7 +94,7 @@ const Navigation = () => {
             )}
             <Nav.Item>
             <Nav.Item>
-              <a href="#" className="nav-link" id="navItem" onClick={handleCartClick}>
+              <a href="#" className="nav-link" id="navItem" onClick={handleCartClick} >
                 <FaShoppingCart style={{ fontSize: '30px' }} className="Fa-lg" />
                 {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
               </a>
@@ -115,10 +124,21 @@ const Navigation = () => {
           <Modal.Title>Shopping Cart</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={cart} alt="Cart" style={{ height: '100px', width: '100px' }} />
-          <h5>User Details:</h5>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
+        <img src={cart} alt="Cart" style={{ height: '100px', width: '100px' }} />
+            {product.map((p)=>{
+              return(<>
+               <h5>Product Details:</h5>
+              <p>Product Name:{p.name}</p>
+              <p>Price: {p.price}</p>
+              <p>Quantity:{p.quantity}</p>
+              <Button class="btn btn-success">Order Now</Button>
+              <hr></hr>
+              </>)
+             
+
+            })}
+         
+          
         </Modal.Body>
       </Modal>
     </Navbar>

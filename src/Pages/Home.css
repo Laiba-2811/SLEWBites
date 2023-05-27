@@ -5,8 +5,8 @@
 }
 .cart-badge {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: 5px;
+    right: 80px;
     background-color: red;
     color: white;
     font-size: 9px;
@@ -87,4 +87,5 @@
 }
 #margDiv{
     background-color: #dde0e6;
+    margin-top: 100px !important;
 }
