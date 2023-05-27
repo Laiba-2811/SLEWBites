@@ -1,36 +1,73 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React from 'react'
+import './About.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const TeamMember = ({ name, role }) => {
-  return (
-    <Col md={4} className="mb-4">
-      <h4>{name}</h4>
-      <p>{role}</p>
-    </Col>
-  );
-};
+const About = () => {
+    return (
+        <div className='section'>
+            {/* <div className='container'>
+                <div className='content-section'>
+                    <div className='title'>
+                        <h2>About Us</h2>
+                    </div>
+                    <div className='content'>
+                        <h3>
+                            Welcome to SlewBites - Your Ultimate Online Food Store!
+                        </h3>
+                        <p>
+                            At SlewBites, we are passionate about providing you with the finest quality food products conveniently delivered to your doorstep. With a wide range of offerings, we specialize in three main categories: Fresh Items, Baked Items, and Pantry Staples. Our commitment to excellence and customer satisfaction sets us apart as your go-to destination for all your culinary needs.
+                        </p>
+                    </div>
+                    <div className='social'>
+                        <a href=''><i class="bi bi-facebook"></i></a>
+                        <a href=''><i class="bi bi-whatsapp"></i></a>
+                        <a href=''><i class="bi bi-twitter"></i></a>
+                    </div>
+                </div>
 
-const AboutUs = () => {
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <h1>About SLEWBITES</h1>
-          <p>Welcome to SLEWBITES, your one-stop destination for delicious and mouthwatering food!</p>
-          <p>At SLEWBITES, we believe in serving high-quality and freshly prepared meals to our customers. Our dedicated team of chefs and food enthusiasts work tirelessly to bring you a delightful culinary experience.</p>
-          <p>Whether you're craving for comforting classics or looking to explore new flavors, we have a wide range of options to satisfy your taste buds. From appetizers to main courses, desserts, and more, we have something for everyone.</p>
-          <p>Our mission is to make your online food ordering experience seamless and enjoyable. We strive to provide excellent customer service and ensure that your orders are delivered on time, every time.</p>
-          <p>Thank you for choosing SLEWBITES for your culinary needs. We value your trust and look forward to serving you with delicious meals!</p>
-        </Col>
-      </Row>
-      <Row>
-        <TeamMember name="Samra" role="Chef" />
-        <TeamMember name="Esha" role="Baker" />
-        <TeamMember name="Laiba" role="Food Stylist" />
-        <TeamMember name="Waseem" role="Delivery Expert" />
-      </Row>
-    </Container>
-  );
-};
+            </div> */}
+            {/* <div className='image-section'>
+                <img src='./imgaboutpge.jpg' alt="some new images" />
+            </div> */}
+            <section className='section'>
+                <div class="image">
+                    <img src='./about.jpeg' alt="some new images" />
+                </div>
 
-export default AboutUs;
+
+                <div class="content">
+                    <h2>About Us</h2>
+                    <span></span>
+                    <h5>Welcome to SlewBites - Your Ultimate Online Food Store!</h5>
+                    <p>At SlewBites, we are passionate about providing you with the finest quality food products conveniently delivered to your doorstep. With a wide range of offerings, we specialize in three main categories: Fresh Items, Baked Items, and Pantry Staples. Our commitment to excellence and customer satisfaction sets us apart as your go-to destination for all your culinary needs.</p>
+                    <ul class="icons">
+                        <li>
+                            <i class="bi bi-twitter"></i>
+                        </li>
+                        <li>
+                            <i class="bi bi-facebook"></i>
+                        </li>
+                        <li>
+                            <i class="bi bi-github"></i>
+                        </li>
+                        <li>
+                            <i classname="bi bi-whatsapp"></i>
+                        </li>
+                        <li>
+                            <i className='bi bi-instagram'></i>
+                        </li>
+                    </ul>
+                </div><br></br>
+
+            </section>
+
+
+
+        </div>
+
+
+
+    )
+}
+
+export default About
