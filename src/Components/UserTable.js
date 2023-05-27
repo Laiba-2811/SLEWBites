@@ -1,11 +1,18 @@
 import React, { useState , useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table , Pagination } from 'react-bootstrap';
 
 const UserTable = () => {
+  
+  const [users, setUsers] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(5);
 
-  const [users, setUsers] = useState([]);
+  // Calculate pagination indexes
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
   const url = 'http://localhost:3000/api/users';
   const fetchApiData= async (url)=>{
     try{
@@ -24,13 +31,11 @@ const UserTable = () => {
         
       }, [])
 
-  // Calculate pagination indexes
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+      const paginate = (pageNumber) => {
+      setCurrentPage(pageNumber);
+      };
 
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
 
   return (
     <div>
@@ -45,7 +50,7 @@ const UserTable = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {currentUsers.map((user) => (
             <tr key={user._id}>
               <td>{user._id}</td>
               <td>{user.fullname}</td>
@@ -58,20 +63,13 @@ const UserTable = () => {
       </Table>
 
       {/* Pagination */}
-      <nav>
-        <ul className="pagination">
-          {users.map((user, index) => (
-            <li key={index} className="page-item">
-              <button
-                className="page-link"
-                onClick={() => paginate(index + 1)}
-              >
-                {index + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <Pagination>
+        {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map((_, index) => (
+          <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
     </div>
   );
 };

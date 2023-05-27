@@ -1,4 +1,4 @@
-
+/* Side bar CSS */
 .container{
  display: flex;
  margin: 0;
@@ -133,5 +133,38 @@ h2 {
   color: #333;
   font-weight: bold; /* Added font-weight */
   margin-bottom: 20px; /* Added margin-bottom */
+}
+
+
+/* Top Bar CSS */
+.top-bar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.top-bar .nav-link {
+  color: #fff;
+}
+
+.top-bar .nav-link:hover,
+.top-bar .nav-link:focus {
+  color: #fff;
+  background-color: #222;
+}
+
+.top-bar .dropdown-menu {
+  background-color: #333;
+  border: none;
+}
+
+.top-bar .dropdown-item {
+  color: #fff;
+}
+
+.top-bar .dropdown-item:hover,
+.top-bar .dropdown-item:focus {
+  color: #333;
+  background-color: #fff;
 }
 

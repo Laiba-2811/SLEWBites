@@ -1,56 +1,109 @@
-import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import '../App.css'; // Import custom CSS file for styling
-// import Piechart from './PieChart';
+import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'react-bootstrap';
 
-const Dashboard = () => {
-  const userOrders = [
-    { id: 1, status: 'Pending', product: 'Product A' },
-    { id: 2, status: 'Completed', product: 'Product B' },
-    { id: 3, status: 'Pending', product: 'Product C' },
-    // Add more user orders as needed
-  ];
+const OrderTable = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(5);
 
-  const productCategories = [
-    { name: 'Category A', count: 20 },
-    { name: 'Category B', count: 15 },
-    { name: 'Category C', count: 10 },
-    // Add more product categories as needed
-  ];
+  const [orders, setOrders] = useState([]);
+  const url = 'http://localhost:3000/api/orders';
+
+  const fetchApiData = async (url) => {
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      setOrders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchApiData(url);
+  }, []);
+
+  // Calculate pagination indexes
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleCompleteOrder = (orderId) => {
+    // Logic to mark the order as completed and update the UI
+    const updatedOrders = orders.map((order) => {
+      if (order._id === orderId) {
+        return {
+          ...order,
+          status: 'Completed'
+        };
+      }
+      return order;
+    });
+    setOrders(updatedOrders);
+  };
 
   return (
-<>
-    <Container>
-      <Row>
-        <Col>
-          <h2>User Orders</h2>
-          {userOrders.map((order) => (
-            <Card key={order.id} className="order-card">
-              <Card.Body>
-                <Card.Title>{order.product}</Card.Title>
-                <Card.Text>Status: {order.status}</Card.Text>
-              </Card.Body>
-            </Card>
+    <div>
+      <h2 style={{textAlign: 'center'}}>Order Details</h2>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Number</th>
+            <th>Address</th>
+            <th>Date</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentOrders.map((order) => (
+            <tr key={order._id}>
+              <td>{order._id}</td>
+              <td>{order.User.email}</td>
+              <td>{order.User.number}</td>
+              <td>{order.address}</td>
+              <td>{order.date}</td>
+              <td>{order.Product.name}</td>
+              <td>{order.quantity}</td>
+              <td>{order.Product.price}</td>
+              <td>{order.totalAmount}</td>
+              <td>{order.status}</td>
+              <td>
+                <Button
+                  variant="primary"
+                  disabled={order.status === 'Completed'}
+                  onClick={() => handleCompleteOrder(order._id)}
+                >
+                  {order.status === 'Completed' ? 'Completed' : 'Complete'}
+                </Button>
+              </td>
+            </tr>
           ))}
-        </Col>
-        <Col>
-          <h2>Product Categories</h2>
-          <div className="category-list">
-            {productCategories.map((category, index) => (
-              <div key={index} className="category">
-                <p className="category-name">{category.name}</p>
-                <p className="category-count">{category.count}</p>
-              </div>
-            ))}
-          </div>
-        </Col>
-        {/* <Col>
-          <Piechart/>
-        </Col> */}
-      </Row>
-    </Container>
-</>
+        </tbody>
+      </Table>
+
+      {/* Pagination */}
+      <nav>
+        <ul className="pagination">
+          {orders.map((order, index) => (
+            <li key={index} className="page-item">
+              <button className="page-link" onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   );
 };
 
-export default Dashboard;
+export default OrderTable;

@@ -1,21 +1,18 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-// import ShoppingCart from './Pages/ShoppingCart';
-// import AboutUs from './Pages/AboutUs';
 import AdminPannel from './Components/AdminPanel';
+// import {TopBar} from './Components/TopBar';
 
 
 function App() {
   return (
     <>
-    <div>
-    {/* <h1>SLEWBites</h1> */}
+    
+      {/* <TopBar/> */}
       <AdminPannel />
-      {/* <ShoppingCart></ShoppingCart> */}
-      {/* <AboutUs></AboutUs> */}
-    </div>
-    {/* <div> </div> */}
+      
+  
     </>
   );
 }
