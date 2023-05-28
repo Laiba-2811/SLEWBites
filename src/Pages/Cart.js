@@ -10,6 +10,7 @@ import {
     MDBInput,
     MDBRow,
     MDBTypography,
+    MDBCheckbox
     } 
     from "mdb-react-ui-kit";
     import React from "react";
@@ -17,14 +18,95 @@ import {
     import { Link } from "react-router-dom";
     import { ShoppingCart } from "./ProductCatalog";
     import { useState,useEffect } from "react";
-    export default function QuantityEdit() {
-      const [quantity, setQuantity]=useState(1);
-      const currentData=JSON.parse(localStorage.getItem('productData'))||[];
-      const [data, SetData] = useState(() => {
-        return JSON.parse(localStorage.getItem('productData')) || [];
-      });
-      //alert(data)
+export default function QuantityEdit() {
+       const currentData=JSON.parse(localStorage.getItem('productData'))||[];
+        const [quantity, setQuantity] = useState(1);
+        const[cartToOrder, setCartToOrder]=useState([]);
+        const[totalPrice, setTotalPrice]=useState(0);
+        const [inputph, setInputph] = useState("");
+        const [data, setData] = useState(() => {
+          return JSON.parse(localStorage.getItem("productData")) || [];
+        });
+       const handleCheck=(id)=>{
+        console.log(id);
+         const filteredData= data.filter(d => { if(d._id===id){
+          return d;
+         }})
+        // console.log("filtered",filteredData);
+         cartToOrder.push(filteredData);
+         //let sum=0;
+         //console.log("order",cartToOrder);
+         cartToOrder.map((d)=>{
+          //console.log(d[0].price);
+          //sum+=Number(d[0].price);
+          setTotalPrice(totalPrice+d[0].price);
+          
+         })
+         //console.log(sum);
+         
+        
+         console.log(totalPrice);
+
+       }
+        const updateQuantity = (index, newQuantity) => {
+          const updatedData = [...data];
+          updatedData[index].quantity = newQuantity;
+          //updatedData[index].price = updatedData[index].price * newQuantity;
+          localStorage.setItem("productData", JSON.stringify(updatedData));
+          setData(updatedData);
+        };
+        const updatePrice = (index, newPrice) => {
+          const updatedData = [...data];
+          updatedData[index].price = newPrice;
+          localStorage.setItem("productData", JSON.stringify(updatedData));
+          setData(updatedData);
+        };
+      
+        const calculatePrice = (price, quantity) => {
+          return price * quantity;
+        };
+        const removeFromCart = (index) => {
+          const updatedData = [...data];
+          updatedData.splice(index, 1);
+          localStorage.setItem("productData", JSON.stringify(updatedData));
+          setData(updatedData);
+        };
       const count=currentData.length;
+
+      const handleAddOrder= (e) => {
+        e.preventDefault();
+        const orderData = cartToOrder.map((d) => {
+          const updatedItem = { ...d[0] };
+          updatedItem.price = updatedItem.price * updatedItem.quantity;
+          return updatedItem;
+        });
+      
+      //  const orderData= cartToOrder.map((d)=>{
+      //     d[0].price=d[0].price*d[0].quantity;
+      //   })
+       //const phoneNo= document.getElementById("phNo");
+       //const address=document.getElementById("address")
+
+        console.log(orderData);
+        // const { name, description, img } = newCategory;
+       const url='http://localhost:3000/api/orders';
+        // const requestBody = { name, description, img };
+        const postApiData = async (url) => {
+          try {
+            await fetch(url, {
+              method: 'post',
+              body: JSON.stringify(orderData),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        postApiData(url);
+        //fetchApiData(url);
+      };
     return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
       <MDBContainer className="py-5 h-100">
@@ -45,9 +127,13 @@ import {
                       </div>
     
                       <hr className="my-4" />
-                      {data.map((p)=>{
+                      {data.map((p, index)=>{
                        return(
                         <MDBRow className="mb-4 d-flex justify-content-between align-items-center">
+                          <MDBCheckbox onChange={()=>{
+                            handleCheck(p._id)
+                          }} name='flexCheck' value='' id='flexCheckDefault' label='Default checkbox' />
+                           key={index}
                         <MDBCol md="2" lg="2" xl="2">
                           <MDBCardImage
                             src={'./images/' + p.img}
@@ -62,13 +148,31 @@ import {
                           </MDBTypography>
                         </MDBCol>
                         <MDBCol md="3" lg="3" xl="3" className="d-flex align-items-center">
-                          <MDBBtn color="link" className="px-2">
+                          <MDBBtn color="link"
+                    className="px-2"
+                    onClick={() => {
+                      const newQuantity = Math.max(p.quantity - 1, 0);
+                      updateQuantity(index, newQuantity);
+                    }}>
                             <MDBIcon fas icon="minus" />
                           </MDBBtn>
     
-                          <MDBInput onChange={(e) => {p.quantity=e.target.value}} type="number" min="0" defaultValue={1} size="sm" />
+                          <MDBInput onChange={(e) => {
+                      const newQuantity = parseInt(e.target.value);
+                      updateQuantity(index, newQuantity);
+                    }}
+                    type="number"
+                    min="0"
+                    value={p.quantity}
+                    size="sm" />
     
-                          <MDBBtn color="link" className="px-2">
+                          <MDBBtn color="link"
+                    className="px-2"
+                    onClick={() => {
+                      const newQuantity = p.quantity + 1;
+                      updateQuantity(index, newQuantity);
+                      
+                    }}>
                             <MDBIcon fas icon="plus" />
                           </MDBBtn>
                         </MDBCol>
@@ -82,12 +186,13 @@ import {
                             <MDBIcon fas icon="times" />
                           </a>
                         </MDBCol>
+                        <MDBCol md="1" lg="1" xl="1" className="text-end">
+                          <MDBBtn color="success" className="mt-3" onClick={() => removeFromCart(index)}>Remove</MDBBtn>
+                        </MDBCol>
                       <hr className="my-4" />
 
                       </MDBRow>
-
-                       );
-                     
+                       );          
     })}
     
                       <div className="pt-5">
@@ -110,13 +215,6 @@ import {
                       </MDBTypography>
     
                       <hr className="my-4" />
-                      <div className="d-flex justify-content-between mb-4">
-                        <MDBTypography tag="h5" className="text-uppercase">
-                          Total Items Charges:
-                        </MDBTypography>
-                        <MDBTypography tag="h5">€ 132.00</MDBTypography>
-                      </div>
-    
                       <MDBTypography tag="h5" className="text-uppercase mb-3">
                         Shipping Charges
                       </MDBTypography>
@@ -149,10 +247,10 @@ import {
                         <MDBTypography tag="h5" className="text-uppercase">
                           Total price
                         </MDBTypography>
-                        <MDBTypography tag="h5">€ 137.00</MDBTypography>
+                        <MDBTypography tag="h5">€ {totalPrice}</MDBTypography>
                       </div>
     
-                      <MDBBtn color="success" block size="lg">
+                      <MDBBtn color="success" block size="lg" onClick={handleAddOrder}>
                         Order
                       </MDBBtn>
                     </div>

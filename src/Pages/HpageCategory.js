@@ -32,7 +32,7 @@ const Category = ({ category }) => {
       else{
         var fkey=1;
         var obj={key:fkey,
-          id:product._id,
+          _id:product._id,
           name:product.name,
           img:product.img,
           price:product.price, 
