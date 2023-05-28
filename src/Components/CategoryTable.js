@@ -2,7 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Pagination } from 'react-bootstrap';
 import '../App.css';
 
+// for firebase
+import { storage } from '../firebase/firebase';
+import {ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
+
+
+
+
 const CategoryTable = () => {
+
+// for firebase
+  const [imgUrl, setImgUrl] = useState(null);
+  const [progresspercent, setProgresspercent] = useState(0);
+  const [uploading, setUploading] = useState(true)
+
+
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const [newCategory, setNewCategory] = useState({ name: '', description: '', img: '' });
+  const [editCategory, setEditCategory] = useState({ _id: '', name: '', description: '', img: '' });
+
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [categoriesPerPage] = useState(5);
@@ -10,6 +30,47 @@ const CategoryTable = () => {
   const indexOfLastCategory = currentPage * categoriesPerPage;
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
   const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+
+  // for firebase
+  const handleImageFire = (e) => {
+    setUploading(true)
+    const file = e.target.files[0];
+       //  console.log(file)
+
+    if (!file) return;
+
+    const storageRef = ref(storage, `SlewBites/images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on("state_changed",
+      (snapshot) => {
+        const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgresspercent(progress);
+       // console.log(progress)
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('before')
+          setImgUrl(downloadURL)
+          setUploading(false)
+          setNewCategory({ ...newCategory, ['img']: downloadURL});
+
+          //console.log(imgUrl)
+        });
+      }
+    );
+
+}
+
+// useEffect(() => {
+//   console.log(progresspercent,'img here',imgUrl, newCategory); // Verify if the imgUrl is updated
+// }, [imgUrl,progresspercent, newCategory]);
+
+
     // fetch data from API
   const url = 'http://localhost:3000/api/categories';
 
@@ -23,14 +84,16 @@ const CategoryTable = () => {
     }
   };
 
+
+
   useEffect(() => {
+ 
+    
+
     fetchApiData(url);
   }, []);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [newCategory, setNewCategory] = useState({ name: '', description: '', img: '' });
-  const [editCategory, setEditCategory] = useState({ _id: '', name: '', description: '', img: '' });
+ 
 
   const handleAddModal = () => {
     setShowAddModal(!showAddModal);
@@ -137,7 +200,7 @@ const CategoryTable = () => {
               <td>{category._id}</td>
               <td>{category.name}</td>
               <td>{category.description}</td>
-              <td>{category.img}</td>
+              <td><img src={category.img} height={30}/></td>
               <td>
                 <Button variant="info" onClick={() => handleEditModal(category)}>
                   Edit
@@ -184,16 +247,16 @@ const CategoryTable = () => {
             </Form.Group>
 
             <Form.Group controlId="formImg">
-              <Form.Label>Image</Form.Label>
+              <Form.Label>Image {uploading && progresspercent>0 && `is uploaded ${progresspercent} %` }</Form.Label>
               <Form.Control
                 type="file"
                 name="img"
-                value={newCategory.img}
-                onChange={handleInputChange}
+              
+                onChange={handleImageFire}
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={uploading}>
               Add
             </Button>
           </Form>
