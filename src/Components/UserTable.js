@@ -45,7 +45,6 @@ const UserTable = () => {
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Number</th>
           </tr>
         </thead>
@@ -55,7 +54,6 @@ const UserTable = () => {
               <td>{user._id}</td>
               <td>{user.fullname}</td>
               <td>{user.email}</td>
-              <td>{user.password}</td>
               <td>{user.number}</td>
             </tr>
           ))}

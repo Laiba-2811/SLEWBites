@@ -9,7 +9,7 @@ import CategoryTable from './CategoryTable';
 import Dashboard from './DashBoard';
 const AdminPannel = () => {
   return(
- 
+     
      
     <BrowserRouter>
       <Sidebar>
