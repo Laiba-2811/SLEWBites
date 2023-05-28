@@ -200,7 +200,7 @@ const CategoryTable = () => {
               <td>{category._id}</td>
               <td>{category.name}</td>
               <td>{category.description}</td>
-              <td><a href={category.img}><img src={category.img} height={30}/></a></td>
+              <td><a href={category.img} target='_blank'><img src={category.img} height={30}/></a></td>
               <td>
                 <Button variant="info" onClick={() => handleEditModal(category)}>
                   Edit
