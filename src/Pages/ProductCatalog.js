@@ -34,41 +34,41 @@ import './Home.css';
 export const ShoppingCart = (category) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const baked = {
-    img1: { src: baked1 },
-    img2: { src: baked2 },
-    img3: { src: baked3 },
-    img4: { src: baked4 },
-    img5: { src: baked5 },
-    img6: { src: baked6 },
-    img7: { src: baked7 },
-    img8: { src: baked8 },
-    img9: { src: baked9 },
-    img10: { src: baked10 }
-  };
-  const fresh = {
-    img1: { src: applefruit },
-    img2: { src: freshfruit1 },
-    img3: { src: freshfruit2 },
-    img4: { src: freshfruit3 },
-    img5: { src: freshvegi4 },
-    img6: { src: freshvegi2 },
-    img7: { src: freshvegi3 },
-    img8: { src: freshmeat1 },
-  };
+  // const baked = {
+  //   img1: { src: baked1 },
+  //   img2: { src: baked2 },
+  //   img3: { src: baked3 },
+  //   img4: { src: baked4 },
+  //   img5: { src: baked5 },
+  //   img6: { src: baked6 },
+  //   img7: { src: baked7 },
+  //   img8: { src: baked8 },
+  //   img9: { src: baked9 },
+  //   img10: { src: baked10 }
+  // };
+  // const fresh = {
+  //   img1: { src: applefruit },
+  //   img2: { src: freshfruit1 },
+  //   img3: { src: freshfruit2 },
+  //   img4: { src: freshfruit3 },
+  //   img5: { src: freshvegi4 },
+  //   img6: { src: freshvegi2 },
+  //   img7: { src: freshvegi3 },
+  //   img8: { src: freshmeat1 },
+  // };
   
-  const pantry = {
-    img1: { src: dryfruits },
-    img2: { src: pentrystaples1},
-    img3: { src: pentrystaples2 },
-    img4: { src: redChilly},
-    img5: { src: vegitableOil},
-    img6: { src: salt },
-    img7: { src: rice },
-    img8: { src: wheatflour },
-    img9: { src: Nuts1 },
+  // const pantry = {
+  //   img1: { src: dryfruits },
+  //   img2: { src: pentrystaples1},
+  //   img3: { src: pentrystaples2 },
+  //   img4: { src: redChilly},
+  //   img5: { src: vegitableOil},
+  //   img6: { src: salt },
+  //   img7: { src: rice },
+  //   img8: { src: wheatflour },
+  //   img9: { src: Nuts1 },
   
-  };
+  // };
   const [products, setProducts] = useState([])
      //fetch dta from API
   const url = 'http://localhost:3000/api/products';
@@ -96,118 +96,131 @@ export const ShoppingCart = (category) => {
 
   return (
     <Container className='mt-auto'>
-      <h1>Shopping Cart</h1>
+      <h1>Product</h1>
     <div class="container-fluid justify-content-center mt-5">
     <br></br>
     <h1>Baked Items</h1>
     </div>
     <div className="row">
-  {Object.entries(baked).map(([key, value]) => {
-    const { src } = value; // Display only 4 cards in a row
-      return (
-        <div className="col-sm d-flex justify-content-center" key={key}>
-          <div className="card mb-3" style={{ width: '15rem' }}>
-            <img className="card-img-top" style={{ width: '10rem', height: '10rem' }} src={src} alt="Card image cap" />
-            <div className="card-body">
-              <h5 className="card-title">Carrot - Half kg</h5>
-              <p className="card-text">Price: $10</p>
-              <Button variant="success" onClick={() => addToCart({ id: 1, name: 'Item 1', price: 5})}>
-                Add to Cart
-              </Button>
-            </div>
-          </div>
-        </div>
-      );
-  })}
-</div>
-<div class="container-fluid justify-content-center mt-5">
-    <br></br>
-    <h1>Fresh Items</h1>
+        {products.map((product) => {
+          if (category=="" || product.Category.name=='baked') {
+            return (
+              <div className="col-sm d-flex justify-content-center" key={product._id}>
+                <div className="card mb-3" style={{ width: '15rem' }}>
+                  <img
+                    className="card-img-top"
+                    style={{ width: '10rem', height: '10rem' }}
+                    src={'./images/' + product.img}
+                    alt="Card image cap"
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <div className="row">
+                    <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text">Price : {product.price}Rs</p>
+                      </div>
+                      <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text"><h6>Quantity:{product.quantity}</h6>
+                    </p>
+                      </div>
+                    </div>
+                    <p className="card-text">Category: {product.Category.name}</p>
+                    <Button variant="success" 
+                    // onClick={() =>{
+                    //    handleCartClick(product)
+                    //   }}
+                      >
+                      Add to Cart
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        })}
+      </div>
+      <div>
+      <h1>Fresh Items</h1>
     </div>
     <div className="row">
-  {Object.entries(fresh).map(([key, value]) => {
-    const { src } = value; // Display only 4 cards in a row
-      return (
-        <div className="col-sm d-flex justify-content-center" key={key}>
-          <div className="card mb-3" style={{ width: '15rem' }}>
-            <img className="card-img-top" style={{ width: '10rem', height: '10rem' }} src={src} alt="Card image cap" />
-            <div className="card-body">
-              <h5 className="card-title">Carrot - Half kg</h5>
-              <p className="card-text">Price: $10</p>
-              <Button variant="success" onClick={() => addToCart({ id: 1, name: 'Item 1', price: 10 })}>
-                Add to Cart
-              </Button>
-            </div>
-          </div>
-        </div>
-      );
-  })}
-</div>
-<div class="container-fluid justify-content-center mt-5">
-    <br></br>
-    <h1>Pantry Staples</h1>
+        {products.map((product) => {
+          if (category=="" || product.Category.name=='fresh') {
+            return (
+              <div className="col-sm d-flex justify-content-center" key={product._id}>
+                <div className="card mb-3" style={{ width: '15rem' }}>
+                  <img
+                    className="card-img-top"
+                    style={{ width: '10rem', height: '10rem' }}
+                    src={'./images/' + product.img}
+                    alt="Card image cap"
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <div className="row">
+                    <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text">Price : {product.price}Rs</p>
+                      </div>
+                      <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text"><h6>Quantity:{product.quantity}</h6>
+                    </p>
+                      </div>
+                    </div>
+                    <p className="card-text">Category: {product.Category.name}</p>
+                    <Button variant="success" 
+                    // onClick={() =>{
+                    //    handleCartClick(product)
+                    //   }}
+                      >
+                      Add to Cart
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        })}
+      </div>
+      <div>
+      <h1>Pantry Items</h1>
     </div>
     <div className="row">
-  {Object.entries(pantry).map(([key, value]) => {
-    const { src } = value; // Display only 4 cards in a row
-      return (
-        <div className="col-sm d-flex justify-content-center" key={key}>
-          <div className="card mb-3" style={{ width: '15rem' }}>
-            <img className="card-img-top" style={{ width: '10rem', height: '10rem' }} src={src} alt="Card image cap" />
-            <div className="card-body">
-              <h5 className="card-title">Carrot - Half kg</h5>
-              <p className="card-text">Price: $10</p>
-              <Button variant="success" onClick={() => addToCart({ id: 2, name: 'Item 2', price: 15 })}>
-                Add to Cart
-              </Button>
-            </div>
-          </div>
-        </div>
-      );
-  })}
-</div>
-
-
-
-      
-      {/* <Row>
-        <Col md={4}>
-          <Card>
-            <Card.Img variant="top" src={item1} />
-            <Card.Body>
-              <Card.Title>Fresh Items</Card.Title>
-              <Card.Text>Price: $10</Card.Text>
-              <Button variant="success" onClick={() => addToCart({ id: 1, name: 'Item 1', price: 10 })}>
-                Add to Cart
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={4}>
-          <Card>
-            <Card.Img variant="top" src={item2} />
-            <Card.Body>
-              <Card.Title>Baked Items</Card.Title>
-              <Card.Text>Price: $15</Card.Text>
-              <Button variant="success" onClick={() => addToCart({ id: 2, name: 'Item 2', price: 15 })}>
-                Add to Cart
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={4}>
-          <Card>
-            <Card.Img variant="top" src={item3} />
-            <Card.Body>
-              <Card.Title>Pantry Staples</Card.Title>
-              <Card.Text>Price: $20</Card.Text>
-              <Button variant="success" onClick={() => addToCart({ id: 3, name: 'Item 3', price: 20 })}>
-                Add to Cart
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row> */}
+        {products.map((product) => {
+          if (category=="" || product.Category.name=='pantry') {
+            return (
+              <div className="col-sm d-flex justify-content-center" key={product._id}>
+                <div className="card mb-3" style={{ width: '15rem' }}>
+                  <img
+                    className="card-img-top"
+                    style={{ width: '10rem', height: '10rem' }}
+                    src={'./images/' + product.img}
+                    alt="Card image cap"
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <div className="row">
+                    <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text">Price : {product.price}Rs</p>
+                      </div>
+                      <div className="col-sm d-flex justify-content-center">
+                        <p className="card-text"><h6>Quantity:{product.quantity}</h6>
+                    </p>
+                      </div>
+                    </div>
+                    <p className="card-text">Category: {product.Category.name}</p>
+                    <Button variant="success" 
+                    // onClick={() =>{
+                    //    handleCartClick(product)
+                    //   }}
+                      >
+                      Add to Cart
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        })}
+      </div>
       <h2>Shopping Cart</h2>
       {cartItems.length > 0 ? (
         <div>

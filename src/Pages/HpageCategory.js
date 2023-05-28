@@ -10,18 +10,40 @@ const Category = ({ category }) => {
  // const [price,setPrice]=useState(1);
   const handleCartClick = (product) => {
     setSelectedProduct(product);
-    var p=selectedProduct.price *quantity;
+    product.price=product.price *quantity;
     //setPrice(p);
     setShowCart(true);
       const currentData=JSON.parse(localStorage.getItem('productData'))||[];
-      var obj={id:product._id,
-      name:product.name,
-      img:product.img,
-      price:p, 
-      quantity:quantity}
-      currentData.push(obj);
-      localStorage.setItem('productData', JSON.stringify(currentData));
-      console.log('data submitted successfully')
+      if(currentData.length>0){
+        const lastObj = currentData[currentData.length - 1];
+        const fKey = parseInt(lastObj.key) + 1;
+         var obj={key:fkey,
+          id:product._id,
+          name:product.name,
+          img:product.img,
+          price:product.price, 
+          Category:product.Category,
+          quantity:quantity}
+          currentData.push(obj);
+          localStorage.setItem('productData', JSON.stringify(currentData));
+          console.log('data submitted successfully')
+
+      }
+      else{
+        var fkey=1;
+        var obj={key:fkey,
+          id:product._id,
+          name:product.name,
+          img:product.img,
+          price:product.price, 
+          Category:product.Category,
+          quantity:quantity}
+          currentData.push(obj);
+          localStorage.setItem('productData', JSON.stringify(currentData));
+          console.log('data submitted successfully')
+
+      }
+      
     if(selectedProduct){
       
 
@@ -79,19 +101,17 @@ const fetchApiData= async (url)=>{
                     <h5 className="card-title">{product.name}</h5>
                     <div className="row">
                     <div className="col-sm d-flex justify-content-center">
-                        <p className="card-text">1 item Price: {product.price}Rs</p>
+                        <p className="card-text">Price : {product.price}Rs</p>
                       </div>
                       <div className="col-sm d-flex justify-content-center">
-                        <p className="card-text"><h6>Quantity:</h6>
-                  <select onChange={(e) => setQuantity(e.target.value)}>
+                        <p className="card-text"><h6>Quantity:{product.quantity}</h6>
+                  {/* <select onChange={(e) => setQuantity(e.target.value)}>
                     {[...Array(10).keys()].map((i) => (
                       <option value={i + 1} key={i + 1}>
                         {i + 1}
                       </option>
-                    ))}</select></p>
-                      </div>
-                      <div className="col-sm d-flex justify-content-center">
-                        <p className="card-text">Price of {quantity} items: {product.price*quantity}Rs</p>
+                    ))}</select> */}
+                    </p>
                       </div>
                     </div>
                     <p className="card-text">Category: {product.Category.name}</p>
