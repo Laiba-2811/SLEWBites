@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
@@ -18,19 +19,40 @@ const ContactUs = () => {
         message: Yup.string().required('Message is required'),
     });
 
-    const handleSubmit = (values) => {
-        // Handle form submission here (e.g., send the form data to your server)
-        console.log(values); // You can access the form data here
+    const handleSubmit = async (values) => {
+        try {
+            // Send the form data to the backend server
+            const response = await fetch('http://localhost:3000/api/contactus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+
+            if (response.ok) {
+                console.log('Form data sent successfully');
+                // Do something after successful form submission
+            } else {
+                console.log('Failed to send form data');
+                // Handle the error case
+            }
+        } catch (error) {
+            console.log('Error occurred while sending form data', error);
+            // Handle the error case
+        }
     };
 
     return (
         <div className="contact-us-container">
             <Container>
-                <Row className="justify-content-center mt-5">
-                    <Col md={8}>
-                        <Row className="align-items-center bg-light">
+                <Row className="justify-content-center  mt-5">
+                    <Col md={8} className='shadow'>
+                        <Row className="align-items-center bg-light p-3">
                             <Col md={2}>
-                                <img src='./contact.jpeg' alt="SLEWBITES Logo" className="img-fluid" style={{ maxWidth: '100%' }} />
+                                <img src='./contact.jpeg' alt="SLEWBITES Logo" className="img-fluid"
+
+                                    style={{ maxWidth: '100%' }} />
                             </Col>
                             <Col md={10}>
                                 <h3>SlewBites</h3>
@@ -79,12 +101,12 @@ const ContactUs = () => {
                                             as="textarea"
                                             name="message"
                                             rows={4}
-                                            className="form-control"
+                                            className="form-control "
                                         />
                                         <ErrorMessage
                                             name="message"
                                             component="div"
-                                            className="text-danger"
+                                            className="text-danger "
                                         />
                                     </Form.Group>
 
