@@ -7,9 +7,10 @@ import User from './UserTable';
 import ProductTable from './ProductTable';
 import CategoryTable from './CategoryTable';
 import Dashboard from './DashBoard';
+
 const AdminPannel = () => {
   return(
-     
+     <>
      
     <BrowserRouter>
       <Sidebar>
@@ -22,6 +23,7 @@ const AdminPannel = () => {
         </Routes>
       </Sidebar>  
     </BrowserRouter>
+    </>
   
   );
 }

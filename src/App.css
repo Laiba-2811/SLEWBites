@@ -138,7 +138,7 @@ h2 {
 
 /* Top Bar CSS */
 .top-bar {
-  background-color: #333;
+  background-color: #42d9ff;
   color: #fff;
   padding: 10px 20px;
 }
@@ -150,11 +150,11 @@ h2 {
 .top-bar .nav-link:hover,
 .top-bar .nav-link:focus {
   color: #fff;
-  background-color: #222;
+  background-color: #42d9ff;
 }
 
 .top-bar .dropdown-menu {
-  background-color: #333;
+  background-color: #42d9ff;
   border: none;
 }
 
@@ -164,7 +164,7 @@ h2 {
 
 .top-bar .dropdown-item:hover,
 .top-bar .dropdown-item:focus {
-  color: #333;
+  color: #42d9ff;
   background-color: #fff;
 }
 

@@ -1,17 +1,60 @@
-
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form , Pagination } from 'react-bootstrap';
-
+// for firebase
+import { storage } from '../firebase/firebase';
+import {ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 
 const ProductTable = () => {
-  const [products, setProducts] = useState([]);
 
+// for firebase
+const [imgUrl, setImgUrl] = useState(null);
+const [progresspercent, setProgresspercent] = useState(0);
+const [uploading, setUploading] = useState(true)
+
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
-
+  // for pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // for firebase
+  const handleImageFire = (e) => {
+    setUploading(true)
+    const file = e.target.files[0];
+       //  console.log(file)
+
+    if (!file) return;
+
+    const storageRef = ref(storage, `SlewBites/images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on("state_changed",
+      (snapshot) => {
+        const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgresspercent(progress);
+       // console.log(progress)
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('before')
+          setImgUrl(downloadURL)
+          setUploading(false)
+          setNewProduct({ ...newProduct, ['img']: downloadURL});
+
+          //console.log(imgUrl)
+        });
+      }
+    );
+
+}
+
+  //fetching data
   const url = 'http://localhost:3000/api/products';
 
   const fetchApiData = async (url) => {
@@ -28,6 +71,7 @@ const ProductTable = () => {
     fetchApiData(url);
   }, []);
 
+      //show modal 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [newProduct, setNewProduct] = useState({
@@ -186,7 +230,8 @@ const ProductTable = () => {
             <tr key={product._id}>
               <td>{product._id}</td>
               <td>{product.name}</td>
-              <td>{product.img}</td>
+              {/* <td>{product.img}</td> */}
+              <td><a href={product.img} target='_blank'><img src={product.img} height={30}/></a></td>
               <td>  ${product.price}</td>
               <td>{product.quantity}</td>
               <td>{product.inStock ? 'Yes' : 'No'}</td>
@@ -224,7 +269,7 @@ const ProductTable = () => {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formImage">
+            {/* <Form.Group controlId="formImage">
               <Form.Label> Upload Image</Form.Label>
               <Form.Control
                 type="file"
@@ -233,7 +278,17 @@ const ProductTable = () => {
                 onChange={handleInputChange}
                 
               />
+            </Form.Group> */}
+             <Form.Group controlId="formImg">
+              <Form.Label>Image {uploading && progresspercent>0 && `is uploaded ${progresspercent} %` }</Form.Label>
+              <Form.Control
+                type="file"
+                name="img"
+              
+                onChange={handleImageFire}
+              />
             </Form.Group>
+
             <Form.Group controlId="formPrice">
               <Form.Label>Price</Form.Label>
               <Form.Control
@@ -279,7 +334,7 @@ const ProductTable = () => {
           </Form.Control>
         </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={uploading}>
               Add
             </Button>
           </Form>

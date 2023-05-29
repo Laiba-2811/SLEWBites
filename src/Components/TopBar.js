@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
+import { FaUser, FaBell } from 'react-icons/fa';
 import '../App.css';
 
 export const TopBar = () => {
@@ -12,17 +11,15 @@ export const TopBar = () => {
         <Nav className="ml-auto">
           <NavDropdown title="Admin" id="admin-dropdown">
             <NavDropdown.Item href="#profile">
-              <FontAwesomeIcon icon={faUser} className="mr-2" /> Profile
+              <FaUser className="mr-2" /> Profile
             </NavDropdown.Item>
             <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
           </NavDropdown>
           <Nav.Link href="#notifications">
-            <FontAwesomeIcon icon={faBell} />
+            <FaBell />
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
 };
-
-

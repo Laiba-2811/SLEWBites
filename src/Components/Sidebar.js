@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaTh, FaBars, FaUserAlt, FaShoppingBag, FaClipboardList } from "react-icons/fa";
+import { FaTh,FaUserAlt, FaShoppingBag, FaClipboardList, FaBars } from "react-icons/fa";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { NavLink } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ const Sidebar = ({ children }) => {
         <div className="top_section">
           <h1 style={{ display: isOpen ? "block" : "none" }} className="logo">Admin</h1>
           <div style={{ marginLeft: isOpen ? "10px" : "0px" }} className="bars">
-            <FaBars onClick={toggle} />
+          <FaBars onClick={toggle} />
           </div>
         </div>
 

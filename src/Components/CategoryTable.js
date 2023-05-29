@@ -26,7 +26,7 @@ const CategoryTable = () => {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [categoriesPerPage] = useState(5);
-
+   // for pagination
   const indexOfLastCategory = currentPage * categoriesPerPage;
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
   const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
@@ -306,13 +306,12 @@ const CategoryTable = () => {
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="file"
-                name="img"
-                value={editCategory.img}
+                name="img" 
                 onChange={handleEditInputChange}
               />
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
+            </Form.Group> 
+         
+            <Button variant="primary" type="submit" >
               Update
             </Button>
           </Form>
