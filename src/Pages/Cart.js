@@ -39,7 +39,7 @@ export default function QuantityEdit() {
          cartToOrder.map((d)=>{
           //console.log(d[0].price);
           //sum+=Number(d[0].price);
-          setTotalPrice(totalPrice+d[0].price);
+          setTotalPrice(totalPrice+(d[0].price*d[0].quantity));
           
          })
          //console.log(sum);
@@ -73,39 +73,97 @@ export default function QuantityEdit() {
         };
       const count=currentData.length;
 
-      const handleAddOrder= (e) => {
+      // const handleAddOrder= (e) => {
+      //   e.preventDefault();
+        // const orderData = cartToOrder.map((d) => {
+        //   const updatedItem = { ...d[0] };
+        //   updatedItem.price = updatedItem.price * updatedItem.quantity;
+        //   return updatedItem;
+        // });
+      
+      // const handlePhoneNo=(e)=>{
+      //     const phNo=e.target.value;/////9999
+      //    const updatedCartToOrder=[...cartToOrder];
+      //    updatedCartToOrder.Number=phNo;
+      //    console.log(updatedCartToOrder);
+      // }
+
+        // console.log(orderData);
+      // const { name, description, img } = newCategory;
+      //  const url='http://localhost:3000/api/orders';
+      //   // const requestBody = { name, description, img };
+      //   const postApiData = async (url) => {
+      //     try {
+      //       await fetch(url, {
+      //         method: 'post',
+      //         body: JSON.stringify(orderData),
+      //         headers: {
+      //           'Content-Type': 'application/json',
+      //         },
+              
+      //       });
+      //     } catch (error) {
+      //       console.log(error);
+            
+      //     }
+      //   };
+      //   postApiData(url,orderData);
+      //   //fetchApiData(url);
+      // };
+
+
+      // const orderData = data.map((d) => ({
+      //   const updatedItem = { ...d[0]}
+      //  updatedItem.price = updatedItem.price * updatedItem.quantity;
+      //    return updatedItem;
+      // }));
+      const handleAddOrder = async (e) => {
         e.preventDefault();
         const orderData = cartToOrder.map((d) => {
           const updatedItem = { ...d[0] };
           updatedItem.price = updatedItem.price * updatedItem.quantity;
           return updatedItem;
         });
-      
-      //  const orderData= cartToOrder.map((d)=>{
-      //     d[0].price=d[0].price*d[0].quantity;
-      //   })
-       //const phoneNo= document.getElementById("phNo");
-       //const address=document.getElementById("address")
+    
+        const totalAmount = orderData.reduce((sum, d) => sum + d.price, 0);
+console.log(totalAmount);
+        // let sum=0;
+        // const totalPrice=orderData.map((d)=>{
+        //   sum+=d[0].price;
+        //   console.log(d[0].price)
 
-        console.log(orderData);
-        // const { name, description, img } = newCategory;
-       const url='http://localhost:3000/api/orders';
-        // const requestBody = { name, description, img };
-        const postApiData = async (url) => {
-          try {
-            await fetch(url, {
-              method: 'post',
-              body: JSON.stringify(orderData),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-          } catch (error) {
-            console.log(error);
+        // })
+        const Product=orderData;
+        const quantity=10;
+        const status=true;
+        const phoneNumber = document.getElementById("phNo").value;
+        const address = document.getElementById("address").value;
+        console.log(phoneNumber);
+        console.log(address);
+        const User={fullName:'Laiba',email:'laiba@gmail.com',number:phoneNumber,password:'12345'};
+        const date=new Date();
+        const Category={name:'fresh',img:'baked.jpg',description:'sjdhjdk'};
+
+         console.log(orderData);
+        try {
+          const response = await fetch('http://localhost:3000/api/orders', {
+            method: 'POST',
+            body: JSON.stringify({"Products":orderData}),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+    
+          if (response.ok) {
+            // Order posted successfully
+            console.log('Order placed successfully');
+          } else {
+            // Error in posting order
+            console.log('Failed to place order');
           }
-        };
-        postApiData(url);
-        //fetchApiData(url);
+        } catch (error) {
+          console.log('Error:', error);
+        }
       };
     return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
@@ -231,14 +289,14 @@ export default function QuantityEdit() {
                       </MDBTypography>
     
                       <div className="mb-5">
-                        <MDBInput id="phNo" size="lg" label="Enter your number" />
+                        <MDBInput id="phNo" size="lg" label="Enter your number"  />
                       </div>
-                      <MDBTypography tag="h5" className="text-uppercase mb-3">
+                      <MDBTypography tag="h5" className="text-uppercase mb-3" >
                         Enter your Address:
                       </MDBTypography>
     
                       <div className="mb-5">
-                        <MDBInput id="address" size="lg" label="Enter your Address" />
+                        <MDBInput id="address" size="lg" label="Enter your Address"  />
                       </div>
     
                       <hr className="my-4" />

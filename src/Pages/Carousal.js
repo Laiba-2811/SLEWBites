@@ -3,8 +3,8 @@ import { Carousel } from "react-bootstrap";
 import item1 from '../PicResources/item1.jpg';
 import item2 from '../PicResources/item2.jpg';
 import freshItems from './freshItems.jpg'
-import bakeryItems from './bakeryItems.jpg';
-import item3 from '../PicResources/item3.jpg';
+import bakeryItem from './bakeryItem.jpg';
+import pantryStaples from './pantryStaples.jpg';
 export default function Carousal()
 {
     return(<>
@@ -23,7 +23,7 @@ export default function Carousal()
       <Carousel.Item className="cId">
         <img id="img2"
           className="d-block w-100"
-          src={item3}
+          src={pantryStaples}
           alt="Second slide"
         />
         <Carousel.Caption>
@@ -33,7 +33,7 @@ export default function Carousal()
       <Carousel.Item className="cId" >
         <img id="img3"
           className="d-block w-100"
-          src={bakeryItems}
+          src={bakeryItem}
           alt="Third slide"
         />
         <Carousel.Caption>

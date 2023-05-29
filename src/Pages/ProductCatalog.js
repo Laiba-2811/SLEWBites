@@ -34,41 +34,56 @@ import './Home.css';
 export const ShoppingCart = (category) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  // const baked = {
-  //   img1: { src: baked1 },
-  //   img2: { src: baked2 },
-  //   img3: { src: baked3 },
-  //   img4: { src: baked4 },
-  //   img5: { src: baked5 },
-  //   img6: { src: baked6 },
-  //   img7: { src: baked7 },
-  //   img8: { src: baked8 },
-  //   img9: { src: baked9 },
-  //   img10: { src: baked10 }
-  // };
-  // const fresh = {
-  //   img1: { src: applefruit },
-  //   img2: { src: freshfruit1 },
-  //   img3: { src: freshfruit2 },
-  //   img4: { src: freshfruit3 },
-  //   img5: { src: freshvegi4 },
-  //   img6: { src: freshvegi2 },
-  //   img7: { src: freshvegi3 },
-  //   img8: { src: freshmeat1 },
-  // };
-  
-  // const pantry = {
-  //   img1: { src: dryfruits },
-  //   img2: { src: pentrystaples1},
-  //   img3: { src: pentrystaples2 },
-  //   img4: { src: redChilly},
-  //   img5: { src: vegitableOil},
-  //   img6: { src: salt },
-  //   img7: { src: rice },
-  //   img8: { src: wheatflour },
-  //   img9: { src: Nuts1 },
-  
-  // };
+  const [showCart, setShowCart] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+ // const [price,setPrice]=useState(1);
+  const handleCartClick = (product) => {
+    setSelectedProduct(product);
+    product.price=product.price *quantity;
+    //setPrice(p);
+    setShowCart(true);
+      const currentData=JSON.parse(localStorage.getItem('productData'))||[];
+      if(currentData.length>0){
+        const lastObj = currentData[currentData.length - 1];
+        const fKey = parseInt(lastObj.key) + 1;
+         var obj={key:fkey,
+          id:product._id,
+          name:product.name,
+          img:product.img,
+          price:product.price, 
+          Category:product.Category,
+          quantity:quantity}
+          currentData.push(obj);
+          localStorage.setItem('productData', JSON.stringify(currentData));
+          alert('Added to Cart')
+
+      }
+      else{
+        var fkey=1;
+        var obj={key:fkey,
+          _id:product._id,
+          name:product.name,
+          img:product.img,
+          price:product.price, 
+          Category:product.Category,
+          quantity:quantity}
+          currentData.push(obj);
+          localStorage.setItem('productData', JSON.stringify(currentData));
+          console.log('data submitted successfully')
+
+      }
+      
+    if(selectedProduct){
+      
+
+    }
+    
+  };
+
+  const handleCloseCart = () => {
+    setShowCart(false);
+  };
   const [products, setProducts] = useState([])
      //fetch dta from API
   const url = 'http://localhost:3000/api/products';
@@ -126,9 +141,9 @@ export const ShoppingCart = (category) => {
                     </div>
                     <p className="card-text">Category: {product.Category.name}</p>
                     <Button variant="success" 
-                    // onClick={() =>{
-                    //    handleCartClick(product)
-                    //   }}
+                    onClick={() =>{
+                       handleCartClick(product)
+                      }}
                       >
                       Add to Cart
                     </Button>
@@ -167,9 +182,9 @@ export const ShoppingCart = (category) => {
                     </div>
                     <p className="card-text">Category: {product.Category.name}</p>
                     <Button variant="success" 
-                    // onClick={() =>{
-                    //    handleCartClick(product)
-                    //   }}
+                    onClick={() =>{
+                       handleCartClick(product)
+                      }}
                       >
                       Add to Cart
                     </Button>
@@ -208,9 +223,9 @@ export const ShoppingCart = (category) => {
                     </div>
                     <p className="card-text">Category: {product.Category.name}</p>
                     <Button variant="success" 
-                    // onClick={() =>{
-                    //    handleCartClick(product)
-                    //   }}
+                    onClick={() =>{
+                       handleCartClick(product)
+                      }}
                       >
                       Add to Cart
                     </Button>

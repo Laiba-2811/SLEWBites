@@ -43,11 +43,6 @@ const Category = ({ category }) => {
           console.log('data submitted successfully')
 
       }
-      
-    if(selectedProduct){
-      
-
-    }
     
   };
 
@@ -55,10 +50,6 @@ const Category = ({ category }) => {
     setShowCart(false);
   };
 
-  const addToCart = (product) => {
-    // Add to cart logic here
-    console.log('Item added to cart:', product);
-  };
 
   const [products, setProducts] = useState([])
   //fetch dta from API
@@ -152,9 +143,9 @@ const fetchApiData= async (url)=>{
                 <Col>
                   <p>Product: {selectedProduct.name}</p>
                 </Col>
-                <Row><p >Price of {quantity} items: {selectedProduct.price*quantity}</p></Row>
+                <Row><p >Price: {selectedProduct.price}</p></Row>
                 <Col>
-                  <h6>Quantity:{quantity}</h6>
+                  <h6>Quantity:{selectedProduct.quantity}</h6>
                   {/* <select onChange={(e) => setQuantity(e.target.value)}>
                     {[...Array(10).keys()].map((i) => (
                       <option value={i + 1} key={i + 1}>
