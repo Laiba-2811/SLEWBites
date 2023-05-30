@@ -6,6 +6,29 @@ import {ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 
 const ProductTable = () => {
 
+       //show modal 
+       const [showAddModal, setShowAddModal] = useState(false);
+       const [showEditModal, setShowEditModal] = useState(false);
+       const [newProduct, setNewProduct] = useState({
+         name: '',
+         img: '',
+         price: '',
+         quantity: '',
+         inStock: false,
+         Category: {}
+       });
+       const [editProduct, setEditProduct] = useState({
+         _id: '',
+         name: '',
+         img: '',
+         price: '',
+         quantity: '',
+         inStock: false,
+         Category: {}
+       });
+
+       const [categories, setCategories] = useState([]);
+
 // for firebase
 const [imgUrl, setImgUrl] = useState(null);
 const [progresspercent, setProgresspercent] = useState(0);
@@ -14,6 +37,7 @@ const [uploading, setUploading] = useState(true)
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
+
   // for pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -71,26 +95,24 @@ const [uploading, setUploading] = useState(true)
     fetchApiData(url);
   }, []);
 
-      //show modal 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({
-    name: '',
-    img: '',
-    price: '',
-    quantity: '',
-    inStock: false,
-    category: '',
-  });
-  const [editProduct, setEditProduct] = useState({
-    _id: '',
-    name: '',
-    img: '',
-    price: '',
-    quantity: '',
-    inStock: false,
-    category: '',
-  });
+  const urlcat = 'http://localhost:3000/api/categories';
+
+  const catfetchApiData = async (urlcat) => {
+    try {
+      const res = await fetch(urlcat);
+      const data = await res.json();
+      setCategories(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    catfetchApiData(urlcat);
+  }, []);
+
+
+ 
 
   const handleAddModal = () => {
     setShowAddModal(!showAddModal);
@@ -117,25 +139,39 @@ const [uploading, setUploading] = useState(true)
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    console.log("here",name, value)
+    console.log('cats',categories)
+    if(name=='Category'){
+      value=categories.filter((cat)=>cat._id==value)
+       value=value[0]
+      console.log(value)
+    }
+
     setNewProduct({ ...newProduct, [name]: value });
+    console.log('here2', newProduct)
   };
 
   const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if(name=='Category'){
+      value=categories.filter((cat)=>cat._id==value)
+       value=value[0]
+      console.log(value)
+    }
     setEditProduct({ ...editProduct, [name]: value });
   };
 
   const handleAddProduct = (e) => {
     e.preventDefault();
-    const { name, img, price, quantity, inStock, category } = newProduct;
+    const { name, img, price, quantity, inStock, Category } = newProduct;
     const requestBody = {
       name,
       img,
       price,
       quantity,
       inStock,
-      category,
+      Category
     };
 
     fetch(url, {
@@ -154,7 +190,7 @@ const [uploading, setUploading] = useState(true)
           price: '',
           quantity: '',
           inStock: false,
-          category: '',
+          Category: '',
         });
         setShowAddModal(false);
       })
@@ -165,7 +201,7 @@ const [uploading, setUploading] = useState(true)
 
   const handleEditProduct = (e) => {
     e.preventDefault();
-    const { _id, name, img, price, quantity, inStock, category } = editProduct;
+    const { _id, name, img, price, quantity, inStock, Category } = editProduct;
     const requestBody = {
       _id,
       name,
@@ -173,7 +209,7 @@ const [uploading, setUploading] = useState(true)
       price,
       quantity,
       inStock,
-      category,
+      Category,
     };
 
     fetch(`${url}/${_id}`, {
@@ -199,7 +235,7 @@ const [uploading, setUploading] = useState(true)
           price: '',
           quantity: '',
           inStock: false,
-          category: '',
+          Category: {}
         });
         setShowEditModal(false);
       })
@@ -235,7 +271,7 @@ const [uploading, setUploading] = useState(true)
               <td>  ${product.price}</td>
               <td>{product.quantity}</td>
               <td>{product.inStock ? 'Yes' : 'No'}</td>
-              <td>{product.category}</td>
+              <td>{product.Category.name}</td>
               <td>
                 <Button variant="info" onClick={() => handleEditModal(product)}>
                   Edit
@@ -322,15 +358,18 @@ const [uploading, setUploading] = useState(true)
           <Form.Label>Category</Form.Label>
           <Form.Control
             as="select"
-            name="category"
-            value={newProduct.category}
+            name="Category"
+            // value={newProduct.category}
             onChange={handleInputChange}
             required
           >
             <option value="">Select a category</option>
-            <option value="Fresh">Fresh</option>
-            <option value="Bakery">Bakery</option>
-            <option value="Pantry Staples">Pantry Staples</option>
+      
+          {categories.map((category) => {
+            return(
+              <option value={category._id}>{category.name}</option>
+            )
+          })}
           </Form.Control>
         </Form.Group>
 
@@ -409,12 +448,18 @@ const [uploading, setUploading] = useState(true)
             <Form.Group controlId="formEditCategory">
               <Form.Label>Category</Form.Label>
               <Form.Control
-                type="text"
-                name="category"
-                value={editProduct.category}
+            as="select"
+                name="Category"
+                // value={editProduct.Category._id}
                 onChange={handleEditInputChange}
                 required
-              />
+              >
+                {categories.map((category) => {
+            return(
+              <option value={category._id} {...editProduct.Category._id==category._id&& "selected"}>{category.name}</option>
+            )
+          })}
+             </Form.Control>
             </Form.Group>
             <Button variant="primary" type="submit">
               Update
