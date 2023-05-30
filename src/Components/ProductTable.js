@@ -67,9 +67,17 @@ const [uploading, setUploading] = useState(true)
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('before')
-          setImgUrl(downloadURL)
+          // setImgUrl(downloadURL)
           setUploading(false)
-          setNewProduct({ ...newProduct, ['img']: downloadURL});
+
+          if(showEditModal){
+            setEditProduct({ ...editProduct, ['img']: downloadURL});
+          }
+          else {
+            setNewProduct({ ...newProduct, ['img']: downloadURL});
+          }
+
+          
 
           //console.log(imgUrl)
         });
@@ -411,11 +419,11 @@ const [uploading, setUploading] = useState(true)
               />
             </Form.Group>
             <Form.Group controlId="formEditImage">
-              <Form.Label>Upload Image</Form.Label>
+              <Form.Label>Image {uploading && progresspercent>0 && `is uploaded ${progresspercent} %` }</Form.Label>
               <Form.Control
                 type="file"
                 name="img"
-                onChange={handleEditInputChange}
+                onChange={handleImageFire}
                 
               />
             </Form.Group>
