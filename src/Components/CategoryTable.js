@@ -57,7 +57,13 @@ const CategoryTable = () => {
           console.log('before')
           setImgUrl(downloadURL)
           setUploading(false)
-          setNewCategory({ ...newCategory, ['img']: downloadURL});
+          if(showEditModal){
+            setEditCategory({ ...editCategory, ['img']: downloadURL});
+          }
+          else{
+            setNewCategory({ ...newCategory, ['img']: downloadURL});
+          }
+        
 
           //console.log(imgUrl)
         });
@@ -286,7 +292,7 @@ const CategoryTable = () => {
                 type="text"
                 name="name"
                 value={editCategory.name}
-                onChange={handleEditInputChange}
+                onChange={handleImageFire}
                 required
               />
             </Form.Group>
@@ -303,11 +309,11 @@ const CategoryTable = () => {
             </Form.Group>
 
             <Form.Group controlId="formEditImg">
-              <Form.Label>Image</Form.Label>
+              <Form.Label>Image {uploading && progresspercent>0 && `is uploaded ${progresspercent} %` }</Form.Label>
               <Form.Control
                 type="file"
                 name="img" 
-                onChange={handleEditInputChange}
+                onChange={handleImageFire}
               />
             </Form.Group> 
          
