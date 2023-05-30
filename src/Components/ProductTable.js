@@ -160,6 +160,7 @@ const [uploading, setUploading] = useState(true)
       console.log(value)
     }
     setEditProduct({ ...editProduct, [name]: value });
+  
   };
 
   const handleAddProduct = (e) => {
@@ -242,6 +243,8 @@ const [uploading, setUploading] = useState(true)
       .catch((error) => {
         console.log(error);
       });
+
+
   };
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -450,13 +453,13 @@ const [uploading, setUploading] = useState(true)
               <Form.Control
             as="select"
                 name="Category"
-                // value={editProduct.Category._id}
+                 value={editProduct.Category._id}
                 onChange={handleEditInputChange}
                 required
               >
                 {categories.map((category) => {
             return(
-              <option value={category._id} {...editProduct.Category._id==category._id&& "selected"}>{category.name}</option>
+              <option value={category._id} >{category.name}</option>
             )
           })}
              </Form.Control>
