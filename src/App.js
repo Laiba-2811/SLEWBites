@@ -8,28 +8,33 @@ import {ShoppingCart} from './Pages/ProductCatalog';
 import { BrowserRouter as Router, Route,Routes, Link } from 'react-router-dom';
 import Navigation from './Pages/NavBar';
 import QuantityEdit from './Pages/Cart.js';
+import AdminPannel from './Components/AdminPanel';
 function App() {
   
   return (
-    <div className="App" >
-      <Router>
-      <Navigation/>
-  <Routes>
-  <Route exact path='/' element={< Home />}></Route>
-  <Route exact path='//product-catalog' element={< ShoppingCart />}></Route>
-  <Route exact path='/about-us' element={< About />}></Route>
-  <Route exact path='/contact-us' element={< Contact />}></Route>
-  <Route exact path='/signup' element={< Register />}></Route>
-  <Route exact path='/cart' element={< QuantityEdit />}></Route>
-  </Routes>
-  </Router>
-    {/* {Footerrrrrr} */}
+    <>
+      {/* <AdminPannel /> */}
+      <Home/>
+          <div className="App" >
+            <Router>
+            <Navigation/>
+        <Routes>
+        <Route exact path='/' element={< Home />}></Route>
+        <Route exact path='//product-catalog' element={< ShoppingCart />}></Route>
+        <Route exact path='/about-us' element={< About />}></Route>
+        <Route exact path='/contact-us' element={< Contact />}></Route>
+        <Route exact path='/signup' element={< Register />}></Route>
+        <Route exact path='/cart' element={< QuantityEdit />}></Route>
+        </Routes>
+        </Router>
+          {/* {Footerrrrrr} */}
 
 
 
 
     
     </div>
+    </>
   );
   
 }

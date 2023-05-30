@@ -235,7 +235,7 @@ const [uploading, setUploading] = useState(true)
               <td>  ${product.price}</td>
               <td>{product.quantity}</td>
               <td>{product.inStock ? 'Yes' : 'No'}</td>
-              <td>{product.category}</td>
+              <td>{product.Category.name}</td>
               <td>
                 <Button variant="info" onClick={() => handleEditModal(product)}>
                   Edit

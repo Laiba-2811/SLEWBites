@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Dropdown } from 'react-bootstrap';
+import { Table, Dropdown } from 'react-bootstrap';
 
 const DashBoard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -71,9 +71,9 @@ const DashBoard = () => {
               <td>{order.User.number}</td>
               <td>{order.address}</td>
               <td>{order.date}</td>
-              <td>{order.Product.name}</td>
+              <td>{order.Product ? order.Product.name : ''}</td> {/* Add a check for Product */}
               <td>{order.quantity}</td>
-              <td>{order.Product.price}</td>
+              <td>{order.Product ? order.Product.price : ''}</td> {/* Add a check for Product */}
               <td>{order.totalAmount}</td>
               <td>{order.status}</td>
               <td>

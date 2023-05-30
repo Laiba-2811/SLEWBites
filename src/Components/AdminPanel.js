@@ -7,11 +7,13 @@ import User from './UserTable';
 import ProductTable from './ProductTable';
 import CategoryTable from './CategoryTable';
 import Dashboard from './DashBoard';
+// import {TopBar} from './Components/TopBar';
+
 
 const AdminPannel = () => {
   return(
      <>
-     
+            {/* <TopBar/> */}
     <BrowserRouter>
       <Sidebar>
         <Routes>
