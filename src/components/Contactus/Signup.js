@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -17,15 +17,18 @@ const SignupForm = () => {
             setInitialValues(parsedData);
         }
     }, []);
-    // const currentData=JSON.parse(localStorage.getItem('signupData'))||[];
+
+   
     const handleSubmit = async (values) => {
+        console.log('sendind data', values);
         try {
             const response = await fetch('http://localhost:3000/api/users/signup', {
                 method: 'POST',
+                body: JSON.stringify(values),
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
+
             });
 
             if (response.ok) {
@@ -60,7 +63,7 @@ const SignupForm = () => {
             phone: Yup.string().required('Phone is required')
         }),
 
-        onSubmit:handleSubmit,
+        onSubmit: handleSubmit,
     });
 
     const formikLogin = useFormik({
@@ -117,398 +120,238 @@ const SignupForm = () => {
         }
         return {};
     };
-    // const handleSubmit = async (values) => {
-    //     try {
-    //         const response = await fetch('http://localhost:3000/api/users/signup', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(values),
-    //         });
-
-    //         if (response.ok) {
-    //             console.log('Form data sent successfully');
-    //             // Do something after successful form submission
-    //         } else {
-    //             console.log('Failed to send form data');
-    //             // Handle the error case
-    //         }
-    //     } catch (error) {
-    //         console.log('Error occurred while sending form data', error);
-    //         // Handle the error case
-    //     }
-    // };
 
     const renderSignupForm = () => {
         return (
             < >
                 <h2>Sign Up Here</h2>
-               
-                    <form onSubmit={formikSignup.handleSubmit} >
-                        <div className="mb-3">
-                            <label htmlFor="signup-username" className="form-label">
-                                Username:
-                            </label>
-                            <input
-                                type="text"
-                                id="signup-username"
-                                className={`form-control ${formikSignup.touched.username && formikSignup.errors ? 'is-invalid' : ''
-                                    }`}
-                                {...formikSignup.getFieldProps('username')}
-                                style={getErrorStyles(formikSignup.touched.username, formikSignup.errors.username)}
-                            />
-                            {formikSignup.touched.username && formikSignup.errors.username && (
-                                <div className="invalid-feedback">{formikSignup.errors.username}</div>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="signup-email" className="form-label">
-                                Email:
-                            </label>
-                            <input
-                                type="email"
-                                id="signup-email"
-                                className={`form-control ${formikSignup.touched.email && formikSignup.errors.email ? 'is-invalid' : ''
-                                    }`}
-                                {...formikSignup.getFieldProps('email')}
-                                style={getErrorStyles(formikSignup.touched.email, formikSignup.errors.email)}
-                            />
-                            {formikSignup.touched.email && formikSignup.errors.email && (
-                                <div className="invalid-feedback">{formikSignup.errors.email}</div>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="signup-password" className="form-label">
-                                Password:
-                            </label>
-                            <input
-                                type="password"
-                                id="signup-password"
-                                className={`form-control ${formikSignup.touched.password && formikSignup.errors.password ? 'is-invalid' : ''
-                                    }`}
-                                {...formikSignup.getFieldProps('password')}
-                                style={getErrorStyles(formikSignup.touched.password, formikSignup.errors.password)}
-                            />
-                            {formikSignup.touched.password && formikSignup.errors.password && (
-                                <div className="invalid-feedback">{formikSignup.errors.password}</div>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="signup-confirm-password" className="form-label">
-                                Confirm Password:
-                            </label>
-                            <input
-                                type="password"
-                                id="signup-confirm-password"
-                                className={`form-control ${formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword
-                                    ? 'is-invalid'
-                                    : ''
-                                    }`}
-                                {...formikSignup.getFieldProps('confirmPassword')}
-                                style={getErrorStyles(
-                                    formikSignup.touched.confirmPassword,
-                                    formikSignup.errors.confirmPassword
-                                )}
-                            />
-                            {formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword && (
-                                <div className="invalid-feedback">{formikSignup.errors.confirmPassword}</div>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="signup-phone" className="form-label">
-                                Phone:
-                            </label>
-                            <PhoneInput
-                                id="signup-phone"
-                                country={'pk'}
-                                value={formikSignup.values.phone}
-                                onChange={(phone) => formikSignup.setFieldValue('phone', phone)}
-                                inputStyle={{
-                                    width: '100%',
-                                    borderColor: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : '',
-                                    color: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : ''
-                                }}
-                            />
-                            {formikSignup.touched.phone && formikSignup.errors.phone && (
-                                <div className="invalid-feedback">{formikSignup.errors.phone}</div>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <button type="submit" className="btn btn-success">
-                                Sign Up
-                            </button>
-                        </div>
-                    </form>
-                
 
-
-
-                    //     {/* <form onSubmit={formikSignup.handleSubmit} >
-                    //     <div className="mb-3">
-                    //         <label htmlFor="signup-username" className="form-label">
-                    //             Username:
-                    //         </label>
-                    //         <input
-                    //             type="text"
-                    //             id="signup-username"
-                    //             className={`form-control ${formikSignup.touched.username && formikSignup.errors ? 'is-invalid' : ''
-                    //                 }`}
-                    //             {...formikSignup.getFieldProps('username')}
-                    //             style={getErrorStyles(formikSignup.touched.username, formikSignup.errors.user)}
-                    //         />
-                    //         {formikSignup.touched.username && formikSignup.errors.username && (
-                    //             <div className="invalid-feedback">{formikSignup.errors.username}</div>
-                    //         )}
-                    //     </div>
-                    //     <div className="mb-3">
-                    //         <label htmlFor="signup-email" className="form-label">
-                    //             Email:
-                    //         </label>
-                    //         <input
-                    //             type="email"
-                    //             id="signup-email"
-                    //             className={`form-control ${formikSignup.touched.email && formikSignup.errors.email ? 'is-invalid' : ''
-                    //                 }`}
-                    //             {...formikSignup.getFieldProps('email')}
-                    //             style={getErrorStyles(formikSignup.touched.email, formikSignup.errors.email)}
-                    //         />
-                    //         {formikSignup.touched.email && formikSignup.errors.email && (
-                    //             <div className="invalid-feedback">{formikSignup.errors.email}</div>
-                    //         )}
-                    //     </div>
-                    //     <div className="mb-3">
-                    //         <label htmlFor="signup-password" className="form-label">
-                    //             Password:
-                    //         </label>
-                    //         <input
-                    //             type="password"
-                    //             id="signup-password"
-                    //             className={`form-control ${formikSignup.touched.password && formikSignup.errors.password ? 'is-invalid' : ''
-                    //                 }`}
-                    //             {...formikSignup.getFieldProps('password')}
-                    //             style={getErrorStyles(formikSignup.touched.password, formikSignup.errors.password)}
-                    //         />
-                    //         {formikSignup.touched.password && formikSignup.errors.password && (
-                    //             <div className="invalid-feedback">{formikSignup.errors.password}</div>
-                    //         )}
-                    //     </div>
-                    //     <div className="mb-3">
-                    //         <label htmlFor="signup-confirm-password" className="form-label">
-                    //             Confirm Password:
-                    //         </label>
-                    //         <input
-                    //             type="password"
-                    //             id="signup-confirm-password"
-                    //             className={`form-control ${formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword
-                    //                 ? 'is-invalid'
-                    //                 : ''
-                    //                 }`}
-                    //             {...formikSignup.getFieldProps('confirmPassword')}
-                    //             style={getErrorStyles(
-                    //                 formikSignup.touched.confirmPassword,
-                    //                 formikSignup.errors.confirmPassword
-                    //             )}
-                    //         />
-                    //         {formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword && (
-                    //             <div className="invalid-feedback">{formikSignup.errors.confirmPassword}</div>
-                    //         )}
-                    //     </div>
-                    //     <div className="mb-3">
-                    //         <label htmlFor="signup-phone" className="form-label">
-                    //             Phone:
-                    //         </label>
-                    //         <PhoneInput
-                    //             id="signup-phone"
-                    //             country={'pk'}
-                    //             value={formikSignup.values.phone}
-                    //             onChange={(phone) => formikSignup.setFieldValue('phone', phone)}
-                    //             inputStyle={{
-                    //                 width: '100%',
-                    //                 borderColor: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : '',
-                    //                 color: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : ''
-                    //             }}
-                    //         />
-                    //         {formikSignup.touched.phone && formikSignup.errors.phone && (
-                    //             <div className="invalid-feedback">{formikSignup.errors.phone}</div>
-                    //         )}
-                    //     </div>
-                    //     <div className="mb-3">
-                    //         <button type="submit" className="btn btn-success">
-                    //             Sign Up
-                    //         </button>
-                    //     </div>
-                    // </form> */}
-
-                    < p >
+                <form onSubmit={formikSignup.handleSubmit} >
+                    <div className="mb-3">
+                        <label htmlFor="signup-username" className="form-label">
+                            Username:
+                        </label>
+                        <input
+                            type="text"
+                            id="signup-username"
+                            className={`form-control ${formikSignup.touched.username && formikSignup.errors.username ? 'is-invalid' : ''
+                                }`}
+                            {...formikSignup.getFieldProps('username')}
+                            style={getErrorStyles(formikSignup.touched.username, formikSignup.errors.username)}
+                        />
+                        {formikSignup.touched.username && formikSignup.errors.username && (
+                            <div className="invalid-feedback">{formikSignup.errors.username}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="signup-email" className="form-label">
+                            Email:
+                        </label>
+                        <input
+                            type="email"
+                            id="signup-email"
+                            className={`form-control ${formikSignup.touched.email && formikSignup.errors.email ? 'is-invalid' : ''
+                                }`}
+                            {...formikSignup.getFieldProps('email')}
+                            style={getErrorStyles(formikSignup.touched.email, formikSignup.errors.email)}
+                        />
+                        {formikSignup.touched.email && formikSignup.errors.email && (
+                            <div className="invalid-feedback">{formikSignup.errors.email}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="signup-password" className="form-label">
+                            Password:
+                        </label>
+                        <input
+                            type="password"
+                            id="signup-password"
+                            className={`form-control ${formikSignup.touched.password && formikSignup.errors.password ? 'is-invalid' : ''
+                                }`}
+                            {...formikSignup.getFieldProps('password')}
+                            style={getErrorStyles(formikSignup.touched.password, formikSignup.errors.password)}
+                        />
+                        {formikSignup.touched.password && formikSignup.errors.password && (
+                            <div className="invalid-feedback">{formikSignup.errors.password}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="signup-confirm-password" className="form-label">
+                            Confirm Password:
+                        </label>
+                        <input
+                            type="password"
+                            id="signup-confirm-password"
+                            className={`form-control ${formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword
+                                ? 'is-invalid'
+                                : ''
+                                }`}
+                            {...formikSignup.getFieldProps('confirmPassword')}
+                            style={getErrorStyles(
+                                formikSignup.touched.confirmPassword,
+                                formikSignup.errors.confirmPassword
+                            )}
+                        />
+                        {formikSignup.touched.confirmPassword && formikSignup.errors.confirmPassword && (
+                            <div className="invalid-feedback">{formikSignup.errors.confirmPassword}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="signup-phone" className="form-label">
+                            Phone:
+                        </label>
+                        <PhoneInput
+                            id="signup-phone"
+                            country={'pk'}
+                            value={formikSignup.values.phone}
+                            onChange={(phone) => formikSignup.setFieldValue('phone', phone)}
+                            inputStyle={{
+                                width: '100%',
+                                borderColor: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : '',
+                                color: formikSignup.touched.phone && formikSignup.errors.phone ? 'red' : ''
+                            }}
+                        />
+                        {formikSignup.touched.phone && formikSignup.errors.phone && (
+                            <div className="invalid-feedback">{formikSignup.errors.phone}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <button type="submit" className="btn btn-success">
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+                < p >
                     Already have an account?{' '}
                     <span className="text-primary" onClick={toggleForm}> Log In</span> </p >
             </>
         );
     };
 
-// const renderSignupForm = () => {
-//     const handleSubmit = async (event) => {
-//         event.preventDefault(); // Prevent the default form submission behavior
 
-//         try {
-//             const response = await fetch('http://localhost:3000/api/users', { // Replace '/api/signup' with your API endpoint URL
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(formikSignup.values) // Assuming formikSignup.values contains the form field values
-//             });
-
-//             if (response.ok) {
-//                 // Handle successful response
-//                 const data = await response.json();
-//                 console.log(data); // Optionally, do something with the response data
-//             } else {
-//                 // Handle error response
-//                 const errorData = await response.json();
-//                 console.log(errorData); // Optionally, do something with the error response data
-//             }
-//         } catch (error) {
-//             // Handle fetch error
-//             console.log(error);
-//         }
-//     };
-
-//     return (
-//         <>
-//             <h2>Sign Up Here</h2>
-//             <form onSubmit={handleSubmit}>
-//                 {/* Form fields */}
-//             </form>
-//             {/* Rest of the component */}
-//         </>
-//     );
-// };
-
-const renderLoginForm = () => {
-    return (
-        <>
-            <h2>Log In Here</h2>
+    const renderLoginForm = () => {
+        return (
+            <>
+                <h2>Log In Here</h2>
 
 
-            <form onSubmit={formikLogin.handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="login-email" className="form-label">
-                        Email:
-                    </label>
-                    <input
-                        type="email"
-                        id="login-email"
-                        className={`form-control ${formikLogin.touched.email && formikLogin.errors.email ? 'is-invalid' : ''
-                            }`}
-                        {...formikLogin.getFieldProps('email')}
-                        style={getErrorStyles(formikLogin.touched.email, formikLogin.errors.email)}
-                    />
-                    {formikLogin.touched.email && formikLogin.errors.email && (
-                        <div className="invalid-feedback">{formikLogin.errors.email}</div>
-                    )}
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="login-password" className="form-label">
-                        Password:
-                    </label>
-                    <input
-                        type="password"
-                        id="login-password"
-                        className={`form-control ${formikLogin.touched.password && formikLogin.errors.password ? 'is-invalid' : ''
-                            }`}
-                        {...formikLogin.getFieldProps('password')}
-                        style={getErrorStyles(formikLogin.touched.password, formikLogin.errors.password)}
-                    />
-                    {formikLogin.touched.password && formikLogin.errors.password && (
-                        <div className="invalid-feedback">{formikLogin.errors.password}</div>
-                    )}
-                </div>
-                <div className="mb-3">
-                    <button type="submit" className="btn btn-success">
+                <form onSubmit={formikLogin.handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="login-email" className="form-label">
+                            Email:
+                        </label>
+                        <input
+                            type="email"
+                            id="login-email"
+                            className={`form-control ${formikLogin.touched.email && formikLogin.errors.email ? 'is-invalid' : ''
+                                }`}
+                            {...formikLogin.getFieldProps('email')}
+                            style={getErrorStyles(formikLogin.touched.email, formikLogin.errors.email)}
+                        />
+                        {formikLogin.touched.email && formikLogin.errors.email && (
+                            <div className="invalid-feedback">{formikLogin.errors.email}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="login-password" className="form-label">
+                            Password:
+                        </label>
+                        <input
+                            type="password"
+                            id="login-password"
+                            className={`form-control ${formikLogin.touched.password && formikLogin.errors.password ? 'is-invalid' : ''
+                                }`}
+                            {...formikLogin.getFieldProps('password')}
+                            style={getErrorStyles(formikLogin.touched.password, formikLogin.errors.password)}
+                        />
+                        {formikLogin.touched.password && formikLogin.errors.password && (
+                            <div className="invalid-feedback">{formikLogin.errors.password}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <button type="submit" className="btn btn-success">
+                            Log In
+                        </button>
+                    </div>
+                </form>
+                <p>
+                    Don't have an account?{' '}
+                    <span className="text-primary" onClick={toggleForm}>
+                        Sign Up
+                    </span>
+                </p>
+                <p>
+                    <span className="text-primary" onClick={toggleForgotPassword}>
+                        Forgot Password?
+                    </span>
+                </p>
+            </>
+        );
+    };
+
+    const renderForgotPasswordForm = () => {
+        return (
+            <>
+                <h2>Forgot Password?</h2>
+                <form onSubmit={formikForgotPassword.handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="forgot-email" className="form-label">
+                            Email:
+                        </label>
+                        <input
+                            type="email"
+                            id="forgot-email"
+                            className={`form-control ${formikForgotPassword.touched.email && formikForgotPassword.errors.email
+                                ? 'is-invalid'
+                                : ''
+                                }`}
+                            {...formikForgotPassword.getFieldProps('email')}
+                            style={getErrorStyles(
+                                formikForgotPassword.touched.email,
+                                formikForgotPassword.errors.email
+                            )}
+                        />
+                        {formikForgotPassword.touched.email && formikForgotPassword.errors.email && (
+                            <div className="invalid-feedback">{formikForgotPassword.errors.email}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <button type="submit" className="btn btn-success">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+                <p>
+                    Remembered your password?{' '}
+                    <span className="text-primary" onClick={toggleForm}>
                         Log In
-                    </button>
-                </div>
-            </form>
-            <p>
-                Don't have an account?{' '}
-                <span className="text-primary" onClick={toggleForm}>
-                    Sign Up
-                </span>
-            </p>
-            <p>
-                <span className="text-primary" onClick={toggleForgotPassword}>
-                    Forgot Password?
-                </span>
-            </p>
-        </>
-    );
-};
+                    </span>
+                </p>
+            </>
+        );
+    };
 
-const renderForgotPasswordForm = () => {
     return (
-        <>
-            <h2>Forgot Password?</h2>
-            <form onSubmit={formikForgotPassword.handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="forgot-email" className="form-label">
-                        Email:
-                    </label>
-                    <input
-                        type="email"
-                        id="forgot-email"
-                        className={`form-control ${formikForgotPassword.touched.email && formikForgotPassword.errors.email
-                            ? 'is-invalid'
-                            : ''
-                            }`}
-                        {...formikForgotPassword.getFieldProps('email')}
-                        style={getErrorStyles(
-                            formikForgotPassword.touched.email,
-                            formikForgotPassword.errors.email
-                        )}
-                    />
-                    {formikForgotPassword.touched.email && formikForgotPassword.errors.email && (
-                        <div className="invalid-feedback">{formikForgotPassword.errors.email}</div>
-                    )}
-                </div>
-                <div className="mb-3">
-                    <button type="submit" className="btn btn-success">
-                        Submit
-                    </button>
-                </div>
-            </form>
-            <p>
-                Remembered your password?{' '}
-                <span className="text-primary" onClick={toggleForm}>
-                    Log In
-                </span>
-            </p>
-        </>
-    );
-};
-
-return (
-    <div className="container">
-        <div className="row  justify-content-center">
-            <div className=" col-md-6">
-                <div className="card mt-5">
-                    <div className="card-body shadow">
-                        {forgotPassword ? (
-                            renderForgotPasswordForm()
-                        ) : hasAccount ? (
-                            renderLoginForm()
-                        ) : (
-                            renderSignupForm()
-                        )}
+        <div className="container">
+            <div className="row  justify-content-center">
+                <div className=" col-md-6">
+                    <div className="card mt-5">
+                        <div className="card-body shadow">
+                            {forgotPassword ? (
+                                renderForgotPasswordForm()
+                            ) : hasAccount ? (
+                                renderLoginForm()
+                            ) : (
+                                renderSignupForm()
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-);
+    );
 
 };
 
