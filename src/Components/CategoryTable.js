@@ -55,6 +55,7 @@ const CategoryTable = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('before')
+           console.log(downloadURL)
           setImgUrl(downloadURL)
           setUploading(false)
           if(showEditModal){
